@@ -22,6 +22,10 @@ public abstract class User {
         this.role = role;
     }
 
+    public String getFullName() { return name + " " + surname; }
+
+    public boolean hasRole(Role role) { return this.role == role; }
+
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
 
