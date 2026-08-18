@@ -13,7 +13,7 @@ public abstract class User {
 
     protected User() {}
 
-    public User(int id, String name, String surname, String email, String password, Role role) {
+    protected User(int id, String name, String surname, String email, String password, Role role) {
         this.id = id;
         this.name = name;
         this.surname = surname;

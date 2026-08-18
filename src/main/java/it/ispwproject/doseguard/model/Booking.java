@@ -3,9 +3,7 @@ package it.ispwproject.doseguard.model;
 import it.ispwproject.doseguard.enumerator.AppointmentStatus;
 import it.ispwproject.doseguard.pattern.observer.Observable;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
 
 public class Booking extends Observable {

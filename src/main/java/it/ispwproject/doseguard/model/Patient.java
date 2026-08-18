@@ -15,7 +15,7 @@ public class Patient extends User {
         this.favouriteDoctors = new ArrayList<Doctor>();
     }
 
-    public Patient(int id, String name, String surname, String email, String password, String role) {
+    public Patient(int id, String name, String surname, String email, String password) {
         super(id,name,surname,email,password, Role.PATIENT);
         this.favouriteDoctors = new ArrayList<>();
     }
