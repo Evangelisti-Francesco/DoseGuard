@@ -13,6 +13,8 @@ import java.sql.*;
 
 public class RegistrationDAODB implements RegistrationDAO {
 
+    private static final String CLEAR_ROLE_FAILED = "clearRole fallito: ";
+
     private static final String INSERT_USER =
             "INSERT INTO user (name, surname, email, password, role) VALUES (?, ?, ?, ?, ?)";
 
@@ -34,7 +36,7 @@ public class RegistrationDAODB implements RegistrationDAO {
     @Override
     public boolean emailExists(String email) throws DAOException {
         try { ConnectionFactory.clearRole(); }
-        catch (SQLException e) { AppLogger.logWarning("clearRole fallito: " + e.getMessage()); }
+        catch (SQLException e) { AppLogger.logWarning(CLEAR_ROLE_FAILED + e.getMessage()); }
 
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(CHECK_EMAIL)) {
@@ -57,7 +59,7 @@ public class RegistrationDAODB implements RegistrationDAO {
     @Override
     public boolean fiscalCodeExists(String fiscalCode) throws DAOException {
         try { ConnectionFactory.clearRole(); }
-        catch (SQLException e) { AppLogger.logWarning("clearRole fallito: " + e.getMessage()); }
+        catch (SQLException e) { AppLogger.logWarning(CLEAR_ROLE_FAILED + e.getMessage()); }
 
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(CHECK_FISCAL_CODE)) {
@@ -83,7 +85,7 @@ public class RegistrationDAODB implements RegistrationDAO {
     @Override
     public void saveUser(User user) throws DAOException {
         try { ConnectionFactory.clearRole(); }
-        catch (SQLException e) { AppLogger.logWarning("clearRole fallito: " + e.getMessage()); }
+        catch (SQLException e) { AppLogger.logWarning(CLEAR_ROLE_FAILED + e.getMessage()); }
 
         try (Connection conn = ConnectionFactory.getConnection()) {
 
