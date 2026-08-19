@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Patient extends User {
 
+    private String fiscalCode;
     private List<Doctor> favouriteDoctors;
 
     //Costruttori
@@ -15,8 +16,9 @@ public class Patient extends User {
         this.favouriteDoctors = new ArrayList<Doctor>();
     }
 
-    public Patient(int id, String name, String surname, String email, String password) {
+    public Patient(int id, String name, String surname, String email, String password,String fiscalCode) {
         super(id,name,surname,email,password, Role.PATIENT);
+        this.fiscalCode = fiscalCode;
         this.favouriteDoctors = new ArrayList<>();
     }
 

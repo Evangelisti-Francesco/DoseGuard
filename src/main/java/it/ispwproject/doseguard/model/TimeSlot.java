@@ -6,7 +6,7 @@ import java.time.LocalTime;
 public class TimeSlot {
 
     private int id;
-    private Patient patient;
+    private Doctor doctor;
 
     private LocalDate date;
     private LocalTime startTime;
@@ -22,12 +22,12 @@ public class TimeSlot {
         this.available = available;
     }
 
-    public TimeSlot(int id, Patient patient, LocalDate date, LocalTime startTime, boolean available) {
+    public TimeSlot(int id, Doctor doctor, LocalDate date, LocalTime startTime) {
         this.id = id;
-        this.patient = patient;
+        this.doctor = doctor;
         this.date = date;
         this.startTime = startTime;
-        this.available = available;
+        this.available = true;
     }
 
     public void reserve(){
@@ -36,15 +36,15 @@ public class TimeSlot {
 
     public void release(){
         this.available = true;
-        this.patient = null;
+        this.doctor = null;
     }
 
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public Patient getPatient() { return patient; }
-    public void setPatient(Patient patient) { this.patient = patient; }
+    public Doctor getDoctor() { return doctor; }
+    public void setDoctor(Doctor doctor) { this.doctor = doctor; }
 
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
