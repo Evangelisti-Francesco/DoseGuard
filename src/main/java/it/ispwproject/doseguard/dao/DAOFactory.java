@@ -9,8 +9,8 @@ public class DAOFactory {
     public static final String FILE = "file";
     public static final String MEMORY = "memory";
 
-    // Impostato di default su MEMORY per lo sviluppo iniziale
-    private static String persistence = MEMORY;
+    // Impostato di default su DATABASE per lo sviluppo iniziale
+    private static String persistence = DATABASE;
 
     private DAOFactory() {}
 
@@ -22,12 +22,15 @@ public class DAOFactory {
 
     public static String getPersistence() {return persistence;}
 
+    public static LoginDAO getLoginDAO() {
+        if (MEMORY.equalsIgnoreCase(persistence)) return new LoginDAOMemory();
+        return new LoginDAODB();
+    }
 
     public static UserDAO getUserDAO() {
         if (MEMORY.equalsIgnoreCase(persistence)) return new UserDAOMemory();
         return new UserDAODB();
     }
-
 
     public static PatientDAO getPatientDAO() {
         if (MEMORY.equalsIgnoreCase(persistence)) return new PatientDAOMemory();
@@ -38,12 +41,13 @@ public class DAOFactory {
         if (MEMORY.equalsIgnoreCase(persistence)) return new DoctorDAOMemory();
         return new DoctorDAODB();
     }
-/*
-    public static PharmacistDAO getPharmacistDAO() {
-        if (MEMORY.equalsIgnoreCase(persistence)) return new PharmacistDAOMemory();
-        return new PharmacistDAODB();
+
+    public static SpecializationDAO getSpecializationDAO() {
+        if (MEMORY.equalsIgnoreCase(persistence)) return new SpecializationDAOMemory();
+        return new SpecializationDAODB();
     }
 
+    /*
     public static BookingDAO getBookingDAO() {
         return switch (persistence.toLowerCase()) {
             case FILE   -> new BookingDAOFile();
@@ -58,6 +62,13 @@ public class DAOFactory {
             case MEMORY -> new TimeSlotDAOMemory();
             default     -> new TimeSlotDAODB();
         };
+    }
+
+
+
+    public static RegistrationDAO getRegistrationDAO() {
+        if (MEMORY.equalsIgnoreCase(persistence)) return new RegistrationDAOMemory();
+        return new RegistrationDAODB();
     }
     */
 }

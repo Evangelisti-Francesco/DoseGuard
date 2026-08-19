@@ -36,6 +36,9 @@ public class Patient extends User {
         favouriteDoctors.removeIf(d -> d.getId() == doctorId);
     }
 
+    public String getFiscalCode() { return fiscalCode; }
+    public void setFiscalCode(String fiscalCode) { this.fiscalCode = fiscalCode; }
+
     public List<Doctor> getFavouriteDoctors() { return favouriteDoctors;}
     public void setFavouriteDoctors(List<Doctor> favouriteDoctors) {this.favouriteDoctors = favouriteDoctors;}
 
