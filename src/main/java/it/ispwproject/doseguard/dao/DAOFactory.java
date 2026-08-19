@@ -1,6 +1,7 @@
 package it.ispwproject.doseguard.dao;
 
 import it.ispwproject.doseguard.dao.db.*;
+import it.ispwproject.doseguard.dao.file.TimeSlotDAOFile;
 import it.ispwproject.doseguard.dao.memory.*;
 
 public class DAOFactory {
@@ -47,7 +48,7 @@ public class DAOFactory {
         return new SpecializationDAODB();
     }
 
-    /*
+
     public static BookingDAO getBookingDAO() {
         return switch (persistence.toLowerCase()) {
             case FILE   -> new BookingDAOFile();
@@ -55,7 +56,7 @@ public class DAOFactory {
             default     -> new BookingDAODB();
         };
     }
-*/
+
     public static TimeSlotDAO getTimeSlotDAO() {
         return switch (persistence.toLowerCase()) {
             case FILE   -> new TimeSlotDAOFile();
