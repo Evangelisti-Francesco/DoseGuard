@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "doctor": {
+      "id": 10,
+      "name": "Gabriele",
+      "surname": "Conti",
+      "email": "gabriele.conti@doseguard.it",
+      "role": "DOCTOR",
+      "specialization": "Cardiology"
+    },
+    "date": "2026-09-01",
+    "startTime": "09:00",
+    "available": true
+  },
+  {
+    "id": 2,
+    "doctor": {
+      "id": 10,
+      "name": "Gabriele",
+      "surname": "Conti",
+      "email": "gabriele.conti@doseguard.it",
+      "role": "DOCTOR",
+      "specialization": "Cardiology"
+    },
+    "date": "2026-09-01",
+    "startTime": "10:30",
+    "available": true
+  },
+  {
+    "id": 3,
+    "doctor": {
+      "id": 10,
+      "name": "Gabriele",
+      "surname": "Conti",
+      "email": "gabriele.conti@doseguard.it",
+      "role": "DOCTOR",
+      "specialization": "Cardiology"
+    },
+    "date": "2026-09-01",
+    "startTime": "15:00",
+    "available": false
+  },
+  {
+    "id": 4,
+    "doctor": {
+      "id": 10,
+      "name": "Gabriele",
+      "surname": "Conti",
+      "email": "gabriele.conti@doseguard.it",
+      "role": "DOCTOR",
+      "specialization": "Cardiology"
+    },
+    "date": "2026-09-02",
+    "startTime": "11:00",
+    "available": true
+  },
+  {
+    "id": 5,
+    "doctor": {
+      "id": 10,
+      "name": "Gabriele",
+      "surname": "Conti",
+      "email": "gabriele.conti@doseguard.it",
+      "role": "DOCTOR",
+      "specialization": "Cardiology"
+    },
+    "date": "2026-09-02",
+    "startTime": "16:30",
+    "available": true
+  },
+  {
+    "id": 6,
+    "doctor": {
+      "id": 10,
+      "name": "Gabriele",
+      "surname": "Conti",
+      "email": "gabriele.conti@doseguard.it",
+      "role": "DOCTOR",
+      "specialization": "Cardiology"
+    },
+    "date": "2026-09-03",
+    "startTime": "08:30",
+    "available": false
+  }
+]

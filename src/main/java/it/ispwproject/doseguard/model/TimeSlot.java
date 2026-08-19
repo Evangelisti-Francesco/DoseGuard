@@ -1,6 +1,7 @@
 package it.ispwproject.doseguard.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class TimeSlot {
@@ -11,15 +12,16 @@ public class TimeSlot {
     private LocalDate date;
     private LocalTime startTime;
     private boolean available;
+    private LocalDateTime reservedUntil;
 
     // COSTRUTTORI
     public TimeSlot() {}
 
-    public TimeSlot(int id, LocalDate date, LocalTime startTime, boolean available) {
+    public TimeSlot(int id, LocalDate date, LocalTime startTime) {
         this.id = id;
         this.date = date;
         this.startTime = startTime;
-        this.available = available;
+        this.available = true;
     }
 
     public TimeSlot(int id, Doctor doctor, LocalDate date, LocalTime startTime) {
@@ -30,15 +32,14 @@ public class TimeSlot {
         this.available = true;
     }
 
-    public void reserve(){
-        this.available = false;
-    }
-
+    public void reserve(){this.available = false;}
     public void release(){
         this.available = true;
         this.doctor = null;
     }
 
+    public LocalDateTime getReservedUntil() { return reservedUntil; }
+    public void setReservedUntil(LocalDateTime reservedUntil) { this.reservedUntil = reservedUntil; }
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

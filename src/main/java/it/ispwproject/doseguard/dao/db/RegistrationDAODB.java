@@ -48,10 +48,7 @@ public class RegistrationDAODB implements RegistrationDAO {
             }
 
         } catch (SQLException e) {
-            throw new DAOException(
-                    "Errore verifica email: " + e.getMessage(),
-                    e
-            );
+            throw new DAOException("Errore verifica email: " + e.getMessage(),e);
         }
 
         return false;
@@ -94,10 +91,7 @@ public class RegistrationDAODB implements RegistrationDAO {
 
         } catch (SQLException e) {
 
-            throw new DAOException(
-                    "Errore connessione: " + e.getMessage(),
-                    e
-            );
+            throw new DAOException("Errore connessione: " + e.getMessage(),e);
         }
     }
 
@@ -125,10 +119,7 @@ public class RegistrationDAODB implements RegistrationDAO {
 
             conn.rollback();
 
-            throw new DAOException(
-                    "Errore registrazione: " + e.getMessage(),
-                    e
-            );
+            throw new DAOException("Errore registrazione: " + e.getMessage(),e);
 
         } finally {
 
@@ -161,33 +152,33 @@ public class RegistrationDAODB implements RegistrationDAO {
         throw new SQLException("ID utente non generato.");
     }
 
-    private void insertPatientDetail(Connection conn, int userId, String fiscalCode) throws SQLException {
+    private void insertPatientDetail(Connection conn, int patientId, String fiscalCode) throws SQLException {
 
         try (PreparedStatement ps = conn.prepareStatement(INSERT_PATIENT_DETAIL)) {
 
-            ps.setInt(1, userId);
+            ps.setInt(1, patientId);
             ps.setString(2, fiscalCode);
 
             ps.executeUpdate();
         }
     }
 
-    private void insertDoctorDetail(Connection conn, int userId, String specialization) throws SQLException {
+    private void insertDoctorDetail(Connection conn, int doctorId, String specialization) throws SQLException {
 
         try (PreparedStatement ps = conn.prepareStatement(INSERT_DOCTOR_DETAIL)) {
 
-            ps.setInt(1, userId);
+            ps.setInt(1, doctorId);
             ps.setString(2, specialization);
 
             ps.executeUpdate();
         }
     }
 
-    private void insertPharmacistDetail(Connection conn, int userId, String pharmacyName) throws SQLException {
+    private void insertPharmacistDetail(Connection conn, int pharmacistId, String pharmacyName) throws SQLException {
 
         try (PreparedStatement ps = conn.prepareStatement(INSERT_PHARMACIST_DETAIL)) {
 
-            ps.setInt(1, userId);
+            ps.setInt(1, pharmacistId);
             ps.setString(2, pharmacyName);
 
             ps.executeUpdate();

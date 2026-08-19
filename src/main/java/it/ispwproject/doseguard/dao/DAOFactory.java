@@ -55,7 +55,7 @@ public class DAOFactory {
             default     -> new BookingDAODB();
         };
     }
-
+*/
     public static TimeSlotDAO getTimeSlotDAO() {
         return switch (persistence.toLowerCase()) {
             case FILE   -> new TimeSlotDAOFile();
@@ -65,10 +65,9 @@ public class DAOFactory {
     }
 
 
-
     public static RegistrationDAO getRegistrationDAO() {
         if (MEMORY.equalsIgnoreCase(persistence)) return new RegistrationDAOMemory();
         return new RegistrationDAODB();
     }
-    */
+
 }
