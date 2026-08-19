@@ -1,6 +1,7 @@
 package it.ispwproject.doseguard.dao;
 
 import it.ispwproject.doseguard.dao.db.*;
+import it.ispwproject.doseguard.dao.file.BookingDAOFile;
 import it.ispwproject.doseguard.dao.file.TimeSlotDAOFile;
 import it.ispwproject.doseguard.dao.memory.*;
 

@@ -1,6 +1,5 @@
 package it.ispwproject.doseguard.dao;
 
-import it.ispwproject.doseguard.enumerator.AppointmentStatus;
 import it.ispwproject.doseguard.model.Booking;
 
 import java.util.ArrayList;

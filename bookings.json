@@ -1,0 +1,242 @@
+[
+  {
+    "id": 1,
+    "patient": {
+      "favouriteDoctors": [],
+      "id": 1,
+      "name": "Emma",
+      "surname": "Rossi",
+      "email": "emma@test.com",
+      "fiscalCode": "RSSMME00A41H501Z",
+      "role": "PATIENT"
+    },
+    "doctor": {
+      "id": 5,
+      "name": "Gabriele",
+      "surname": "Conti",
+      "email": "gabriele@test.com",
+      "role": "DOCTOR"
+    },
+    "specialization": {
+      "id": 8,
+      "name": "Cardiologia"
+    },
+    "slot": {
+      "id": 1,
+      "doctor": {
+        "id": 5,
+        "name": "Gabriele",
+        "surname": "Conti",
+        "email": "gabriele@test.com",
+        "role": "DOCTOR"
+      },
+      "date": "2026-06-06",
+      "startTime": "17:00",
+      "available": false,
+      "reservedUntil": "2026-06-06T14:28:28.6425024"
+    },
+    "status": "CONFIRMED",
+    "notes": "Prima visita di controllo per ipertensione",
+    "createdAt": "2026-06-06T14:25:30.2945306"
+  },
+  {
+    "id": 2,
+    "patient": {
+      "favouriteDoctors": [],
+      "id": 1,
+      "name": "Emma",
+      "surname": "Rossi",
+      "email": "emma@test.com",
+      "fiscalCode": "RSSMME00A41H501Z",
+      "role": "PATIENT"
+    },
+    "doctor": {
+      "id": 5,
+      "name": "Gabriele",
+      "surname": "Conti",
+      "email": "gabriele@test.com",
+      "role": "DOCTOR"
+    },
+    "specialization": {
+      "id": 1,
+      "name": "Medicina Generale"
+    },
+    "slot": {
+      "id": 3,
+      "doctor": {
+        "id": 5,
+        "name": "Gabriele",
+        "surname": "Conti",
+        "email": "gabriele@test.com",
+        "role": "DOCTOR"
+      },
+      "date": "2026-06-15",
+      "startTime": "07:00",
+      "available": true,
+      "reservedUntil": "2026-06-06T14:28:38.9000074"
+    },
+    "status": "CANCELLED",
+    "notes": "Controllo di routine annuale",
+    "createdAt": "2026-06-06T14:25:40.4926169"
+  },
+  {
+    "id": 3,
+    "patient": {
+      "favouriteDoctors": [],
+      "id": 1,
+      "name": "Emma",
+      "surname": "Rossi",
+      "email": "emma@test.com",
+      "fiscalCode": "RSSMME00A41H501Z",
+      "role": "PATIENT"
+    },
+    "doctor": {
+      "id": 5,
+      "name": "Gabriele",
+      "surname": "Conti",
+      "email": "gabriele@test.com",
+      "role": "DOCTOR"
+    },
+    "specialization": {
+      "id": 2,
+      "name": "Endocrinologia"
+    },
+    "slot": {
+      "id": 2,
+      "doctor": {
+        "id": 5,
+        "name": "Gabriele",
+        "surname": "Conti",
+        "email": "gabriele@test.com",
+        "role": "DOCTOR"
+      },
+      "date": "2026-06-12",
+      "startTime": "08:00",
+      "available": false,
+      "reservedUntil": "2026-06-06T14:28:59.6816926"
+    },
+    "status": "CONFIRMED",
+    "notes": "Valutazione esami del sangue recenti",
+    "createdAt": "2026-06-06T14:26:00.9187519"
+  },
+  {
+    "id": 4,
+    "patient": {
+      "favouriteDoctors": [],
+      "id": 1,
+      "name": "Emma",
+      "surname": "Rossi",
+      "email": "emma@test.com",
+      "fiscalCode": "RSSMME00A41H501Z",
+      "role": "PATIENT"
+    },
+    "doctor": {
+      "id": 5,
+      "name": "Gabriele",
+      "surname": "Conti",
+      "email": "gabriele@test.com",
+      "role": "DOCTOR"
+    },
+    "specialization": {
+      "id": 8,
+      "name": "Cardiologia"
+    },
+    "slot": {
+      "id": 5,
+      "doctor": {
+        "id": 5,
+        "name": "Gabriele",
+        "surname": "Conti",
+        "email": "gabriele@test.com",
+        "role": "DOCTOR"
+      },
+      "date": "2026-07-07",
+      "startTime": "11:00",
+      "available": false,
+      "reservedUntil": "2026-06-06T14:43:34.37828"
+    },
+    "status": "CONFIRMED",
+    "notes": "Elettrocardiogramma e controllo terapia",
+    "createdAt": "2026-06-06T14:40:35.4169243"
+  },
+  {
+    "id": 5,
+    "patient": {
+      "favouriteDoctors": [],
+      "id": 12,
+      "name": "Giulia",
+      "surname": "Mencaccini",
+      "email": "giuliamencaccini@gmail.com",
+      "fiscalCode": "MNCGLI01C50H501X",
+      "role": "PATIENT"
+    },
+    "doctor": {
+      "id": 5,
+      "name": "Gabriele",
+      "surname": "Conti",
+      "email": "gabriele@test.com",
+      "role": "DOCTOR"
+    },
+    "specialization": {
+      "id": 8,
+      "name": "Cardiologia"
+    },
+    "slot": {
+      "id": 3,
+      "doctor": {
+        "id": 5,
+        "name": "Gabriele",
+        "surname": "Conti",
+        "email": "gabriele@test.com",
+        "role": "DOCTOR"
+      },
+      "date": "2026-06-15",
+      "startTime": "07:00",
+      "available": true,
+      "reservedUntil": "2026-06-06T14:55:37.723143"
+    },
+    "status": "CANCELLED",
+    "notes": "Consulto generale",
+    "createdAt": "2026-06-06T14:52:40.1717883"
+  },
+  {
+    "id": 6,
+    "patient": {
+      "favouriteDoctors": [],
+      "id": 12,
+      "name": "Giulia",
+      "surname": "Mencaccini",
+      "email": "giuliamencaccini@gmail.com",
+      "fiscalCode": "MNCGLI01C50H501X",
+      "role": "PATIENT"
+    },
+    "doctor": {
+      "id": 5,
+      "name": "Gabriele",
+      "surname": "Conti",
+      "email": "gabriele@test.com",
+      "role": "DOCTOR"
+    },
+    "specialization": {
+      "id": 8,
+      "name": "Cardiologia"
+    },
+    "slot": {
+      "id": 6,
+      "doctor": {
+        "id": 5,
+        "name": "Gabriele",
+        "surname": "Conti",
+        "email": "gabriele@test.com",
+        "role": "DOCTOR"
+      },
+      "date": "2026-06-12",
+      "startTime": "12:00",
+      "available": false,
+      "reservedUntil": "2026-06-06T14:58:52.1198617"
+    },
+    "status": "CONFIRMED",
+    "notes": "Rinnovo prescrizione per posologia giornaliera",
+    "createdAt": "2026-06-06T14:55:53.3576886"
+  }
+]
