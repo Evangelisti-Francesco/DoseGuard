@@ -12,7 +12,6 @@ import it.ispwproject.doseguard.model.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import it.ispwproject.doseguard.dao.UserDAO;
 
 public class UserDAODB implements UserDAO {
 

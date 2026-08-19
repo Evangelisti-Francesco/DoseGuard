@@ -11,6 +11,7 @@ import java.util.List;
 public class UserDAOMemory implements UserDAO {
 
     private final DemoDataStore store = DemoDataStore.getInstance();
+
     @Override
     public User findByEmail(String email) throws DAOException {
         return store.getUsers().stream()
