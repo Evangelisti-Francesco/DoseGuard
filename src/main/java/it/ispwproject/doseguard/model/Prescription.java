@@ -7,25 +7,22 @@ public class Prescription {
     private int id;
     private Doctor doctor;
     private Patient patient;
-    private int pharmacistId;
+    private Integer pharmacistId;
     private String drug;
     private String dosage;
     private String frequency;
     private LocalDate issueDate;
 
 
-    public Prescription(int id, Doctor doctor, Patient patient, int pharmacistId,
-                        String drug, String dosage, String frequency, LocalDate issueDate) {
-        this.id = id;
+    public Prescription(Doctor doctor, Patient patient, String drug, String dosage, String frequency) {
         this.doctor = doctor;
         this.patient = patient;
-        this.pharmacistId = pharmacistId;
         this.drug = drug;
         this.dosage = dosage;
         this.frequency = frequency;
-        this.issueDate = issueDate;
+        this.issueDate = LocalDate.now();
+        this.pharmacistId = null;
     }
-
     // Getter e Setter
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

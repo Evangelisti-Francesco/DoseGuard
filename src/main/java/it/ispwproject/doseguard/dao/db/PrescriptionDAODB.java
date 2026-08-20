@@ -13,8 +13,8 @@ import java.util.List;
 public class PrescriptionDAODB implements PrescriptionDAO {
 
     private static final String INSERT_PRESCRIPTION = "INSERT INTO prescription (doctor_id, patient_id, pharmacist_id, drug, dosage, frequency, issue_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String GET_BY_PATIENT_FISCAL_CODE = "SELECT p.* FROM prescription p JOIN patient pt ON p.patient_id = pt.id WHERE pt.fiscal_code = ?";
-    private static final String FIND_BY_ID = "SELECT * FROM prescription WHERE id = ?";
+    private static final String GET_BY_PATIENT_FISCAL_CODE = "SELECT p.id, p.doctor_id, p.patient_id, p.pharmacist_id, p.drug, p.dosage, p.frequency, p.issue_date FROM prescription p JOIN patient pt ON p.patient_id = pt.id WHERE pt.fiscal_code = ?";
+    private static final String FIND_BY_ID = "SELECT id, doctor_id, patient_id, pharmacist_id, drug, dosage, frequency, issue_date FROM prescription WHERE id = ?";
     private static final String MARK_AS_FULFILLED = "UPDATE prescription SET pharmacist_id = ? WHERE id = ?";
 
     private final DoctorDAO doctorDAO;
@@ -104,23 +104,16 @@ public class PrescriptionDAODB implements PrescriptionDAO {
     }
 
     private Prescription mapResultSetToPrescription(ResultSet rs) throws SQLException, DAOException {
-        int id = rs.getInt("id");
         int doctorId = rs.getInt("doctor_id");
         int patientId = rs.getInt("patient_id");
-
-        Integer pharmacistId = rs.getInt("pharmacist_id");
-        if (rs.wasNull()) {
-            pharmacistId = null;
-        }
 
         String drug = rs.getString("drug");
         String dosage = rs.getString("dosage");
         String frequency = rs.getString("frequency");
-        Date issueDate = rs.getDate("issue_date");
 
         Doctor doctor = doctorDAO.findById(doctorId);
         Patient patient = patientDAO.findById(patientId);
 
-        return new Prescription(id, doctor, patient, pharmacistId, drug, dosage, frequency, issueDate.toLocalDate());
+        return new Prescription(doctor, patient, drug, dosage, frequency);
     }
 }

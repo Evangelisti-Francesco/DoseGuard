@@ -88,9 +88,8 @@ public class AvailabilityController {
             TimeSlotBean bean = new TimeSlotBean(slot.getId(), slot.getDate(),
                     slot.getStartTime(), slot.isAvailable());
             Booking booking = bookingBySlot.get(slot.getId());
-            if (booking != null) {
-                if (booking.getPatient() != null)
-                    bean.setBookedByName(booking.getPatient().getFullName());
+            if (booking != null && booking.getPatient() != null) {
+                bean.setBookedByName(booking.getPatient().getFullName());
             }
             result.add(bean);
         }

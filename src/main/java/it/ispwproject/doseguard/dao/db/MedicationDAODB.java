@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MedicationDAODB implements MedicationDAO {
 
-    private static final String GET_BY_PATIENT = "SELECT * FROM medication WHERE patient_id = ?";
+    private static final String GET_BY_PATIENT = "SELECT id, patient_id, name, dosage, schedule_time, taken_today FROM medication WHERE patient_id = ?";
     private static final String INSERT_MEDICATION = "INSERT INTO medication (patient_id, name, dosage, schedule_time, taken_today) VALUES (?, ?, ?, ?, ?)";
     private static final String MARK_AS_TAKEN = "UPDATE medication SET taken_today = true WHERE id = ? AND patient_id = ?";
     private static final String DELETE_MEDICATION = "DELETE FROM medication WHERE id = ? AND patient_id = ?";
