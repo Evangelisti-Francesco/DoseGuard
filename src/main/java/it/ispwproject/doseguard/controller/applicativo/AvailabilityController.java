@@ -86,12 +86,11 @@ public class AvailabilityController {
         List<TimeSlotBean> result = new ArrayList<>();
         for (TimeSlot slot : slots) {
             TimeSlotBean bean = new TimeSlotBean(slot.getId(), slot.getDate(),
-                    slot.getStartTime(), slot.getEndTime(), slot.isAvailable());
+                    slot.getStartTime(), slot.isAvailable());
             Booking booking = bookingBySlot.get(slot.getId());
             if (booking != null) {
                 if (booking.getPatient() != null)
                     bean.setBookedByName(booking.getPatient().getFullName());
-                bean.setMeetLink(booking.getMeetLink());
             }
             result.add(bean);
         }

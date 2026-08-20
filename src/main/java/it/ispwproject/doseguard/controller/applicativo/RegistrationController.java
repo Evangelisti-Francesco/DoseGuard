@@ -46,6 +46,12 @@ public class RegistrationController {
             throw new RegistrationException("Email già registrata. Usa un'altra email.");
         }
 
+        if (bean.getRole() == Role.PATIENT
+                && bean.getFiscalCode() != null
+                && registrationDAO.fiscalCodeExists(bean.getFiscalCode())) {
+            throw new RegistrationException("Codice Fiscale già presente nei nostri sistemi.");
+        }
+
         String hashedPassword;
         try {
             hashedPassword = PasswordUtils.hash(bean.getPassword());
@@ -81,6 +87,7 @@ public class RegistrationController {
         validatePassword(bean);
         validateRole(bean);
         validateDoctorFields(bean);
+        validatePatientFields(bean);
     }
 
     private void validateRequiredField(String value, String message)
@@ -124,4 +131,10 @@ public class RegistrationController {
             throw new RegistrationException("Seleziona almeno una specializzazione.");
         }
     }
+
+    private void validatePatientFields(RegistrationBean bean) throws RegistrationException {
+        if (bean.getRole() != Role.PATIENT) return;
+        validateRequiredField(bean.getFiscalCode(),"Il codice fiscale è obbligatorio.");
+    }
+
 }

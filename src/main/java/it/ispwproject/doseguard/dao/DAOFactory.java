@@ -72,4 +72,14 @@ public class DAOFactory {
         return new RegistrationDAODB();
     }
 
+    public static PrescriptionDAO getPrescriptionDAO() {
+        if (MEMORY.equalsIgnoreCase(persistence)) return new PrescriptionDAOMemory();
+        return new PrescriptionDAODB();
+    }
+
+    public static MedicationDAO getMedicationDAO() {
+        if (MEMORY.equalsIgnoreCase(persistence)) return new MedicationDAOMemory();
+        return new MedicationDAODB();
+    }
+
 }

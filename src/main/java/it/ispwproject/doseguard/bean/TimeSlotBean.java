@@ -8,6 +8,7 @@ public class TimeSlotBean {
     private int id;
     private LocalDate date;
     private LocalTime startTime;
+    private String bookedByName;
     private boolean available;
 
     public TimeSlotBean() {}
@@ -27,6 +28,9 @@ public class TimeSlotBean {
 
     public LocalTime getStartTime() {return startTime;}
     public void setStartTime(LocalTime startTime) {this.startTime = startTime;}
+
+    public  String getBookedByName() {return bookedByName;}
+    public void setBookedByName(String bookedByName) {this.bookedByName = bookedByName;}
 
     public boolean isAvailable() {return available;}
     public void setAvailable(boolean available) {this.available = available;}
