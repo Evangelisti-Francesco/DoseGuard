@@ -12,6 +12,6 @@ public class Main {
 
         Printer.println("Welcome to the DOSE Guard!");
         Scanner sc = new Scanner(System.in);
-
+        sc.nextLine();
     }
 }

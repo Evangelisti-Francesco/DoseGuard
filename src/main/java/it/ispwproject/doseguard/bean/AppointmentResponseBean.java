@@ -11,16 +11,18 @@ public class AppointmentResponseBean {
     private TimeSlotBean slot;
     private AppointmentStatus status;
 
+    private String notes;
+
     public AppointmentResponseBean() {}
 
-    public AppointmentResponseBean(int id, PatientBean patient, DoctorBean doctor, SpecializationBean specialization, TimeSlotBean slot, AppointmentStatus status) {
+    public AppointmentResponseBean(int id, PatientBean patient, DoctorBean doctor, SpecializationBean specialization, TimeSlotBean slot, AppointmentStatus status,String notes) {
         this.id = id;
         this.patient = patient;
         this.doctor = doctor;
         this.specialization = specialization;
         this.slot = slot;
         this.status = status;
-
+        this.notes = notes;
     }
 
 
@@ -42,5 +44,7 @@ public class AppointmentResponseBean {
     public AppointmentStatus getStatus() {return status;}
     public void setStatus(AppointmentStatus status) {this.status = status;}
 
+    public String getNotes() {return notes;}
+    public void setNotes(String notes) {this.notes = notes;}
 
 }

@@ -6,14 +6,16 @@ public class PatientBean {
     private String name;
     private String surname;
     private String email;
+    private String fiscalCode;
 
     public PatientBean() {}
 
-    public PatientBean(int id, String name, String surname, String email) {
+    public PatientBean(int id, String name, String surname, String email,String fiscalCode) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
+        this.fiscalCode = fiscalCode;
     }
 
     public String getFullName() {
@@ -32,6 +34,8 @@ public class PatientBean {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
+    public String getFiscalCode() { return fiscalCode; }
+    public void setFiscalCode(String fiscalCode) { this.fiscalCode = fiscalCode; }
 
 
 }

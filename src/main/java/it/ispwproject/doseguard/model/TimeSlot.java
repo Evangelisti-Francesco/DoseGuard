@@ -38,6 +38,16 @@ public class TimeSlot {
         this.doctor = null;
     }
 
+    public boolean overlaps(TimeSlot other) {
+        if (other == null || this.date == null || this.startTime == null) {
+            return false;
+        }
+        // C'è sovrapposizione se coincidono sia la data che l'ora di inizio
+        return this.date.equals(other.getDate()) &&
+                this.startTime.equals(other.getStartTime());
+    }
+
+
     public LocalDateTime getReservedUntil() { return reservedUntil; }
     public void setReservedUntil(LocalDateTime reservedUntil) { this.reservedUntil = reservedUntil; }
 
