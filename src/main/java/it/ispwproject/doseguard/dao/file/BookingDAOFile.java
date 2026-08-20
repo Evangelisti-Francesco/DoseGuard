@@ -110,6 +110,20 @@ public class BookingDAOFile extends AbstractBookingDAO {
     }
 
     @Override
+    public List<Booking> findPastByPatient(int patientId) throws DAOException {
+        return identityMap.stream()
+                .filter(b -> b.getPatient() != null && b.getPatient().getId() == patientId
+                        && b.getStatus() == AppointmentStatus.CONFIRMED
+                        && b.getTimeSlot() != null
+                        && (b.getTimeSlot().getDate().isBefore(LocalDate.now(ZoneId.systemDefault())) ||
+                        (b.getTimeSlot().getDate().isEqual(LocalDate.now(ZoneId.systemDefault())) &&
+                                b.getTimeSlot().getStartTime().isBefore(LocalTime.now(ZoneId.systemDefault())))))
+                .toList();
+    }
+
+
+
+    @Override
     public void cancel(int bookingId, int patientId) throws DAOException {
         Booking booking = findInCache(bookingId);
         if (booking == null) {

@@ -26,6 +26,12 @@ public class TimeSlotDAODB implements TimeSlotDAO {
                     "AND (date > CURDATE() OR (date = CURDATE() AND start_time > CURTIME())) " +
                     "ORDER BY date, start_time";
 
+    private static final String GET_PAST_BY_DOCTOR =
+            "SELECT id, date, start_time, available " +
+                    "FROM time_slot " +
+                    "WHERE doctor_id = ? AND (date < CURDATE() OR (date = CURDATE() AND start_time < CURTIME())) " +
+                    "ORDER BY date DESC, start_time DESC";
+
     private static final String FIND_BY_ID =
             "SELECT id, date, start_time, end_time, available FROM time_slot WHERE id = ?";
 
@@ -94,6 +100,23 @@ public class TimeSlotDAODB implements TimeSlotDAO {
             }
         } catch (SQLException e) {
             throw new DAOException("Errore nel caricamento degli slot: " + e.getMessage(), e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<TimeSlot> getPastByDoctor(int doctorId) throws DAOException {
+        List<TimeSlot> result = new ArrayList<>();
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement(GET_PAST_BY_DOCTOR)) {
+            ps.setInt(1, doctorId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    result.add(mapToTimeSlot(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Errore nel caricamento degli slot passati: " + e.getMessage(), e);
         }
         return result;
     }

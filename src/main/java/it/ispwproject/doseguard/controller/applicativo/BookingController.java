@@ -151,6 +151,26 @@ public class BookingController {
         return result;
     }
 
+    public List<AppointmentResponseBean> getPatientPastBookings(int patientId) throws DAOException {
+        List<AppointmentResponseBean> result = new ArrayList<>();
+        for (Booking booking : bookingDAO.findPastByPatient(patientId)) {
+            Doctor doctor = booking.getDoctor();
+            Specialization spec = booking.getSpecialization();
+            TimeSlot slot = booking.getTimeSlot();
+            if (doctor == null || spec == null || slot == null) continue;
+
+            result.add(new AppointmentResponseBean(
+                    booking.getId(),
+                    new PatientBean(booking.getPatient().getId(), booking.getPatient().getName(), booking.getPatient().getSurname(), booking.getPatient().getEmail(), booking.getPatient().getFiscalCode()),
+                    new DoctorBean(doctor.getId(), doctor.getName(), doctor.getSurname(), doctor.getEmail(), false),
+                    new SpecializationBean(spec.getId(), spec.getSpecialization()),
+                    new TimeSlotBean(slot.getId(), slot.getDate(), slot.getStartTime(), slot.isAvailable()),
+                    booking.getStatus(), booking.getNotes()));
+        }
+        return result;
+    }
+
+
     public void cancelBooking(int bookingId, int patientId) throws DAOException {
         List<Booking> bookings = bookingDAO.findByPatient(patientId);
         Booking booking = bookings.stream()

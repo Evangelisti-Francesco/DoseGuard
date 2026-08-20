@@ -12,6 +12,7 @@ public interface BookingDAO {
     List<Booking> findByDoctor(int doctorId) throws DAOException;
     List<Booking> findCompletedBookings(int patientId, int doctorId) throws DAOException;
     List<Booking> findUpcomingBookings(int patientId, int doctorId) throws DAOException;
+    List<Booking> findPastByPatient(int patientId) throws DAOException;
     void cancel(int bookingId, int patientId) throws DAOException;
 
     List<Booking> findAll() throws  DAOException;

@@ -84,6 +84,18 @@ public class TimeSlotDAOFile implements TimeSlotDAO {
     }
 
     @Override
+    public List<TimeSlot> getPastByDoctor(int doctorId) throws DAOException {
+        return cache.stream()
+                .filter(s -> s.getDoctor() != null
+                        && s.getDoctor().getId() == doctorId
+                        && (s.getDate().isBefore(LocalDate.now(ZoneId.systemDefault())) ||
+                        (s.getDate().isEqual(LocalDate.now(ZoneId.systemDefault()))
+                                && s.getStartTime().isBefore(LocalTime.now(ZoneId.systemDefault())))))
+                .toList();
+    }
+
+
+    @Override
     public TimeSlot findById(int id) throws DAOException {
         return cache.stream()
                 .filter(s -> s.getId() == id)

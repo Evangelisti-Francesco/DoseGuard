@@ -10,6 +10,7 @@ public interface TimeSlotDAO {
 
     List<TimeSlot> getAvailableByDoctor(Doctor doctor) throws DAOException;
     List<TimeSlot> getAllByDoctor(int doctorId) throws DAOException;
+    List<TimeSlot> getPastByDoctor(int doctorId) throws DAOException;
     TimeSlot findById(int id) throws DAOException;
     void save(TimeSlot slot, int doctorId) throws DAOException;
     boolean reserveSlot(int slotId, int minutes) throws DAOException;
