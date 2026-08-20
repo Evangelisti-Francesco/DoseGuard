@@ -14,13 +14,13 @@ public class Prescription {
     private LocalDate issueDate;
 
 
-    public Prescription(Doctor doctor, Patient patient, String drug, String dosage, String frequency) {
+    public Prescription(Doctor doctor, Patient patient, String drug, String dosage, String frequency,LocalDate issueDate) {
         this.doctor = doctor;
         this.patient = patient;
         this.drug = drug;
         this.dosage = dosage;
         this.frequency = frequency;
-        this.issueDate = LocalDate.now();
+        this.issueDate = issueDate;
         this.pharmacistId = null;
     }
     // Getter e Setter

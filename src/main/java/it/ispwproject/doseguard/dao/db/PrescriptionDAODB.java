@@ -110,10 +110,11 @@ public class PrescriptionDAODB implements PrescriptionDAO {
         String drug = rs.getString("drug");
         String dosage = rs.getString("dosage");
         String frequency = rs.getString("frequency");
+        Date issueDate = rs.getDate("issue_date");
 
         Doctor doctor = doctorDAO.findById(doctorId);
         Patient patient = patientDAO.findById(patientId);
 
-        return new Prescription(doctor, patient, drug, dosage, frequency);
+        return new Prescription(doctor, patient, drug, dosage, frequency,issueDate.toLocalDate());
     }
 }
