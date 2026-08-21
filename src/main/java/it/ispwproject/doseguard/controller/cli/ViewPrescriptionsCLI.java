@@ -35,7 +35,7 @@ public class ViewPrescriptionsCLI extends AbstractCLIState {
                 // Il paziente vede le sue prescrizioni
                 prescriptions = prescriptionController.getPatientPrescriptions(patient.getFiscalCode());
 
-            } else if (loggedUser instanceof Doctor doctor) {
+            } else if (loggedUser instanceof Doctor) {
                 // Il medico inserisce il codice fiscale del paziente di cui vuole vedere le ricette
                 String fiscalCode = view.chiediCodiceFiscale("Inserisci il codice fiscale del paziente");
                 prescriptions = prescriptionController.getPatientPrescriptions(fiscalCode);

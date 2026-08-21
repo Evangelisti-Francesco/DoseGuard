@@ -56,6 +56,7 @@ public class ViewSlotsCLI extends AbstractCLIState {
                         }
                     }
                     case 0 -> running = false;
+                    default -> view.mostraErrore("Opzione non valida");
                 }
             }
         } catch (DAOException e) {
