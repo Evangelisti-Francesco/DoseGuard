@@ -6,7 +6,6 @@ import it.ispwproject.doseguard.dao.PatientDAO;
 import it.ispwproject.doseguard.dao.PrescriptionDAO;
 import it.ispwproject.doseguard.exception.DAOException;
 import it.ispwproject.doseguard.model.Doctor;
-import it.ispwproject.doseguard.model.Medication;
 import it.ispwproject.doseguard.model.Patient;
 import it.ispwproject.doseguard.model.Prescription;
 import it.ispwproject.doseguard.pattern.singleton.SessionManager;
@@ -28,21 +27,19 @@ public class PrescriptionController {
     public boolean createPrescription(int patientID, String drug, String dosage, String frequency)
             throws DAOException {
 
-        // 1. Recupera il Medico attualmente loggato
         if (!(SessionManager.getInstance().getLoggedUser() instanceof Doctor doctor)) {
             throw new DAOException("Operazione consentita solo ai medici autenticati.");
         }
 
-        // 2. Recupera il Paziente tramite il suo Codice Fiscale
         Patient patient = patientDAO.findById(patientID);
         if (patient == null) {
             throw new DAOException("Paziente non trovato con il codice fiscale fornito: " + patientID);
         }
 
-        // 3. Crea ed emette la ricetta (costruttore a 5 parametri)
+
         Prescription prescription = new Prescription(doctor, patient, drug, dosage, frequency,LocalDate.now());
 
-        // 4. Salvataggio nel DAO
+
         prescriptionDAO.save(prescription);
 
         return true;
@@ -69,13 +66,11 @@ public class PrescriptionController {
         this.prescriptionDAO.markAsFulfilled(prescriptionId, pharmacistId);
     }
 
-    // Metodo helper privato per la conversione Model -> Bean
     private PrescriptionBean mapModelToBean(Prescription p) {
         PrescriptionBean bean = new PrescriptionBean();
         bean.setId(p.getId());
         bean.setDoctorFullName(p.getDoctor() != null ? p.getDoctor().getFullName() : "");
         bean.setPatientFiscalCode(p.getPatient() != null ? p.getPatient().getFiscalCode() : "");
-        bean.setPharmacistId(p.getPharmacistId());
         bean.setDrug(p.getDrug());
         bean.setDosage(p.getDosage());
         bean.setFrequency(p.getFrequency());

@@ -7,7 +7,6 @@ public class PrescriptionBean {
     private int id;
     private String doctorFullName;
     private String patientFiscalCode;
-    private Integer pharmacistId;
     private String drug;
     private String dosage;
     private String frequency;
@@ -17,17 +16,14 @@ public class PrescriptionBean {
     }
 
 
-    public PrescriptionBean(int id, String doctorFullName, String patientFiscalCode,
-                            Integer pharmacistId, String drug, String dosage,
-                            String frequency, LocalDate issueDate) {
+    public PrescriptionBean(int id, String doctorFullName, String patientFiscalCode, String drug, String dosage,
+                            String frequency) {
         this.id = id;
         this.doctorFullName = doctorFullName;
         this.patientFiscalCode = patientFiscalCode;
-        this.pharmacistId = pharmacistId;
         this.drug = drug;
         this.dosage = dosage;
         this.frequency = frequency;
-        this.issueDate = issueDate;
     }
 
     // Getter e Setter
@@ -55,13 +51,6 @@ public class PrescriptionBean {
         this.patientFiscalCode = patientFiscalCode;
     }
 
-    public Integer getPharmacistId() {
-        return pharmacistId;
-    }
-
-    public void setPharmacistId(Integer pharmacistId) {
-        this.pharmacistId = pharmacistId;
-    }
 
     public String getDrug() {
         return drug;

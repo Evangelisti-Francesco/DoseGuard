@@ -7,7 +7,6 @@ public class Prescription {
     private int id;
     private Doctor doctor;
     private Patient patient;
-    private Integer pharmacistId;
     private String drug;
     private String dosage;
     private String frequency;
@@ -15,13 +14,13 @@ public class Prescription {
 
 
     public Prescription(Doctor doctor, Patient patient, String drug, String dosage, String frequency,LocalDate issueDate) {
+        this.id = id;
         this.doctor = doctor;
         this.patient = patient;
         this.drug = drug;
         this.dosage = dosage;
         this.frequency = frequency;
         this.issueDate = issueDate;
-        this.pharmacistId = null;
     }
     // Getter e Setter
     public int getId() { return id; }
@@ -32,9 +31,6 @@ public class Prescription {
 
     public Patient getPatient() { return patient; }
     public void setPatient(Patient patient) { this.patient = patient; }
-
-    public Integer getPharmacistId() { return pharmacistId; }
-    public void setPharmacistId(Integer pharmacistId) { this.pharmacistId = pharmacistId; }
 
     public String getDrug() { return drug; }
     public void setDrug(String drug) { this.drug = drug; }
