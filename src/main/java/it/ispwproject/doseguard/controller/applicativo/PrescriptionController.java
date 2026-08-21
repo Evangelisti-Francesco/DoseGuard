@@ -11,6 +11,7 @@ import it.ispwproject.doseguard.model.Prescription;
 import it.ispwproject.doseguard.pattern.singleton.SessionManager;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +34,10 @@ public class PrescriptionController {
 
         Patient patient = patientDAO.findById(patientID);
         if (patient == null) {
-            throw new DAOException("Paziente non trovato con il codice fiscale fornito: " + patientID);
+            throw new DAOException("Paziente non trovato con l'ID fornito: " + patientID);
         }
 
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(ZoneId.systemDefault());
         Prescription prescription = new Prescription(doctor, patient, drug, dosage, frequency,today);
 
 
