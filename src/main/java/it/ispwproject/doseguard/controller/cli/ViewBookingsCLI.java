@@ -54,6 +54,7 @@ public class ViewBookingsCLI extends AbstractCLIState {
                     case 2 -> view.mostraCancellate(cancelled);
                     case 3 -> view.mostraScadute(past);
                     case 0 -> running = false;
+                    default -> view.mostraErrore("Scelta non valida.");
                 }
             }
         } catch (DAOException e) {

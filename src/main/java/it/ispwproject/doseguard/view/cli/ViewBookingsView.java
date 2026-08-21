@@ -86,7 +86,7 @@ public class ViewBookingsView {
             System.out.println("  " + CLIRenderer.LINE_THIN);
 
             for (AppointmentResponseBean b : group) {
-                System.out.printf("  %s  %s  %s – %s  Dott. %s%n",
+                System.out.printf("  %s  %s  %s  Dott. %s%n",
                         CLIRenderer.BULLET,
                         b.getSlot().getDate(),
                         b.getSlot().getStartTime(),

@@ -9,6 +9,8 @@ import java.util.List;
 
 public class BookAppointmentView {
 
+    private static final String DOCTOR_PREFIX = "Dott. ";
+
     public void mostraIntestazione() {
         CLIRenderer.intestazione("DoseGuard  –  Prenota Visita Medica");
     }
@@ -26,13 +28,13 @@ public class BookAppointmentView {
         if (!favourites.isEmpty()) {
             CLIRenderer.sezione("⭐ Medici Preferiti");
             for (DoctorBean doc : favourites) {
-                CLIRenderer.voceMenu(index++, "Dott. " + doc.getFullName());
+                CLIRenderer.voceMenu(index++, DOCTOR_PREFIX + doc.getFullName());
             }
         }
         if (!others.isEmpty()) {
             CLIRenderer.sezione("Altri Medici");
             for (DoctorBean doc : others) {
-                CLIRenderer.voceMenu(index++, "Dott. " + doc.getFullName());
+                CLIRenderer.voceMenu(index++, DOCTOR_PREFIX+ doc.getFullName());
             }
         }
         CLIRenderer.voceMenuZero("Torna indietro");
@@ -42,7 +44,7 @@ public class BookAppointmentView {
         CLIRenderer.sezione("Slot disponibili");
         for (int i = 0; i < slots.size(); i++) {
             TimeSlotBean s = slots.get(i);
-            System.out.printf("  [%d] %s   %s – %s%n",
+            System.out.printf(" [%d] %s   ore %s%n",
                     i + 1, s.getDate(), s.getStartTime());
         }
         CLIRenderer.voceMenuZero("Indietro");
@@ -50,7 +52,7 @@ public class BookAppointmentView {
 
     public void mostraRiepilogo(AppointmentResponseBean summary) {
         CLIRenderer.sezione("Riepilogo Prenotazione");
-        CLIRenderer.campo("Medico", "Dott. " + summary.getDoctor());
+        CLIRenderer.campo("Medico", DOCTOR_PREFIX + summary.getDoctor());
         CLIRenderer.campo("Specializz.", summary.getSpecialization().getName());
         CLIRenderer.campo("Data", summary.getSlot().getDate().toString());
         CLIRenderer.campo("Orario", summary.getSlot().getStartTime().toString());
