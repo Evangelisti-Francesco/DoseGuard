@@ -9,25 +9,25 @@ public class Medication {
     private String name;
     private String dosage;
     private LocalTime scheduleTime;
-    private boolean takenToday;
+    private boolean taken;
 
 
     public Medication(int id, Patient patient, String name, String dosage,
-                      LocalTime scheduleTime, boolean takenToday) {
+                      LocalTime scheduleTime, boolean taken) {
         this.id = id;
         this.patient = patient;
         this.name = name;
         this.dosage = dosage;
         this.scheduleTime = scheduleTime;
-        this.takenToday = takenToday;
+        this.taken = taken;
     }
 
     public void markAsTaken() {
-        this.takenToday = true;
+        this.taken = true;
     }
 
     public void resetDailyStatus() {
-        this.takenToday = false;
+        this.taken = false;
     }
 
     // Getter e Setter
@@ -46,6 +46,6 @@ public class Medication {
     public LocalTime getScheduleTime() { return scheduleTime; }
     public void setScheduleTime(LocalTime scheduleTime) { this.scheduleTime = scheduleTime; }
 
-    public boolean isTakenToday() { return takenToday; }
-    public void setTakenToday(boolean takenToday) { this.takenToday = takenToday; }
+    public boolean isTaken() { return taken; }
+    public void setTakenToday(boolean taken) { this.taken = taken; }
 }

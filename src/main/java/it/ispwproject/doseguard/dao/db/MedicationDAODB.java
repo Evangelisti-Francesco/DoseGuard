@@ -54,7 +54,7 @@ public class MedicationDAODB implements MedicationDAO {
             stmt.setString(2, medication.getName());
             stmt.setString(3, medication.getDosage());
             stmt.setTime(4, Time.valueOf(medication.getScheduleTime()));
-            stmt.setBoolean(5, medication.isTakenToday());
+            stmt.setBoolean(5, medication.isTaken());
 
             stmt.executeUpdate();
 

@@ -19,15 +19,12 @@ public class MedicationController {
         this.medicationDAO = DAOFactory.getMedicationDAO();
     }
 
-    /**
-     * Recupera la lista di farmaci/terapia per il paziente attualmente autenticato.
-     */
     public List<MedicationBean> getPatientMedications() throws DAOException {
         if (!(SessionManager.getInstance().getLoggedUser() instanceof Patient patient)) {
             throw new DAOException("Operazione consentita solo ai pazienti autenticati.");
         }
 
-        List<Medication> medications = medicationDAO.getByPatientId(patient.getId());
+        List<Medication> medications = medicationDAO.getByPatient(patient.getId());
         List<MedicationBean> beans = new ArrayList<>();
 
         for (Medication m : medications) {
@@ -37,11 +34,12 @@ public class MedicationController {
         return beans;
     }
 
-    /**
-     * Segna un farmaco come assunto dal paziente.
-     */
     public void markMedicationAsTaken(int medicationId) throws DAOException {
-        medicationDAO.markAsTaken(medicationId);
+        if (!(SessionManager.getInstance().getLoggedUser() instanceof Patient patient)) {
+            throw new DAOException("Operazione consentita solo ai pazienti autenticati.");
+        }
+
+        medicationDAO.markAsTaken(medicationId, patient.getId());
     }
 
     private MedicationBean mapModelToBean(Medication m) {
