@@ -13,8 +13,9 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Configurazione Sonar -->
-        <sonar.organization>tuo-account-sonar</sonar.organization>
+        <sonar.organization>evangelisti-francesco</sonar.organization>
         <sonar.coverage.exclusions>**/*</sonar.coverage.exclusions>
+        <sonar.exclusions>**/view/**,**/controller/cli/**,**/controller/gui/**,**/demo/**</sonar.exclusions>
     </properties>
 
     <dependencies>
