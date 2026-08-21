@@ -24,12 +24,14 @@ public class DemoDataStore {
     private final List<Specialization> specializations = new ArrayList<>();
     private final List<TimeSlot>       timeSlots       = new ArrayList<>();
     private final List<Booking>        bookings        = new ArrayList<>();
+    private final List<PatientProgress> progresses = new ArrayList<>();
 
     private final Map<Integer, List<Integer>> favouritesByPatient   = new HashMap<>();
     private final Map<Integer, List<Integer>> specializationsByDoctor = new HashMap<>();
 
     private int nextUserId    = 10;
     private int nextBookingId = 3;
+    private int nextProgressId = 3;
     private int nextSlotId    = 10;
 
     private DemoDataStore() {
@@ -112,11 +114,13 @@ public class DemoDataStore {
     public List<Specialization> getSpecializations()        { return specializations; }
     public List<TimeSlot>       getTimeSlots()             { return timeSlots; }
     public List<Booking>        getBookings()              { return bookings; }
+    public List<PatientProgress> getProgresses() { return progresses; }
     public Map<Integer, List<Integer>> getFavouritesByPatient()      { return favouritesByPatient; }
     public Map<Integer, List<Integer>> getSpecializationsByDoctor() { return specializationsByDoctor; }
 
     // Generatori di ID autoincrementanti
     public int nextUserId()    { return nextUserId++; }
     public int nextBookingId() { return nextBookingId++; }
+    public int nextProgressId() { return nextProgressId++; }
     public int nextSlotId()    { return nextSlotId++; }
 }

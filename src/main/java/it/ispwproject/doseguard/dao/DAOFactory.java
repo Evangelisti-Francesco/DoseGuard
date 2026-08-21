@@ -44,6 +44,11 @@ public class DAOFactory {
         return new DoctorDAODB();
     }
 
+    public static ProgressDAO getProgressDAO() {
+        if (MEMORY.equalsIgnoreCase(persistence)) return new ProgressDAOMemory();
+        return new ProgressDAODB();
+    }
+
     public static SpecializationDAO getSpecializationDAO() {
         if (MEMORY.equalsIgnoreCase(persistence)) return new SpecializationDAOMemory();
         return new SpecializationDAODB();

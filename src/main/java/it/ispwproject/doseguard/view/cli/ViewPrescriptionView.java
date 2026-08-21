@@ -49,6 +49,10 @@ public class ViewPrescriptionView {
         return CLIRenderer.chiediConferma(prompt);
     }
 
+    public String chiediCodiceFiscale(String prompt) {
+        return CLIRenderer.chiediCampo(prompt);
+    }
+
     public int chiediScelta(String prompt, int min, int max) {
         return CLIRenderer.chiediScelta(prompt, min, max);
     }
