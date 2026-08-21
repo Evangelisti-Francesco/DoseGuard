@@ -14,7 +14,6 @@ public class Prescription {
 
 
     public Prescription(Doctor doctor, Patient patient, String drug, String dosage, String frequency,LocalDate issueDate) {
-        this.id = id;
         this.doctor = doctor;
         this.patient = patient;
         this.drug = drug;

@@ -36,8 +36,8 @@ public class PrescriptionController {
             throw new DAOException("Paziente non trovato con il codice fiscale fornito: " + patientID);
         }
 
-
-        Prescription prescription = new Prescription(doctor, patient, drug, dosage, frequency,LocalDate.now());
+        LocalDate today = LocalDate.now();
+        Prescription prescription = new Prescription(doctor, patient, drug, dosage, frequency,today);
 
 
         prescriptionDAO.save(prescription);
