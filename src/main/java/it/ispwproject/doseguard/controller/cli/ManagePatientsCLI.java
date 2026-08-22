@@ -60,7 +60,8 @@ public class ManagePatientsCLI extends AbstractCLIState {
                 case 1 -> annotaProgressi(patient);
                 case 2 -> visualizzaStorico(patient);
                 case 0 -> {
-                    return; // Torna alla lista pazienti
+                    goBack(context);
+                    return;
                 }
                 default -> view.mostraMessaggio("❌ Scelta non valida.");
             }
