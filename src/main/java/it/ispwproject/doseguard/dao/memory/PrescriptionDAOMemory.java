@@ -43,7 +43,7 @@ public class PrescriptionDAOMemory implements PrescriptionDAO {
     public synchronized void markAsFulfilled(int prescriptionId, int pharmacistId) throws DAOException {
         Prescription p = memoryMap.get(prescriptionId);
         if (p != null) {
-            p.setPharmacistId(pharmacistId);
+            p.setId(pharmacistId);
         } else {
             throw new DAOException("Ricetta con ID " + prescriptionId + " non trovata.");
         }

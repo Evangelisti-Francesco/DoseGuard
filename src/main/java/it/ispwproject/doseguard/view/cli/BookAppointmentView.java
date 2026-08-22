@@ -52,7 +52,7 @@ public class BookAppointmentView {
 
     public void mostraRiepilogo(AppointmentResponseBean summary) {
         CLIRenderer.sezione("Riepilogo Prenotazione");
-        CLIRenderer.campo("Medico", DOCTOR_PREFIX + summary.getDoctor());
+        CLIRenderer.campo("Medico", DOCTOR_PREFIX + summary.getDoctor().getName());
         CLIRenderer.campo("Specializz.", summary.getSpecialization().getName());
         CLIRenderer.campo("Data", summary.getSlot().getDate().toString());
         CLIRenderer.campo("Orario", summary.getSlot().getStartTime().toString());

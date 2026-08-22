@@ -1,0 +1,170 @@
+/* ═══════════════════════════════════════════════════════
+   DoseGuard – Stylesheet
+   Palette:
+     Primary bg  : #2C3E50 (Blu Notte / Petrolio)
+     Light bg    : #EBF5FB (Azzurro Chiaro Sanitario)
+     Dark text   : #2C3E50
+     Accent      : #3498DB (Blu Chiaro)
+     White       : #FFFFFF
+     Error       : #E74C3C
+     Success     : #27AE60
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Base ────────────────────────────────────────────── */
+
+.root {
+    -fx-font-family: "OpenSans-Regular", "Open Sans", sans-serif;
+    -fx-background-color: #EBF5FB;
+}
+
+.doseguard-background {
+    -fx-background-color: #EBF5FB;
+}
+
+.navbar {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 8 20 8 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0, 0, 1);
+}
+
+.page-topbar {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 10 20 10 16;
+}
+
+/* ── Typography ──────────────────────────────────────── */
+
+.title-label {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2C3E50;
+}
+
+.brand-label {
+    -fx-font-size: 34px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2980B9;
+}
+
+.subtitle-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #5D6D7E;
+}
+
+.role-label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2C3E50;
+}
+
+.page-title,
+.field-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2C3E50;
+}
+
+.welcome-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2C3E50;
+}
+
+.register-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #5D6D7E;
+}
+
+.error-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #E74C3C;
+}
+
+.success-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #27AE60;
+}
+
+/* ── Inputs ──────────────────────────────────────────── */
+
+.text-field,
+.password-field {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #BDC3C7;
+    -fx-padding: 8 12;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused,
+.password-field:focused {
+    -fx-border-color: #3498DB;
+    -fx-border-width: 1.5;
+}
+
+.check-box {
+    -fx-font-size: 13px;
+    -fx-text-fill: #2C3E50;
+}
+
+/* ── ComboBox e ListView ─────────────────────────────── */
+
+.combo-box,
+.list-view {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8;
+    -fx-border-color: #BDC3C7;
+    -fx-border-radius: 8;
+}
+
+.list-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #2C3E50;
+    -fx-font-size: 13px;
+    -fx-padding: 6 12;
+}
+
+.list-cell:hover { -fx-background-color: #EBF5FB; }
+.list-cell:selected { -fx-background-color: #3498DB; -fx-text-fill: white; }
+
+/* ── Buttons ─────────────────────────────────────────── */
+
+.button {
+    -fx-background-color: #3498DB;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.button:hover { -fx-background-color: #2980B9; }
+
+.hyperlink {
+    -fx-text-fill: #2980B9;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+/* ── Cards e Contenitori ─────────────────────────────── */
+
+.info-card,
+.summary-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 12;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2);
+}
+
+/* ── ScrollPane ──────────────────────────────────────── */
+
+.transparent-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}
+
+.transparent-scroll .viewport { -fx-background-color: transparent; }

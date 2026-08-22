@@ -32,8 +32,8 @@ public class PrescriptionDAODB implements PrescriptionDAO {
 
             stmt.setInt(1, prescription.getDoctor().getId());
             stmt.setInt(2, prescription.getPatient().getId());
-            if (prescription.getPharmacistId() != null) {
-                stmt.setInt(3, prescription.getPharmacistId());
+            if (prescription.getId() != 0) {
+                stmt.setInt(3, prescription.getId());
             } else {
                 stmt.setNull(3, Types.INTEGER);
             }

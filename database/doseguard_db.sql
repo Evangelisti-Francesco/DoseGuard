@@ -14,51 +14,94 @@ CREATE TABLE doseguarddb.user (
     id INT AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     surname VARCHAR(100) NOT NULL,
-    dob DATE NOT NULL,
-    gender ENUM('Uomo', 'Donna', 'Altro') NOT NULL,
-    country VARCHAR(50) NOT NULL,
-    city VARCHAR(50) NOT NULL,
+    fiscal_code VARCHAR(16) UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role ENUM('PATIENT', 'CAREGIVER') NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    role ENUM('PATIENT', 'DOCTOR', 'PHARMACIST') NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE doseguarddb.medication (
-    id INT AUTO_INCREMENT,
-    caregiver_id INT NOT NULL,
-    barcode VARCHAR(100) NOT NULL UNIQUE,
-    name VARCHAR(150) NOT NULL,
-    description VARCHAR(500),
-    dosage VARCHAR(50) NOT NULL,
-    total_pills INT NOT NULL,
-    remaining_pills INT NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('AVAILABLE', 'DISCONTINUED') DEFAULT 'AVAILABLE',
-    PRIMARY KEY (id),
-    FOREIGN KEY (caregiver_id)
+CREATE TABLE doseguarddb.doctor_detail (
+    user_id INT NOT NULL,
+    specialization VARCHAR(150) NOT NULL,
+    medical_license_number VARCHAR(50) NOT NULL UNIQUE,
+    PRIMARY KEY (user_id),
+    FOREIGN KEY (user_id)
         REFERENCES user(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE doseguarddb.intake_schedule (
+CREATE TABLE doseguarddb.prescription (
+    id INT AUTO_INCREMENT,
+    doctor_id INT NOT NULL,
+    patient_id INT NOT NULL,
+    drug VARCHAR(150) NOT NULL,
+    dosage VARCHAR(100) NOT NULL,
+    frequency VARCHAR(100) NOT NULL,
+    issue_date DATE NOT NULL,
+    status ENUM('PENDING', 'DISPENSED', 'CANCELLED') DEFAULT 'PENDING',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (doctor_id)
+        REFERENCES user(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (patient_id)
+        REFERENCES user(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE doseguarddb.time_slot (
+    id INT AUTO_INCREMENT,
+    doctor_id INT NOT NULL,
+    date DATE NOT NULL,
+    start_time TIME NOT NULL,
+    available BOOLEAN DEFAULT TRUE,
+    PRIMARY KEY (id),
+    FOREIGN KEY (doctor_id)
+        REFERENCES user(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE doseguarddb.appointment (
     id INT AUTO_INCREMENT,
     patient_id INT NOT NULL,
-    medication_id INT NOT NULL,
-    intake_time DATETIME NOT NULL,
-    dosage_prescribed VARCHAR(50) NOT NULL,
-    notes VARCHAR(255) DEFAULT NULL,
-    status ENUM('TO_TAKE', 'TAKEN', 'SKIPPED') DEFAULT 'TO_TAKE',
+    doctor_id INT NOT NULL,
+    slot_id INT NOT NULL,
+    status ENUM('PENDING', 'CONFIRMED', 'CANCELLED') DEFAULT 'PENDING',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (patient_id)
         REFERENCES user(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (medication_id)
-        REFERENCES medication(id)
+    FOREIGN KEY (doctor_id)
+        REFERENCES user(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (slot_id)
+        REFERENCES time_slot(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE doseguarddb.therapy_schedule (
+    id INT AUTO_INCREMENT,
+    prescription_id INT NOT NULL,
+    patient_id INT NOT NULL,
+    scheduled_time DATETIME NOT NULL,
+    taken BOOLEAN DEFAULT FALSE,
+    notes VARCHAR(500),
+    PRIMARY KEY (id),
+    FOREIGN KEY (prescription_id)
+        REFERENCES prescription(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (patient_id)
+        REFERENCES user(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 ) ENGINE=InnoDB;
@@ -68,12 +111,14 @@ CREATE TABLE doseguarddb.intake_schedule (
 -- ══════════════════════════════
 
 CREATE INDEX idx_user_email ON doseguarddb.user (email);
-CREATE INDEX idx_medication_barcode ON doseguarddb.medication (barcode);
-CREATE INDEX idx_intake_patient ON doseguarddb.intake_schedule (patient_id);
-CREATE INDEX idx_intake_medication ON doseguarddb.intake_schedule (medication_id);
+CREATE INDEX idx_user_fiscal_code ON doseguarddb.user (fiscal_code);
+CREATE INDEX idx_prescription_patient ON doseguarddb.prescription (patient_id);
+CREATE INDEX idx_prescription_doctor ON doseguarddb.prescription (doctor_id);
+CREATE INDEX idx_timeslot_doctor ON doseguarddb.time_slot (doctor_id, date);
+CREATE INDEX idx_appointment_patient ON doseguarddb.appointment (patient_id);
 
 -- ══════════════════════════════
---  STORED PROCEDURES
+--  STORED PROCEDURE
 -- ══════════════════════════════
 
 DELIMITER $$
@@ -81,7 +126,7 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS doseguarddb.login$$
 CREATE PROCEDURE doseguarddb.login(
     IN p_email VARCHAR(100),
-    IN p_password VARCHAR(255),
+    IN p_password VARCHAR(100),
     OUT p_id INT,
     OUT p_name VARCHAR(100),
     OUT p_surname VARCHAR(100),
@@ -99,110 +144,112 @@ BEGIN
     END IF;
 END$$
 
-DROP PROCEDURE IF EXISTS doseguarddb.confirm_intake$$
-CREATE PROCEDURE doseguarddb.confirm_intake(
-    IN  p_intake_id INT,
-    IN  p_medication_id INT,
-    OUT p_success BOOLEAN
-)
-BEGIN
-    -- Decrementa la giacenza delle pillole se disponibili
-    UPDATE medication
-    SET remaining_pills = remaining_pills - 1
-    WHERE id = p_medication_id
-      AND remaining_pills > 0;
-
-    IF (ROW_COUNT() > 0) THEN
-        UPDATE intake_schedule
-        SET status = 'TAKEN'
-        WHERE id = p_intake_id;
-
-        SET p_success = TRUE;
-    ELSE
-        SET p_success = FALSE;
-    END IF;
-END$$
-
 DELIMITER ;
 
 -- ══════════════════════════════
---  USERS MYSQL
+--  USERS MYSQL & PERMISSIONS
 -- ══════════════════════════════
 
 DROP USER IF EXISTS 'dg_login'@'localhost';
 CREATE USER 'dg_login'@'localhost' IDENTIFIED BY 'dg_login';
 GRANT EXECUTE ON PROCEDURE doseguarddb.login TO 'dg_login'@'localhost';
-GRANT SELECT, INSERT ON doseguarddb.user TO 'dg_login'@'localhost';
+GRANT SELECT ON doseguarddb.user TO 'dg_login'@'localhost';
 
-DROP USER IF EXISTS 'dg_paziente'@'localhost';
-CREATE USER 'dg_paziente'@'localhost' IDENTIFIED BY 'dg_paziente';
-GRANT EXECUTE ON PROCEDURE doseguarddb.login TO 'dg_paziente'@'localhost';
-GRANT EXECUTE ON PROCEDURE doseguarddb.confirm_intake TO 'dg_paziente'@'localhost';
-GRANT SELECT ON doseguarddb.medication TO 'dg_paziente'@'localhost';
-GRANT SELECT ON doseguarddb.user TO 'dg_paziente'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON doseguarddb.intake_schedule TO 'dg_paziente'@'localhost';
-GRANT UPDATE (email, password) ON doseguarddb.user TO 'dg_paziente'@'localhost';
-GRANT UPDATE ON doseguarddb.medication TO 'dg_paziente'@'localhost';
+DROP USER IF EXISTS 'dg_patient'@'localhost';
+CREATE USER 'dg_patient'@'localhost' IDENTIFIED BY 'dg_patient';
+GRANT EXECUTE ON PROCEDURE doseguarddb.login TO 'dg_patient'@'localhost';
+GRANT SELECT ON doseguarddb.user TO 'dg_patient'@'localhost';
+GRANT SELECT ON doseguarddb.doctor_detail TO 'dg_patient'@'localhost';
+GRANT SELECT ON doseguarddb.prescription TO 'dg_patient'@'localhost';
+GRANT SELECT ON doseguarddb.time_slot TO 'dg_patient'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON doseguarddb.appointment TO 'dg_patient'@'localhost';
+GRANT SELECT, UPDATE ON doseguarddb.therapy_schedule TO 'dg_patient'@'localhost';
 
-DROP USER IF EXISTS 'dg_caregiver'@'localhost';
-CREATE USER 'dg_caregiver'@'localhost' IDENTIFIED BY 'dg_caregiver';
-GRANT EXECUTE ON PROCEDURE doseguarddb.login TO 'dg_caregiver'@'localhost';
-GRANT SELECT ON doseguarddb.user TO 'dg_caregiver'@'localhost';
-GRANT SELECT, INSERT, UPDATE, DELETE ON doseguarddb.medication TO 'dg_caregiver'@'localhost';
-GRANT SELECT ON doseguarddb.intake_schedule TO 'dg_caregiver'@'localhost';
-GRANT SELECT, UPDATE ON doseguarddb.intake_schedule TO 'dg_caregiver'@'localhost';
-GRANT UPDATE (email, password) ON doseguarddb.user TO 'dg_caregiver'@'localhost';
+DROP USER IF EXISTS 'dg_doctor'@'localhost';
+CREATE USER 'dg_doctor'@'localhost' IDENTIFIED BY 'dg_doctor';
+GRANT EXECUTE ON PROCEDURE doseguarddb.login TO 'dg_doctor'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON doseguarddb.prescription TO 'dg_doctor'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON doseguarddb.time_slot TO 'dg_doctor'@'localhost';
+GRANT SELECT, UPDATE ON doseguarddb.appointment TO 'dg_doctor'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON doseguarddb.therapy_schedule TO 'dg_doctor'@'localhost';
+GRANT SELECT ON doseguarddb.user TO 'dg_doctor'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON doseguarddb.doctor_detail TO 'dg_doctor'@'localhost';
+
+DROP USER IF EXISTS 'dg_pharmacist'@'localhost';
+CREATE USER 'dg_pharmacist'@'localhost' IDENTIFIED BY 'dg_pharmacist';
+GRANT EXECUTE ON PROCEDURE doseguarddb.login TO 'dg_pharmacist'@'localhost';
+GRANT SELECT, UPDATE ON doseguarddb.prescription TO 'dg_pharmacist'@'localhost';
+GRANT SELECT ON doseguarddb.user TO 'dg_pharmacist'@'localhost';
+
 FLUSH PRIVILEGES;
 
 -- ══════════════════════════════
 --  DOSEGUARD — TEST DATA
+--  password: 'password123'
 -- ══════════════════════════════
 USE doseguarddb;
 
--- ══════════════════════════════
---  USERS
---  password: 'password123' (hash SHA-256 fittizio)
--- ══════════════════════════════
+-- ── Users ────────────────────────────────────────────────────
 
-INSERT INTO user (name, surname, dob, gender, country, city, email, password, role) VALUES
--- Pazienti
-('Anna',    'Bianchi', '2003-01-13', 'Donna', 'Italia', 'Roma',   'annabianchi@gmail.com',      'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PATIENT'),
-('Martina', 'Maurizi', '2000-07-10', 'Donna', 'Italia', 'Roma',   'martinamaurizi30@gmail.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PATIENT'),
-('Marco',   'Rossi',   '1999-05-22', 'Uomo',  'Italia', 'Milano', 'marco.rossi@email.com',      'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PATIENT'),
--- Caregiver / Medici
-('Luca',    'Messina', '1985-03-14', 'Uomo',  'Italia', 'Roma',   'dr.messina@doseguard.it',     'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'CAREGIVER'),
-('Sara',    'Cassino', '1990-11-05', 'Donna', 'Italia', 'Roma',   'dr.cassino@doseguard.it',     'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'CAREGIVER');
+INSERT INTO user (id, name, surname, fiscal_code, email, password, role) VALUES
+-- Patients
+(1, 'Mario',     'Rossi',     'RSSMRA80A01H501U', 'mario.rossi@test.com',     'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PATIENT'),
+(2, 'Laura',     'Bianchi',   'BNCLRA85M42F205Z', 'laura.bianchi@test.com',   'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PATIENT'),
+(3, 'Giuseppe',  'Verdi',     'VVRGSP90B10L219X', 'giuseppe.verdi@test.com',  'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PATIENT'),
 
--- ══════════════════════════════
---  MEDICATIONS
--- ══════════════════════════════
+-- Doctors
+(4, 'Andrea',    'Neri',      'NRNDR75C15H501Y', 'dr.neri@test.com',          'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR'),
+(5, 'Francesca', 'Ferrari',   'FRRFRN78D50F205W', 'dr.ferrari@test.com',       'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR'),
 
-INSERT INTO medication (caregiver_id, barcode, name, description, dosage, total_pills, remaining_pills, price) VALUES
--- Registrati da Dr. Messina (Caregiver ID 4)
-(4, 'A800123456', 'Tachipirina', 'Paracetamolo per stati febbrili', '1000mg', 30, 28, 7.50),
-(4, 'A800987654', 'Otopax', 'Gocce auricolari per otite', '5ml', 10, 10, 12.00),
-(4, 'A800112233', 'Augmentin', 'Antibiotico ad ampio spettro', '875mg + 125mg', 12, 4, 15.30),
-(4, 'A800445566', 'Brufen', 'Antinfiammatorio e analgesico', '600mg', 30, 25, 9.80),
--- Registrati da Dr.ssa Cassino (Caregiver ID 5)
-(5, 'A800778899', 'Eutirox', 'Trattamento per tiroide', '50mcg', 50, 48, 4.20),
-(5, 'A800990011', 'Xanax', 'Ansiolitico a breve durata', '0.50mg', 20, 18, 8.90);
+-- Pharmacists
+(6, 'Stefano',   'Russo',     'RSSSFN82E20L219K', 'farmacia.russo@test.com',  'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PHARMACIST');
 
--- ══════════════════════════════
---  INTAKE SCHEDULES
--- ══════════════════════════════
+-- ── Doctor Details ──────────────────────────────────────────
 
-INSERT INTO intake_schedule (patient_id, medication_id, intake_time, dosage_prescribed, notes, status, created_at) VALUES
--- Anna ha una compressa di Tachipirina da assumere
-(1, 1, '2026-08-16 12:00:00', '1 compressa', 'Dopo i pasti', 'TO_TAKE', NOW() - INTERVAL 2 DAY),
+INSERT INTO doctor_detail (user_id, specialization, medical_license_number) VALUES
+(4, 'Medicina Generale', 'MI-123456'),
+(5, 'Cardiologia',        'RM-654321');
 
--- Martina: Tachipirina assunta con successo
-(2, 1, '2026-08-15 08:00:00', '1 compressa', 'A stomaco pieno', 'TAKEN', NOW() - INTERVAL 1 DAY),
+-- ── Prescriptions ───────────────────────────────────────────
 
--- Martina: Augmentin da prendere stasera
-(2, 3, '2026-08-16 20:00:00', '1 compressa', 'Prendere con un bicchiere d acqua', 'TO_TAKE', NOW() - INTERVAL 5 HOUR),
+INSERT INTO prescription (id, doctor_id, patient_id, drug, dosage, frequency, issue_date, status) VALUES
+(1, 4, 1, 'Tachipirina', '1000 mg', '1 compressa ogni 8 ore', '2026-06-01', 'PENDING'),
+(2, 4, 1, 'Augmentin',   '1 gr',    '1 compressa ogni 12 ore', '2026-05-20', 'DISPENSED'),
+(3, 5, 2, 'Brufen',       '600 mg',  '1 bustina al bisogno',    '2026-06-05', 'PENDING');
 
--- Martina: Brufen saltato
-(2, 4, '2026-08-14 14:00:00', '1 compressa', 'In caso di dolore forte', 'SKIPPED', NOW() - INTERVAL 2 DAY),
+-- ── Time Slots (Inclusi slot specifici per Dr. Andrea Neri - doctor_id: 4) ──
 
--- Marco: Eutirox da assumere al mattino
-(3, 5, '2026-08-17 07:30:00', '1 compressa', 'A digiuno', 'TO_TAKE', NOW() - INTERVAL 12 HOUR);
+INSERT INTO time_slot (id, doctor_id, date, start_time, available) VALUES
+-- Slot Dr. Andrea Neri (ID 4)
+(1,  4, '2026-09-01', '09:00:00', FALSE),
+(2,  4, '2026-09-01', '09:30:00', FALSE),
+(3,  4, '2026-09-01', '10:00:00', TRUE),
+(4,  4, '2026-09-01', '10:30:00', TRUE),
+(5,  4, '2026-09-02', '15:00:00', FALSE),
+(6,  4, '2026-09-02', '15:30:00', TRUE),
+(7,  4, '2026-09-02', '16:00:00', FALSE),
+(8,  4, '2026-09-03', '11:00:00', TRUE),
+(9,  4, '2026-09-03', '11:30:00', TRUE),
+
+-- Slot Dr.ssa Francesca Ferrari (ID 5)
+(10, 5, '2026-09-01', '14:00:00', TRUE),
+(11, 5, '2026-09-01', '14:30:00', FALSE);
+
+-- ── Appointments ────────────────────────────────────────────
+
+INSERT INTO appointment (id, patient_id, doctor_id, slot_id, status) VALUES
+-- Appuntamenti con il Dr. Andrea Neri (doctor_id: 4)
+(1, 1, 4, 1, 'CONFIRMED'),  -- Mario Rossi
+(2, 2, 4, 2, 'CONFIRMED'),  -- Laura Bianchi
+(3, 3, 4, 5, 'PENDING'),    -- Giuseppe Verdi
+(4, 1, 4, 7, 'CANCELLED'),  -- Mario Rossi (cancellato)
+
+-- Appuntamento con la Dr.ssa Francesca Ferrari (doctor_id: 5)
+(5, 2, 5, 11, 'CONFIRMED'); -- Laura Bianchi
+
+-- ── Therapy Schedules ───────────────────────────────────────
+
+INSERT INTO therapy_schedule (prescription_id, patient_id, scheduled_time, taken, notes) VALUES
+(1, 1, '2026-06-01 08:00:00', TRUE,  'Assunta regolarmente a colazione'),
+(1, 1, '2026-06-01 16:00:00', TRUE,  'Assunta nel pomeriggio'),
+(1, 1, '2026-06-01 23:00:00', FALSE, 'Dimenticata');
