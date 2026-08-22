@@ -37,6 +37,10 @@ public class ViewPrescriptionView {
         CLIRenderer.successo(messaggio);
     }
 
+    public void attesaInvio() {
+        CLIRenderer.chiediCampo("Premere INVIO per continuare");
+    }
+
     public void mostraErrore(String messaggio) {
         CLIRenderer.errore(messaggio);
     }

@@ -33,7 +33,7 @@ public class LoginCLI extends AbstractCLIState {
             switch (result) {
                 case SUCCESSO_PATIENT -> goNext(context, new DashboardPatientCLI());
                 case SUCCESSO_DOCTOR  -> goNext(context, new DashboardDoctorCLI());
-                case SUCCESSO_PHARMACIST   -> goNext(context, new DashboardAdminCLI());
+                case SUCCESSO_PHARMACIST   -> goNext(context, new DashboardPharmacistCLI());
             }
         } catch (LoginException e) {
             view.mostraErrore(e.getMessage());

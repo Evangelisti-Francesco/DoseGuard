@@ -1,6 +1,7 @@
 package it.ispwproject.doseguard.controller.cli;
 
 import it.ispwproject.doseguard.model.Doctor;
+import it.ispwproject.doseguard.model.Pharmacist;
 import it.ispwproject.doseguard.model.User;
 import it.ispwproject.doseguard.pattern.state.AbstractCLIState;
 import it.ispwproject.doseguard.pattern.state.CLIStateMachine;
@@ -32,26 +33,33 @@ public class ViewPrescriptionsCLI extends AbstractCLIState {
             List<PrescriptionBean> prescriptions = new ArrayList<>();
 
             if (loggedUser instanceof Patient patient) {
-                // Il paziente vede le sue prescrizioni
+                // Il paziente vede direttamente le sue prescrizioni
                 prescriptions = prescriptionController.getPatientPrescriptions(patient.getFiscalCode());
 
-            } else if (loggedUser instanceof Doctor) {
-                // Il medico inserisce il codice fiscale del paziente di cui vuole vedere le ricette
+            } else if (loggedUser instanceof Doctor || loggedUser instanceof Pharmacist) {
+                // Medico e Farmacista cercano le prescrizioni tramite codice fiscale
                 String fiscalCode = view.chiediCodiceFiscale("Inserisci il codice fiscale del paziente");
-                prescriptions = prescriptionController.getPatientPrescriptions(fiscalCode);
 
-            } else {
-                view.mostraErrore("Ruolo non autorizzato ad accedere a questa sezione.");
-                goBack(context);
-                return;
+                if (fiscalCode == null || fiscalCode.isBlank()) {
+                    goBack(context);
+                    return;
+                }
+
+                prescriptions = prescriptionController.getPatientPrescriptions(fiscalCode);
             }
 
-            view.mostraPrescrizioni(prescriptions);
+            if (prescriptions.isEmpty()) {
+                view.mostraMessaggio("Nessuna prescrizione trovata.");
+            } else {
+                view.mostraPrescrizioni(prescriptions);
+            }
+
+            view.attesaInvio();
+            goBack(context);
 
         } catch (DAOException e) {
-            view.mostraErrore(e.getMessage());
+            view.mostraErrore("Errore nel recupero delle prescrizioni: " + e.getMessage());
+            goBack(context);
         }
-
-        goBack(context);
     }
 }
