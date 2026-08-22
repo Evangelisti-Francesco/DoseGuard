@@ -99,8 +99,8 @@
     -fx-font-size: 14px;
 }
 
-.text-field:focused,
-.password-field:focused {
+.text-field:focus,
+.password-field:focus {
     -fx-border-color: #3498DB;
     -fx-border-width: 1.5;
 }
@@ -127,8 +127,8 @@
     -fx-padding: 6 12;
 }
 
-.list-cell:hover { -fx-background-color: #EBF5FB; }
-.list-cell:selected { -fx-background-color: #3498DB; -fx-text-fill: white; }
+.list-cell:filled:hover { -fx-background-color: #EBF5FB; }
+.list-cell:filled:selected { -fx-background-color: #3498DB; -fx-text-fill: white; }
 
 /* ── Buttons ─────────────────────────────────────────── */
 
@@ -163,7 +163,6 @@
 
 .transparent-scroll {
     -fx-background-color: transparent;
-    -fx-background: transparent;
     -fx-border-color: transparent;
 }
 
