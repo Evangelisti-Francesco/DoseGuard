@@ -17,6 +17,7 @@ public class LoginGUIView {
     public final PasswordField passwordField = new PasswordField();
     public final Button loginBtn = new Button("Sign In");
     public final Button registerBtn = new Button("Forgot Password?");
+    public final Hyperlink signupLink = new Hyperlink("Sign up");
     public final Label errorLabel = new Label();
 
     private static final String BRAND_BLUE = "#2551D8";
@@ -36,51 +37,52 @@ public class LoginGUIView {
 
         loginBtn.setOnAction(e -> onLogin.run());
         registerBtn.setOnAction(e -> onRegister.run());
+        signupLink.setOnAction(e -> onRegister.run());
 
+        // Card principale con altezza bilanciata per mostrarsi interamente con margine sopra e sotto
         HBox cardContainer = new HBox();
-        cardContainer.setMaxWidth(900);
-        cardContainer.setMaxHeight(520);
-        cardContainer.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.12), 15, 0, 0, 6);");
+        cardContainer.setMaxWidth(1100);
+        cardContainer.setMaxHeight(640);
+        cardContainer.setStyle("-fx-background-color: white; -fx-background-radius: 24; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 20, 0, 0, 8);");
 
         // ==========================================
-        // COLONNA DI SINISTRA (BLU + IMMAGINE FULL WIDTH)
+        // COLONNA DI SINISTRA
         // ==========================================
         VBox leftSide = new VBox(0);
-        leftSide.setPrefWidth(320);
-        leftSide.setMinWidth(320);
-        leftSide.setMaxWidth(320);
-        leftSide.setStyle("-fx-background-color: " + BRAND_BLUE + "; -fx-background-radius: 20 0 0 20;");
+        leftSide.setPrefWidth(400);
+        leftSide.setMinWidth(400);
+        leftSide.setMaxWidth(400);
+        leftSide.setStyle("-fx-background-color: " + BRAND_BLUE + "; -fx-background-radius: 24 0 0 24;");
 
         ImageView doctorImage = new ImageView();
-        doctorImage.setFitWidth(320);
-        doctorImage.setFitHeight(200);
+        doctorImage.setFitWidth(400);
+        doctorImage.setFitHeight(250);
         doctorImage.setPreserveRatio(false);
 
         InputStream imgStream = getClass().getResourceAsStream(IMAGE_PATH);
         if (imgStream != null) {
             doctorImage.setImage(new Image(imgStream));
 
-            // Clip arrotondato solo in alto a sinistra
-            Rectangle clip = new Rectangle(320, 200);
-            clip.setArcWidth(20);
-            clip.setArcHeight(20);
+            Rectangle clip = new Rectangle(400, 250);
+            clip.setArcWidth(24);
+            clip.setArcHeight(24);
             doctorImage.setClip(clip);
         }
 
-        VBox bannerBox = new VBox(12);
-        bannerBox.setPadding(new Insets(20, 24, 20, 24));
+        VBox bannerBox = new VBox(16);
+        bannerBox.setPadding(new Insets(25, 30, 25, 30));
 
         Label leftLogo = new Label("DoseGuard");
-        leftLogo.setStyle("-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;");
+        leftLogo.setStyle("-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;");
 
-        VBox quoteBox = new VBox(4);
-        quoteBox.setStyle("-fx-border-color: white; -fx-border-width: 0 0 0 3; -fx-padding: 0 0 0 12;");
+        VBox quoteBox = new VBox(6);
+        quoteBox.setStyle("-fx-border-color: white; -fx-border-width: 0 0 0 4; -fx-padding: 0 0 0 16;");
 
         Label titleWelcome = new Label("Welcome to DoseGuard");
-        titleWelcome.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
+        titleWelcome.setStyle("-fx-text-fill: white; -fx-font-size: 17px; -fx-font-weight: bold;");
 
         Label subText = new Label("Your health, perfectly scheduled.\nEvery dose, on time.");
-        subText.setStyle("-fx-text-fill: #E0E7FF; -fx-font-size: 12px;");
+        subText.setStyle("-fx-text-fill: #E0E7FF; -fx-font-size: 14px;");
 
         quoteBox.getChildren().addAll(titleWelcome, subText);
         bannerBox.getChildren().addAll(leftLogo, quoteBox);
@@ -89,61 +91,72 @@ public class LoginGUIView {
         leftSide.getChildren().addAll(doctorImage, bannerBox);
 
         // ==========================================
-        // COLONNA DI DESTRA (FORM LOGIN)
+        // COLONNA DI DESTRA
         // ==========================================
         VBox rightSide = new VBox(12);
-        rightSide.setPadding(new Insets(30, 40, 30, 40));
+        rightSide.setPadding(new Insets(30, 50, 30, 50));
         rightSide.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(rightSide, Priority.ALWAYS);
 
         Label logoRight = new Label("DoseGuard");
-        logoRight.setStyle("-fx-text-fill: " + BRAND_BLUE + "; -fx-font-size: 24px; -fx-font-weight: bold;");
+        logoRight.setStyle("-fx-text-fill: " + BRAND_BLUE + "; -fx-font-size: 30px; -fx-font-weight: bold;");
 
         Label mainTitle = new Label("Login");
-        mainTitle.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;");
+        mainTitle.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #111827;");
 
         Label subtitle = new Label("Enter your credentials to access your health dashboard");
-        subtitle.setStyle("-fx-font-size: 13px; -fx-text-fill: #6B7280;");
+        subtitle.setStyle("-fx-font-size: 14px; -fx-text-fill: #6B7280;");
 
         Label emailLabel = new Label("Email");
-        emailLabel.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1F2937;");
+        emailLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1F2937;");
 
         emailField.setPromptText("Email address");
-        emailField.setPrefHeight(38);
+        emailField.setPrefHeight(44);
         emailField.setMaxWidth(Double.MAX_VALUE);
-        emailField.setStyle("-fx-background-color: #E5E7EB; -fx-background-radius: 18; -fx-padding: 0 14; -fx-border-color: transparent;");
+        emailField.setStyle("-fx-background-color: #E5E7EB; -fx-background-radius: 22; -fx-padding: 0 16; -fx-font-size: 14px; -fx-border-color: transparent;");
 
         Label passLabel = new Label("Password");
-        passLabel.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1F2937;");
+        passLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1F2937;");
 
         passwordField.setPromptText("••••••••••••••");
-        passwordField.setPrefHeight(38);
+        passwordField.setPrefHeight(44);
         passwordField.setMaxWidth(Double.MAX_VALUE);
-        passwordField.setStyle("-fx-background-color: #E5E7EB; -fx-background-radius: 18; -fx-padding: 0 14; -fx-border-color: transparent;");
+        passwordField.setStyle("-fx-background-color: #E5E7EB; -fx-background-radius: 22; -fx-padding: 0 16; -fx-font-size: 14px; -fx-border-color: transparent;");
 
-        registerBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: " + BRAND_BLUE + "; -fx-font-size: 12px; -fx-cursor: hand;");
+        registerBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: " + BRAND_BLUE + "; -fx-font-size: 13px; -fx-cursor: hand;");
         HBox forgotBox = new HBox(registerBtn);
         forgotBox.setAlignment(Pos.CENTER_RIGHT);
 
-        loginBtn.setPrefHeight(42);
+        loginBtn.setPrefHeight(46);
         loginBtn.setMaxWidth(Double.MAX_VALUE);
-        loginBtn.setStyle("-fx-background-color: " + BRAND_BLUE + "; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand;");
+        loginBtn.setStyle("-fx-background-color: " + BRAND_BLUE + "; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 23; -fx-cursor: hand;");
 
         errorLabel.setTextFill(Color.RED);
-        errorLabel.setStyle("-fx-font-size: 12px;");
+        errorLabel.setStyle("-fx-font-size: 13px;");
+
+        Label noAccountLabel = new Label("Don't have an account?");
+        noAccountLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #6B7280;");
+
+        signupLink.setStyle("-fx-font-size: 14px; -fx-text-fill: " + BRAND_BLUE + "; -fx-font-weight: bold; -fx-cursor: hand;");
+
+        HBox signupBox = new HBox(6, noAccountLabel, signupLink);
+        signupBox.setAlignment(Pos.CENTER);
+        signupBox.setPadding(new Insets(6, 0, 0, 0));
 
         rightSide.getChildren().addAll(
                 logoRight, mainTitle, subtitle,
                 emailLabel, emailField,
                 passLabel, passwordField,
                 forgotBox,
-                loginBtn, errorLabel
+                loginBtn, errorLabel,
+                signupBox
         );
 
         cardContainer.getChildren().addAll(leftSide, rightSide);
 
+        // Padding simmetrico e bilanciato sopra e sotto per mostrare tutto il riquadro
         StackPane centerContainer = new StackPane(cardContainer);
-        centerContainer.setPadding(new Insets(24));
+        centerContainer.setPadding(new Insets(20));
         root.setCenter(centerContainer);
 
         return root;

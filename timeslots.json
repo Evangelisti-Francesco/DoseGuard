@@ -2,85 +2,183 @@
   {
     "id": 1,
     "doctor": {
-      "id": 10,
-      "name": "Gabriele",
-      "surname": "Conti",
-      "email": "gabriele.conti@doseguard.it",
-      "role": "DOCTOR",
-      "specialization": "Cardiology"
+      "specialization": "Medicina Generale",
+      "id": 4,
+      "name": "Andrea",
+      "surname": "Neri",
+      "email": "dr.neri@test.com",
+      "role": "DOCTOR"
     },
     "date": "2026-09-01",
     "startTime": "09:00",
-    "available": true
+    "available": false
   },
   {
     "id": 2,
     "doctor": {
-      "id": 10,
-      "name": "Gabriele",
-      "surname": "Conti",
-      "email": "gabriele.conti@doseguard.it",
-      "role": "DOCTOR",
-      "specialization": "Cardiology"
+      "specialization": "Medicina Generale",
+      "id": 4,
+      "name": "Andrea",
+      "surname": "Neri",
+      "email": "dr.neri@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-09-01",
+    "startTime": "09:30",
+    "available": false
+  },
+  {
+    "id": 3,
+    "doctor": {
+      "specialization": "Medicina Generale",
+      "id": 4,
+      "name": "Andrea",
+      "surname": "Neri",
+      "email": "dr.neri@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-09-01",
+    "startTime": "10:00",
+    "available": true
+  },
+  {
+    "id": 4,
+    "doctor": {
+      "specialization": "Medicina Generale",
+      "id": 4,
+      "name": "Andrea",
+      "surname": "Neri",
+      "email": "dr.neri@test.com",
+      "role": "DOCTOR"
     },
     "date": "2026-09-01",
     "startTime": "10:30",
     "available": true
   },
   {
-    "id": 3,
+    "id": 5,
     "doctor": {
-      "id": 10,
-      "name": "Gabriele",
-      "surname": "Conti",
-      "email": "gabriele.conti@doseguard.it",
-      "role": "DOCTOR",
-      "specialization": "Cardiology"
+      "specialization": "Medicina Generale",
+      "id": 4,
+      "name": "Andrea",
+      "surname": "Neri",
+      "email": "dr.neri@test.com",
+      "role": "DOCTOR"
     },
-    "date": "2026-09-01",
+    "date": "2026-09-02",
     "startTime": "15:00",
     "available": false
   },
   {
-    "id": 4,
+    "id": 6,
     "doctor": {
-      "id": 10,
-      "name": "Gabriele",
-      "surname": "Conti",
-      "email": "gabriele.conti@doseguard.it",
-      "role": "DOCTOR",
-      "specialization": "Cardiology"
+      "specialization": "Medicina Generale",
+      "id": 4,
+      "name": "Andrea",
+      "surname": "Neri",
+      "email": "dr.neri@test.com",
+      "role": "DOCTOR"
     },
     "date": "2026-09-02",
+    "startTime": "15:30",
+    "available": true
+  },
+  {
+    "id": 7,
+    "doctor": {
+      "specialization": "Medicina Generale",
+      "id": 4,
+      "name": "Andrea",
+      "surname": "Neri",
+      "email": "dr.neri@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-09-02",
+    "startTime": "16:00",
+    "available": false
+  },
+  {
+    "id": 8,
+    "doctor": {
+      "specialization": "Medicina Generale",
+      "id": 4,
+      "name": "Andrea",
+      "surname": "Neri",
+      "email": "dr.neri@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-09-03",
     "startTime": "11:00",
     "available": true
   },
   {
-    "id": 5,
+    "id": 9,
     "doctor": {
-      "id": 10,
-      "name": "Gabriele",
-      "surname": "Conti",
-      "email": "gabriele.conti@doseguard.it",
-      "role": "DOCTOR",
-      "specialization": "Cardiology"
+      "specialization": "Medicina Generale",
+      "id": 4,
+      "name": "Andrea",
+      "surname": "Neri",
+      "email": "dr.neri@test.com",
+      "role": "DOCTOR"
     },
-    "date": "2026-09-02",
-    "startTime": "16:30",
+    "date": "2026-09-03",
+    "startTime": "11:30",
     "available": true
   },
   {
-    "id": 6,
+    "id": 10,
     "doctor": {
-      "id": 10,
-      "name": "Gabriele",
-      "surname": "Conti",
-      "email": "gabriele.conti@doseguard.it",
-      "role": "DOCTOR",
-      "specialization": "Cardiology"
+      "specialization": "Cardiologia",
+      "id": 5,
+      "name": "Francesca",
+      "surname": "Ferrari",
+      "email": "dr.ferrari@test.com",
+      "role": "DOCTOR"
     },
-    "date": "2026-09-03",
-    "startTime": "08:30",
+    "date": "2026-09-01",
+    "startTime": "14:00",
+    "available": true
+  },
+  {
+    "id": 11,
+    "doctor": {
+      "specialization": "Cardiologia",
+      "id": 5,
+      "name": "Francesca",
+      "surname": "Ferrari",
+      "email": "dr.ferrari@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-09-01",
+    "startTime": "14:30",
     "available": false
+  },
+  {
+    "id": 12,
+    "doctor": {
+      "specialization": "Medicina Generale",
+      "id": 7,
+      "name": "Marco",
+      "surname": "Rossi",
+      "email": "marco.rossi@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-09-01",
+    "startTime": "11:00",
+    "available": false
+  },
+  {
+    "id": 13,
+    "doctor": {
+      "specialization": "Cardiologia",
+      "id": 8,
+      "name": "Elena",
+      "surname": "Gialli",
+      "email": "elena.gialli@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-09-02",
+    "startTime": "10:00",
+    "available": true
   }
 ]

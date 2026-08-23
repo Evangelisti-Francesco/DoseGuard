@@ -70,7 +70,7 @@ public class DemoDataStore {
                 "Specialista in Cardiologia con 10 anni di esperienza.");
         Doctor d2 = new Doctor(4, "Dr.ssa Laura", "Neri", "laura@demo", null,
                 "Dermatologa ed esperta in medicina estetica.");
-         Pharmacist ph1 = new Pharmacist(5,"Massimiliano","Gialli","pharmacist@demo",null,"Farmacia Centrale");
+        Pharmacist ph1 = new Pharmacist(5,"Massimiliano","Gialli","pharmacist@demo",null,"Farmacia Centrale");
 
         users.add(p1);
         users.add(p2);

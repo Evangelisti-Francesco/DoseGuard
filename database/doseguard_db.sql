@@ -224,7 +224,9 @@ INSERT INTO user (id, name, surname, fiscal_code, email, password, role) VALUES
 (3, 'Giuseppe',  'Verdi',     'VVRGSP90B10L219X', 'giuseppe.verdi@test.com',   'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PATIENT'),
 (4, 'Andrea',    'Neri',      'NRNDR75C15H501Y',  'dr.neri@test.com',          'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR'),
 (5, 'Francesca', 'Ferrari',   'FRRFRN78D50F205W', 'dr.ferrari@test.com',       'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR'),
-(6, 'Stefano',   'Russo',     'RSSSFN82E20L219K', 'farmacia.russo@test.com',   'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PHARMACIST');
+(6, 'Stefano',   'Russo',     'RSSSFN82E20L219K', 'farmacia.russo@test.com',   'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PHARMACIST'),
+(7, 'Marco', 'Rossi', 'RSSMRC80A01H501V', 'marco.rossi@test.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR'),
+(8, 'Elena', 'Gialli', 'GLLLNE85M42F205Y', 'elena.gialli@test.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR');
 
 -- Patient Details
 INSERT INTO patient_detail (user_id, fiscal_code, medical_history) VALUES
@@ -235,7 +237,9 @@ INSERT INTO patient_detail (user_id, fiscal_code, medical_history) VALUES
 -- Doctor Details
 INSERT INTO doctor_detail (user_id, specialization, medical_license) VALUES
 (4, 'Medicina Generale', 'MI-123456'),
-(5, 'Cardiologia',        'RM-654321');
+(5, 'Cardiologia',        'RM-654321'),
+(7, 'Medicina Generale', 'MI-998877'),
+(8, 'Cardiologia', 'RM-112233');
 
 -- Pharmacist Details
 INSERT INTO pharmacist_detail (user_id, pharmacy_name, license_number) VALUES
@@ -259,7 +263,9 @@ INSERT INTO time_slot (id, doctor_id, date, start_time, available) VALUES
 (8,  4, '2026-09-03', '11:00:00', TRUE),
 (9,  4, '2026-09-03', '11:30:00', TRUE),
 (10, 5, '2026-09-01', '14:00:00', TRUE),
-(11, 5, '2026-09-01', '14:30:00', FALSE);
+(11, 5, '2026-09-01', '14:30:00', FALSE),
+(12, 7, '2026-09-01', '11:00:00', TRUE),
+(13, 8, '2026-09-02', '10:00:00', TRUE);
 
 -- Appointments
 INSERT INTO appointment (id, patient_id, doctor_id, slot_id, status) VALUES
