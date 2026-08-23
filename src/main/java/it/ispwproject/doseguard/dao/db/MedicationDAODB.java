@@ -24,8 +24,8 @@ public class MedicationDAODB implements MedicationDAO {
                     "ORDER BY ts.scheduled_time ASC";
 
     private static final String INSERT_MEDICATION =
-            "INSERT INTO therapy_schedule (prescription_id, patient_id, scheduled_time, taken) " +
-                    "VALUES (?, ?, ?, ?)";
+            "INSERT INTO therapy_schedule (patient_id, medication_name, dosage, scheduled_time, taken) " +
+                    "VALUES (?, ?, ?, ?, ?)";
 
     private static final String MARK_AS_TAKEN =
             "UPDATE therapy_schedule SET taken = TRUE WHERE id = ? AND patient_id = ?";
@@ -123,7 +123,6 @@ public class MedicationDAODB implements MedicationDAO {
     private Medication mapResultSetToMedication(ResultSet rs, Patient patient) throws SQLException {
         int id = rs.getInt("id");
 
-        // Usiamo "drug_name" esattamente come definito nell'alias SQL della query GET_BY_PATIENT
         String name = rs.getString("drug_name");
         String dosage = rs.getString("dosage");
 

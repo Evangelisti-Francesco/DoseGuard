@@ -102,7 +102,7 @@ public class PrescriptionDAODB implements PrescriptionDAO {
                         data.drug,
                         data.dosage,
                         data.frequency,
-                        data.issueDate != null ? data.issueDate.toLocalDate() : java.time.LocalDate.now()
+                        data.issueDate != null ? data.issueDate.toLocalDate() : java.time.LocalDate.now(java.time.ZoneId.systemDefault())
                 );
                 prescription.setId(data.id);
                 result.add(prescription);

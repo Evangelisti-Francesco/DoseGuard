@@ -82,9 +82,8 @@ public class BookingDAODB extends AbstractBookingDAO {
             }
 
             booking.setStatus(AppointmentStatus.CONFIRMED);
-
-            // Pulisce la cache locale per costringere il DAO a ricaricare i dati aggiornati dal DB
-            clearCache();
+            updateSlotAvailability(conn,booking.getTimeSlot().getId(),false);
+            addToCache(booking);
         } catch (SQLException e) {
             throw new DAOException("Errore durante il salvataggio della prenotazione: " + e.getMessage(), e);
         }
