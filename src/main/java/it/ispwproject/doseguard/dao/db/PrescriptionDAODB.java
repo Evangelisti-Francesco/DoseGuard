@@ -116,8 +116,12 @@ public class PrescriptionDAODB implements PrescriptionDAO {
 
     // Classe di supporto interna (in coda a PrescriptionDAODB.java)
     private static class PrescriptionDataHolder {
-        int id, doctorId, patientId;
-        String drug, dosage, frequency;
+        int id;
+        int doctorId;
+        int patientId;
+        String drug;
+        String dosage;
+        String frequency;
         Date issueDate;
 
         PrescriptionDataHolder(int id, int doctorId, int patientId, String drug, String dosage, String frequency, Date issueDate) {
@@ -173,7 +177,7 @@ public class PrescriptionDAODB implements PrescriptionDAO {
         Doctor doctor = doctorDAO.findById(doctorId);
         Patient patient = patientDAO.findById(patientId);
 
-        Prescription prescription = new Prescription(doctor, patient, drug, dosage, frequency, issueDate != null ? issueDate.toLocalDate() : java.time.LocalDate.now());
+        Prescription prescription = new Prescription(doctor, patient, drug, dosage, frequency, issueDate != null ? issueDate.toLocalDate() : java.time.LocalDate.now(java.time.ZoneId.systemDefault()));
         prescription.setId(rs.getInt("id"));
         return prescription;
     }

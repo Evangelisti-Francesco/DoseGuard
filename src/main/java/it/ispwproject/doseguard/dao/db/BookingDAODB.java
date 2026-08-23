@@ -10,7 +10,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.ResourceBundle.clearCache;
 
 public class BookingDAODB extends AbstractBookingDAO {
 
