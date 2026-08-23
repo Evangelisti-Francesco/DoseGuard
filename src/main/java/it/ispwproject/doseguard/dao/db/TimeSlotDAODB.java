@@ -13,44 +13,46 @@ import java.util.List;
 public class TimeSlotDAODB implements TimeSlotDAO {
 
     private static final String GET_AVAILABLE_BY_DOCTOR =
-            "SELECT id, date, start_time, end_time, available " +
+            "SELECT id, date, start_time, ADDTIME(start_time, '00:30:00') AS end_time, available " +
                     "FROM time_slot WHERE doctor_id = ? AND available = TRUE " +
                     "AND (date > CURDATE() OR (date = CURDATE() AND start_time > CURTIME())) " +
-                    "AND (reserved_until IS NULL OR reserved_until < NOW()) " +
                     "ORDER BY date, start_time";
 
     private static final String GET_ALL_BY_DOCTOR =
-            "SELECT id, date, start_time, end_time, available " +
+            "SELECT id, date, start_time, ADDTIME(start_time, '00:30:00') AS end_time, available " +
                     "FROM time_slot " +
                     "WHERE doctor_id = ? " +
                     "AND (date > CURDATE() OR (date = CURDATE() AND start_time > CURTIME())) " +
                     "ORDER BY date, start_time";
 
     private static final String GET_PAST_BY_DOCTOR =
-            "SELECT id, date, start_time, available " +
+            "SELECT id, date, start_time, ADDTIME(start_time, '00:30:00') AS end_time, available " +
                     "FROM time_slot " +
                     "WHERE doctor_id = ? AND (date < CURDATE() OR (date = CURDATE() AND start_time < CURTIME())) " +
                     "ORDER BY date DESC, start_time DESC";
 
     private static final String FIND_BY_ID =
-            "SELECT id, date, start_time, end_time, available FROM time_slot WHERE id = ?";
+            "SELECT id, date, start_time, ADDTIME(start_time, '00:30:00') AS end_time, available " +
+                    "FROM time_slot WHERE id = ?";
 
     private static final String SAVE =
-            "INSERT INTO time_slot (doctor_id, date, start_time, end_time, available) VALUES (?, ?, ?, ?, TRUE)";
+            "INSERT INTO time_slot (doctor_id, date, start_time, available) VALUES (?, ?, ?, TRUE)";
 
-    private static final String RESERVE_SLOT = "{call reserve_slot(?, ?, ?)}";
-    private static final String RELEASE_SLOT = "{call release_slot(?)}";
-    private static final String DELETE_SLOT =  "DELETE FROM time_slot WHERE id = ? AND doctor_id = ? AND available = TRUE";
+    private static final String RESERVE_SLOT =
+            "UPDATE time_slot SET available = FALSE WHERE id = ? AND available = TRUE";
+
+    private static final String RELEASE_SLOT =
+            "UPDATE time_slot SET available = TRUE WHERE id = ?";
+
+    private static final String DELETE_SLOT =
+            "DELETE FROM time_slot WHERE id = ? AND doctor_id = ? AND available = TRUE";
 
     @Override
     public boolean reserveSlot(int slotId, int minutes) throws DAOException {
         try (Connection conn = ConnectionFactory.getConnection();
-             CallableStatement cs = conn.prepareCall(RESERVE_SLOT)) {
-            cs.setInt(1, slotId);
-            cs.setInt(2, minutes);
-            cs.registerOutParameter(3, java.sql.Types.BOOLEAN);
-            cs.execute();
-            return cs.getBoolean(3);
+             PreparedStatement ps = conn.prepareStatement(RESERVE_SLOT)) {
+            ps.setInt(1, slotId);
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DAOException("Errore durante la prenotazione temporanea: " + e.getMessage(), e);
         }

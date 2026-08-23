@@ -12,16 +12,19 @@ import java.util.List;
 public class PatientDAODB implements PatientDAO {
 
     private static final String FIND_BY_ID =
-            "SELECT id, name, surname, email, fiscal_code " +
-                    "FROM user " +
-                    "WHERE id = ? AND role = 'PATIENT'";
-
-    private static final String GET_BY_DOCTOR =
-            "SELECT DISTINCT u.id, u.name, u.surname, u.email, p.fiscal_code " +
+            "SELECT u.id, u.name, u.surname, u.email, " +
+                    "COALESCE(p.fiscal_code, u.fiscal_code) AS fiscal_code " +
                     "FROM user u " +
                     "LEFT JOIN patient_detail p ON u.id = p.user_id " +
-                    "JOIN booking b ON u.id = b.patient_id " +
-                    "WHERE b.doctor_id = ? " +
+                    "WHERE u.id = ? AND u.role = 'PATIENT'";
+
+    private static final String GET_BY_DOCTOR =
+            "SELECT DISTINCT u.id, u.name, u.surname, u.email, " +
+                    "COALESCE(p.fiscal_code, u.fiscal_code) AS fiscal_code " +
+                    "FROM user u " +
+                    "LEFT JOIN patient_detail p ON u.id = p.user_id " +
+                    "JOIN appointment a ON u.id = a.patient_id " +
+                    "WHERE a.doctor_id = ? " +
                     "ORDER BY u.surname, u.name";
 
     private static final String ADD_FAVOURITE_DOCTOR =

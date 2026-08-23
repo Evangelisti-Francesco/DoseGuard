@@ -13,26 +13,28 @@ import java.util.List;
 public class DoctorDAODB implements DoctorDAO {
 
     private static final String FIND_BY_ID =
-            "SELECT u.id, u.name, u.surname, u.email, dd.specialization " +
+            "SELECT u.id, u.name, u.surname, u.email, dd.specialization, dd.medical_license " +
                     "FROM user u " +
                     "LEFT JOIN doctor_detail dd ON u.id = dd.user_id " +
                     "WHERE u.id = ? AND u.role = 'DOCTOR'";
 
     private static final String GET_ALL_DOCTORS =
-            "SELECT u.id, u.name, u.surname, u.email, dd.specialization " +
+            "SELECT u.id, u.name, u.surname, u.email, dd.specialization, dd.medical_license " +
                     "FROM user u " +
                     "LEFT JOIN doctor_detail dd ON u.id = dd.user_id " +
                     "WHERE u.role = 'DOCTOR' " +
                     "ORDER BY u.surname, u.name";
 
     private static final String GET_BY_SPECIALIZATION =
-            "SELECT u.id, u.name, u.surname, u.email, dd.specialization " +
+            "SELECT u.id, u.name, u.surname, u.email, dd.specialization, dd.medical_license " +
                     "FROM user u " +
                     "LEFT JOIN doctor_detail dd ON u.id = dd.user_id " +
-                    "JOIN doctor_specialization ds ON u.id = ds.doctor_id " +
-                    "WHERE ds.specialization_id = ? AND u.role = 'DOCTOR' " +
-                    "ORDER BY u.surname, u.name";
-
+                    "WHERE u.role = 'DOCTOR' AND dd.specialization IN (" +
+                    "   SELECT name FROM (" +
+                    "       SELECT DENSE_RANK() OVER (ORDER BY specialization) AS spec_id, specialization AS name " +
+                    "       FROM doctor_detail WHERE specialization IS NOT NULL AND specialization != ''" +
+                    "   ) AS specs WHERE spec_id = ?" +
+                    ") ORDER BY u.surname, u.name";
     @Override
     public List<Doctor> getBySpecialization(Specialization specialization) throws DAOException {
         List<Doctor> result = new ArrayList<>();

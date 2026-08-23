@@ -41,8 +41,12 @@ public class RegistrationCLI extends AbstractCLIState {
                 bean.setFiscalCode(view.chiediCampo("Codice Fiscale"));
             } else if (role == Role.DOCTOR) {
                 String specName = view.chiediCampo("Specializzazione");
-                SpecializationBean specBean = new SpecializationBean(0,specName);
+                SpecializationBean specBean = new SpecializationBean(0, specName);
                 bean.setSpecializations(List.of(specBean));
+            } else if (role == Role.PHARMACIST) {
+                // Aggiungi qui la richiesta del nome della farmacia
+                String pharmacyName = view.chiediCampo("Nome Farmacia");
+                bean.setPharmacyName(pharmacyName);
             }
 
             registrationController.register(bean);

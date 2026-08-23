@@ -12,6 +12,7 @@ public class RegistrationBean {
     private String password;
     private String confirmPassword;
     private Role role;
+    private String pharmacyName;
 
     //Solo per paziente
     private String fiscalCode;
@@ -45,4 +46,7 @@ public class RegistrationBean {
 
     public List<SpecializationBean> getSpecializations() { return specializations; }
     public void setSpecializations(List<SpecializationBean> specializations) { this.specializations = specializations; }
+
+    public String getPharmacyName() { return pharmacyName; }
+    public void setPharmacyName(String pharmacyName) {this.pharmacyName = pharmacyName;}
 }

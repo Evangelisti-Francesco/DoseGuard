@@ -20,7 +20,7 @@ public class ProgressDAODB implements ProgressDAO {
 
     private static final String FIND_BY_PATIENT_AND_DOCTOR =
             "SELECT p.id, p.notes, p.updated_at, " +
-                    "       u_d.id d_id, u_d.name d_name, u_d.surname d_surname, " +
+                    "       u_d.id d_id, u_d.name d_name, u_d.surname d_surname, u_d.email d_email, " +
                     "       u_p.id p_id, u_p.name p_name, u_p.surname p_surname, u_p.email p_email " +
                     "FROM patient_progress p " +
                     "JOIN user u_d ON p.doctor_id  = u_d.id " +

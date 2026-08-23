@@ -16,7 +16,7 @@ public class RegistrationDAODB implements RegistrationDAO {
     private static final String CLEAR_ROLE_FAILED = "clearRole fallito: ";
 
     private static final String INSERT_USER =
-            "INSERT INTO user (name, surname, email, password, role) VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO user (name, surname, fiscal_code, email, password, role) VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String INSERT_PATIENT_DETAIL =
             "INSERT INTO patient_detail (user_id, fiscal_code) VALUES (?, ?)";
@@ -31,7 +31,7 @@ public class RegistrationDAODB implements RegistrationDAO {
             "SELECT COUNT(*) FROM user WHERE email = ?";
 
     private static final String CHECK_FISCAL_CODE =
-            "SELECT COUNT(*) FROM patient_detail WHERE fiscal_code = ?";
+            "SELECT COUNT(*) FROM user WHERE fiscal_code = ?";
 
     @Override
     public boolean emailExists(String email) throws DAOException {
@@ -135,16 +135,30 @@ public class RegistrationDAODB implements RegistrationDAO {
                 INSERT_USER,
                 Statement.RETURN_GENERATED_KEYS)) {
 
+            // 1. Estraiamo il codice fiscale SOLO se l'utente è un Paziente
+            String fiscalCode = null;
+            if (user instanceof Patient patient) {
+                fiscalCode = patient.getFiscalCode();
+            }
+
+            // 2. Impostiamo i parametri in ordine
             ps.setString(1, user.getName());
             ps.setString(2, user.getSurname());
-            ps.setString(3, user.getEmail());
-            ps.setString(4, user.getPassword());
-            ps.setString(5, user.getRole().name());
+
+            // Parametro 3: se è un paziente mettiamo il codice fiscale, altrimenti NULL
+            if (fiscalCode != null && !fiscalCode.isEmpty()) {
+                ps.setString(3, fiscalCode);
+            } else {
+                ps.setNull(3, Types.VARCHAR);
+            }
+
+            ps.setString(4, user.getEmail());
+            ps.setString(5, user.getPassword());
+            ps.setString(6, user.getRole().name());
 
             ps.executeUpdate();
 
             try (ResultSet keys = ps.getGeneratedKeys()) {
-
                 if (keys.next()) {
                     return keys.getInt(1);
                 }

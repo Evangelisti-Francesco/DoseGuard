@@ -12,11 +12,18 @@ import java.util.List;
 public class SpecializationDAODB implements SpecializationDAO {
 
     private static final String GET_ALL =
-            "SELECT DISTINCT s.id, " +
-            "s.name FROM specialization s " +
-            "JOIN doctor_specialization ds ON s.id = ds.specialization_id";
+            "SELECT DISTINCT DENSE_RANK() OVER (ORDER BY specialization) AS id, " +
+                    "specialization AS name " +
+                    "FROM doctor_detail " +
+                    "WHERE specialization IS NOT NULL AND specialization != ''";
 
-    private static final String FIND_BY_ID = "SELECT id, name FROM specialization WHERE id = ?";
+    private static final String FIND_BY_ID =
+            "SELECT id, name FROM (" +
+                    "  SELECT DENSE_RANK() OVER (ORDER BY specialization) AS id, " +
+                    "  specialization AS name " +
+                    "  FROM doctor_detail " +
+                    "  WHERE specialization IS NOT NULL AND specialization != ''" +
+                    ") AS spec_list WHERE id = ?";
 
     @Override
     public List<Specialization> getAllSpecializations() throws DAOException {

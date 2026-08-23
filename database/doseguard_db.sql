@@ -35,7 +35,7 @@ CREATE TABLE doseguard.patient_detail (
 CREATE TABLE doseguard.doctor_detail (
     user_id INT NOT NULL,
     specialization VARCHAR(150) NOT NULL,
-    medical_license VARCHAR(50) NOT NULL UNIQUE, -- Rinominata per il tuo Java
+    medical_license VARCHAR(50) DEFAULT NULL, -- Reso opzionale
     PRIMARY KEY (user_id),
     FOREIGN KEY (user_id)
         REFERENCES user(id)
@@ -46,7 +46,7 @@ CREATE TABLE doseguard.doctor_detail (
 CREATE TABLE doseguard.pharmacist_detail (
     user_id INT NOT NULL,
     pharmacy_name VARCHAR(150) NOT NULL,
-    license_number VARCHAR(50) NOT NULL UNIQUE,
+    license_number VARCHAR(50) DEFAULT NULL, -- Reso opzionale
     PRIMARY KEY (user_id),
     FOREIGN KEY (user_id)
         REFERENCES user(id)
@@ -87,6 +87,28 @@ CREATE TABLE doseguard.time_slot (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 ) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS doseguard.patient_progress;
+
+CREATE TABLE doseguard.patient_progress (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT NOT NULL,
+    doctor_id INT NOT NULL,
+    adherence_rate DOUBLE DEFAULT 0.0,
+    notes VARCHAR(500),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (patient_id) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (doctor_id) REFERENCES user(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS patient_favourite_doctor (
+    patient_id INT NOT NULL,
+    doctor_id INT NOT NULL,
+    PRIMARY KEY (patient_id, doctor_id),
+    FOREIGN KEY (patient_id) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (doctor_id) REFERENCES user(id) ON DELETE CASCADE
+);
 
 CREATE TABLE doseguard.appointment (
     id INT AUTO_INCREMENT,
@@ -199,10 +221,10 @@ FLUSH PRIVILEGES;
 INSERT INTO user (id, name, surname, fiscal_code, email, password, role) VALUES
 (1, 'Mario',     'Rossi',     'RSSMRA80A01H501U', 'mario.rossi@test.com',     'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PATIENT'),
 (2, 'Laura',     'Bianchi',   'BNCLRA85M42F205Z', 'laura.bianchi@test.com',   'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PATIENT'),
-(3, 'Giuseppe',  'Verdi',     'VVRGSP90B10L219X', 'giuseppe.verdi@test.com',  'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PATIENT'),
+(3, 'Giuseppe',  'Verdi',     'VVRGSP90B10L219X', 'giuseppe.verdi@test.com',   'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PATIENT'),
 (4, 'Andrea',    'Neri',      'NRNDR75C15H501Y',  'dr.neri@test.com',          'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR'),
 (5, 'Francesca', 'Ferrari',   'FRRFRN78D50F205W', 'dr.ferrari@test.com',       'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR'),
-(6, 'Stefano',   'Russo',     'RSSSFN82E20L219K', 'farmacia.russo@test.com',  'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PHARMACIST');
+(6, 'Stefano',   'Russo',     'RSSSFN82E20L219K', 'farmacia.russo@test.com',   'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PHARMACIST');
 
 -- Patient Details
 INSERT INTO patient_detail (user_id, fiscal_code, medical_history) VALUES

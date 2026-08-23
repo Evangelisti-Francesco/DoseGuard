@@ -9,10 +9,7 @@ import it.ispwproject.doseguard.enumerator.Role;
 import it.ispwproject.doseguard.exception.DAOException;
 import it.ispwproject.doseguard.exception.LoginException;
 import it.ispwproject.doseguard.exception.RegistrationException;
-import it.ispwproject.doseguard.model.Doctor;
-import it.ispwproject.doseguard.model.Patient;
-import it.ispwproject.doseguard.model.Specialization;
-import it.ispwproject.doseguard.model.User;
+import it.ispwproject.doseguard.model.*;
 import it.ispwproject.doseguard.util.PasswordUtils;
 import it.ispwproject.doseguard.util.ValidationUtils;
 
@@ -68,6 +65,9 @@ public class RegistrationController {
         if (bean.getRole() == Role.DOCTOR) {
             user = new Doctor(0, bean.getName(), bean.getSurname(),
                     bean.getEmail(), hashedPassword, specName);
+        } else if (bean.getRole() == Role.PHARMACIST) {
+            user = new Pharmacist(0, bean.getName(), bean.getSurname(),
+                    bean.getEmail(), hashedPassword, bean.getPharmacyName());
         } else {
             user = new Patient(0, bean.getName(), bean.getSurname(),
                     bean.getEmail(), hashedPassword, bean.getFiscalCode());
@@ -88,6 +88,7 @@ public class RegistrationController {
         validateRole(bean);
         validateDoctorFields(bean);
         validatePatientFields(bean);
+        validatePharmacistFields(bean);
     }
 
     private void validateRequiredField(String value, String message)
@@ -135,6 +136,11 @@ public class RegistrationController {
     private void validatePatientFields(RegistrationBean bean) throws RegistrationException {
         if (bean.getRole() != Role.PATIENT) return;
         validateRequiredField(bean.getFiscalCode(),"Il codice fiscale è obbligatorio.");
+    }
+
+    private void validatePharmacistFields(RegistrationBean bean) throws RegistrationException {
+        if (bean.getRole() != Role.PHARMACIST) return;
+        validateRequiredField(bean.getPharmacyName(), "Il nome della farmacia è obbligatorio.");
     }
 
 }

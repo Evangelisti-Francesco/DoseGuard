@@ -15,10 +15,23 @@ import java.util.List;
 
 public class MedicationDAODB implements MedicationDAO {
 
-    private static final String GET_BY_PATIENT = "SELECT id, patient_id, name, dosage, schedule_time, taken_today FROM medication WHERE patient_id = ?";
-    private static final String INSERT_MEDICATION = "INSERT INTO medication (patient_id, name, dosage, schedule_time, taken_today) VALUES (?, ?, ?, ?, ?)";
-    private static final String MARK_AS_TAKEN = "UPDATE medication SET taken_today = true WHERE id = ? AND patient_id = ?";
-    private static final String DELETE_MEDICATION = "DELETE FROM medication WHERE id = ? AND patient_id = ?";
+    private static final String GET_BY_PATIENT =
+            "SELECT ts.id, ts.patient_id, ts.scheduled_time, ts.taken, " +
+                    "       COALESCE(p.drug, 'Farmaco') AS drug_name, COALESCE(p.dosage, '') AS dosage " +
+                    "FROM therapy_schedule ts " +
+                    "LEFT JOIN prescription p ON ts.prescription_id = p.id " +
+                    "WHERE ts.patient_id = ? " +
+                    "ORDER BY ts.scheduled_time ASC";
+
+    private static final String INSERT_MEDICATION =
+            "INSERT INTO therapy_schedule (prescription_id, patient_id, scheduled_time, taken) " +
+                    "VALUES (?, ?, ?, ?)";
+
+    private static final String MARK_AS_TAKEN =
+            "UPDATE therapy_schedule SET taken = TRUE WHERE id = ? AND patient_id = ?";
+
+    private static final String DELETE_MEDICATION =
+            "DELETE FROM therapy_schedule WHERE id = ? AND patient_id = ?";
 
     private final PatientDAO patientDAO;
 
@@ -30,17 +43,26 @@ public class MedicationDAODB implements MedicationDAO {
     public List<Medication> getByPatient(int patientId) throws DAOException {
         List<Medication> result = new ArrayList<>();
 
+        // Recuperiamo prima l'oggetto Patient per non aprire query nidificate mentre si scorre il ResultSet
+        Patient patient = null;
+        try {
+            patient = patientDAO.findById(patientId);
+        } catch (DAOException ignored) {
+            // Se fallisce il recupero del paziente completo, usiamo un oggetto stub per non bloccare i farmaci
+            patient = new Patient(patientId, "", "", "", "", null);
+        }
+
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(GET_BY_PATIENT)) {
 
             stmt.setInt(1, patientId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    result.add(mapResultSetToMedication(rs));
+                    result.add(mapResultSetToMedication(rs, patient));
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException("Errore durante il recupero dei farmaci del paziente.", e);
+            throw new DAOException("Errore SQL durante il recupero dei farmaci del paziente: " + e.getMessage(), e);
         }
         return result;
     }
@@ -64,7 +86,7 @@ public class MedicationDAODB implements MedicationDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException("Errore durante il salvataggio del farmaco.", e);
+            throw new DAOException("Errore durante il salvataggio del farmaco: " + e.getMessage(), e);
         }
     }
 
@@ -81,7 +103,7 @@ public class MedicationDAODB implements MedicationDAO {
                 throw new DAOException("Farmaco non trovato o non associato al paziente specificato.");
             }
         } catch (SQLException e) {
-            throw new DAOException("Errore durante la registrazione dell'assunzione del farmaco.", e);
+            throw new DAOException("Errore durante la registrazione dell'assunzione del farmaco: " + e.getMessage(), e);
         }
     }
 
@@ -94,21 +116,21 @@ public class MedicationDAODB implements MedicationDAO {
             stmt.setInt(2, patientId);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("Errore durante l'eliminazione del farmaco.", e);
+            throw new DAOException("Errore durante l'eliminazione del farmaco: " + e.getMessage(), e);
         }
     }
 
-    private Medication mapResultSetToMedication(ResultSet rs) throws SQLException, DAOException {
+    private Medication mapResultSetToMedication(ResultSet rs, Patient patient) throws SQLException {
         int id = rs.getInt("id");
-        int patientId = rs.getInt("patient_id");
-        String name = rs.getString("name");
+
+        // Usiamo "drug_name" esattamente come definito nell'alias SQL della query GET_BY_PATIENT
+        String name = rs.getString("drug_name");
         String dosage = rs.getString("dosage");
-        Time time = rs.getTime("schedule_time");
-        LocalTime scheduleTime = (time != null) ? time.toLocalTime() : null;
-        boolean takenToday = rs.getBoolean("taken_today");
 
-        Patient patient = patientDAO.findById(patientId);
+        Timestamp timestamp = rs.getTimestamp("scheduled_time");
+        LocalTime scheduleTime = (timestamp != null) ? timestamp.toLocalDateTime().toLocalTime() : LocalTime.MIDNIGHT;
+        boolean taken = rs.getBoolean("taken");
 
-        return new Medication(id, patient, name, dosage, scheduleTime, takenToday);
+        return new Medication(id, patient, name, dosage, scheduleTime, taken);
     }
 }

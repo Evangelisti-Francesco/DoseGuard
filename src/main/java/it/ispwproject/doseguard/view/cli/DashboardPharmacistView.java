@@ -14,7 +14,6 @@ public class DashboardPharmacistView {
     public void mostraMenu() {
         CLIRenderer.sezione("Menu Principale");
         CLIRenderer.voceMenu(1, "Visualizza ricette / prescrizioni paziente");
-        CLIRenderer.voceMenu(2, "Eroga farmaco / Convalida prescrizione");
         CLIRenderer.voceMenuZero("Logout");
     }
 

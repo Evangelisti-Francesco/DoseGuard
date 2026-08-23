@@ -17,7 +17,8 @@ public class UserDAODB implements UserDAO {
 
     private static final String FIND_BY_EMAIL =
             "SELECT u.id, u.name, u.surname, u.email, u.password, u.role, " +
-                    "p.fiscal_code, dd.specialization, ph.pharmacy_name " +
+                    "COALESCE(p.fiscal_code, u.fiscal_code) AS fiscal_code, " +
+                    "dd.specialization, dd.medical_license, ph.pharmacy_name " +
                     "FROM user u " +
                     "LEFT JOIN patient_detail p ON u.id = p.user_id " +
                     "LEFT JOIN doctor_detail dd ON u.id = dd.user_id " +
@@ -26,7 +27,8 @@ public class UserDAODB implements UserDAO {
 
     private static final String FIND_BY_ID =
             "SELECT u.id, u.name, u.surname, u.email, u.password, u.role, " +
-                    "p.fiscal_code, dd.specialization, ph.pharmacy_name " +
+                    "COALESCE(p.fiscal_code, u.fiscal_code) AS fiscal_code, " +
+                    "dd.specialization, dd.medical_license, ph.pharmacy_name " +
                     "FROM user u " +
                     "LEFT JOIN patient_detail p ON u.id = p.user_id " +
                     "LEFT JOIN doctor_detail dd ON u.id = dd.user_id " +
@@ -38,7 +40,8 @@ public class UserDAODB implements UserDAO {
 
     private static final String GET_ALL =
             "SELECT u.id, u.name, u.surname, u.email, u.password, u.role, " +
-                    "p.fiscal_code, dd.specialization, ph.pharmacy_name " +
+                    "COALESCE(p.fiscal_code, u.fiscal_code) AS fiscal_code, " +
+                    "dd.specialization, dd.medical_license, ph.pharmacy_name " +
                     "FROM user u " +
                     "LEFT JOIN patient_detail p ON u.id = p.user_id " +
                     "LEFT JOIN doctor_detail dd ON u.id = dd.user_id " +
@@ -115,7 +118,7 @@ public class UserDAODB implements UserDAO {
         return switch (role) {
             case PATIENT -> new Patient(id, name, surname, email, null, null);
             case DOCTOR  -> new Doctor(id, name, surname, email, null, medicalLicense);
-            case PHARMACIST ->  new Pharmacist(id, name, surname, email, null, null);
+            case PHARMACIST -> new Pharmacist(id, name, surname, email, null, null);
             default      -> throw new IllegalStateException("Ruolo non riconosciuto: " + role);
         };
     }

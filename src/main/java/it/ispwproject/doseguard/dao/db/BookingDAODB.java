@@ -10,55 +10,57 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.ResourceBundle.clearCache;
+
 public class BookingDAODB extends AbstractBookingDAO {
 
     private static final String INSERT_BOOKING =
-            "INSERT INTO booking (patient_id, doctor_id, specialization_id, slot_id, notes, status) " +
-                    "VALUES (?, ?, ?, ?, ?, 'CONFIRMED')";
+            "INSERT INTO appointment (patient_id, doctor_id, slot_id, status) " +
+                    "VALUES (?, ?, ?, 'CONFIRMED')";
 
     private static final String CANCEL_BOOKING =
-            "UPDATE booking SET status = 'CANCELLED' WHERE id = ? AND patient_id = ?";
+            "UPDATE appointment SET status = 'CANCELLED' WHERE id = ? AND patient_id = ?";
 
     private static final String FREE_SLOT =
             "UPDATE time_slot SET available = TRUE " +
-                    "WHERE id = (SELECT slot_id FROM booking WHERE id = ? AND patient_id = ?)";
+                    "WHERE id = (SELECT slot_id FROM appointment WHERE id = ? AND patient_id = ?)";
 
     private static final String UPDATE_SLOT_AVAILABILITY =
             "UPDATE time_slot SET available = ? WHERE id = ?";
 
     private static final String SELECT_BOOKINGS =
-            "SELECT b.id, b.notes, b.status, " +
+            "SELECT a.id, '' AS notes, a.status, " +
                     "       u_p.id p_id, u_p.name p_name, u_p.surname p_surname, u_p.email p_email, " +
                     "       u_d.id d_id, u_d.name d_name, u_d.surname d_surname, u_d.email d_email, " +
-                    "       spec.id spec_id, spec.name spec_name, " +
+                    "       0 AS spec_id, dd.specialization AS spec_name, " +
                     "       ts.id ts_id, ts.date ts_date, ts.start_time, ts.available " +
-                    "FROM booking b " +
-                    "JOIN user u_p ON b.patient_id = u_p.id " +
-                    "JOIN user u_d ON b.doctor_id = u_d.id " +
-                    "JOIN specialization spec ON b.specialization_id = spec.id " +
-                    "JOIN time_slot ts ON b.slot_id = ts.id ";
+                    "FROM appointment a " +
+                    "JOIN user u_p ON a.patient_id = u_p.id " +
+                    "JOIN user u_d ON a.doctor_id = u_d.id " +
+                    "LEFT JOIN doctor_detail dd ON u_d.id = dd.user_id " +
+                    "JOIN time_slot ts ON a.slot_id = ts.id ";
 
     private static final String FIND_BY_PATIENT = SELECT_BOOKINGS +
-            "WHERE b.patient_id = ? ORDER BY ts.date DESC";
+            "WHERE a.patient_id = ? ORDER BY ts.date DESC";
 
     private static final String FIND_BY_DOCTOR = SELECT_BOOKINGS +
-            "WHERE b.doctor_id = ? AND b.status = 'CONFIRMED' ORDER BY ts.date ASC";
+            "WHERE a.doctor_id = ? AND a.status = 'CONFIRMED' ORDER BY ts.date ASC";
 
     private static final String FIND_ALL = SELECT_BOOKINGS +
             "ORDER BY ts.date DESC";
 
     private static final String FIND_COMPLETED = SELECT_BOOKINGS +
-            "WHERE b.patient_id = ? AND b.doctor_id = ? " +
-            "  AND b.status = 'CONFIRMED' AND ts.date <= CURDATE() " +
+            "WHERE a.patient_id = ? AND a.doctor_id = ? " +
+            "  AND a.status = 'CONFIRMED' AND ts.date <= CURDATE() " +
             "ORDER BY ts.date DESC";
 
     private static final String FIND_UPCOMING = SELECT_BOOKINGS +
-            "WHERE b.patient_id = ? AND b.doctor_id = ? " +
-            "  AND b.status = 'CONFIRMED' AND ts.date > CURDATE() " +
+            "WHERE a.patient_id = ? AND a.doctor_id = ? " +
+            "  AND a.status = 'CONFIRMED' AND ts.date > CURDATE() " +
             "ORDER BY ts.date ASC";
 
     private static final String FIND_PAST_BY_PATIENT = SELECT_BOOKINGS +
-            "WHERE b.patient_id = ? AND b.status = 'CONFIRMED' " +
+            "WHERE a.patient_id = ? AND a.status = 'CONFIRMED' " +
             "AND (ts.date < CURDATE() OR (ts.date = CURDATE() AND ts.start_time < CURTIME())) " +
             "ORDER BY ts.date DESC, ts.start_time DESC";
 
@@ -67,21 +69,24 @@ public class BookingDAODB extends AbstractBookingDAO {
     public void save(Booking booking) throws DAOException {
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(
-                     INSERT_BOOKING, Statement.RETURN_GENERATED_KEYS)) {
+                     "INSERT INTO appointment (patient_id, doctor_id, slot_id, status) VALUES (?, ?, ?, 'CONFIRMED')",
+                     Statement.RETURN_GENERATED_KEYS)) {
+
             ps.setInt(1, booking.getPatient().getId());
             ps.setInt(2, booking.getDoctor().getId());
-            ps.setInt(3, booking.getSpecialization().getId());
-            ps.setInt(4, booking.getTimeSlot().getId());
-            ps.setString(5, booking.getNotes());
+            ps.setInt(3, booking.getTimeSlot().getId());
             ps.executeUpdate();
+
             try (ResultSet keys = ps.getGeneratedKeys()) {
                 if (keys.next()) booking.setId(keys.getInt(1));
             }
+
             booking.setStatus(AppointmentStatus.CONFIRMED);
-            updateSlotAvailability(conn, booking.getTimeSlot().getId(), false);
-            addToCache(booking);
+
+            // Pulisce la cache locale per costringere il DAO a ricaricare i dati aggiornati dal DB
+            clearCache();
         } catch (SQLException e) {
-            throw new DAOException("Errore durante il salvataggio: " + e.getMessage(), e);
+            throw new DAOException("Errore durante il salvataggio della prenotazione: " + e.getMessage(), e);
         }
     }
 
