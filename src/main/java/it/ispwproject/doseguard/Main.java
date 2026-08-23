@@ -5,6 +5,7 @@ import it.ispwproject.doseguard.controller.cli.ModeSelectorCLI; // Rimuovi se no
 // import it.ispwproject.doseguard.controller.gui.MainGUI;     // Decommenta quando avrai la GUI
 
 import it.ispwproject.doseguard.controller.gui.MainGUI;
+import it.ispwproject.doseguard.util.Printer;
 import it.ispwproject.doseguard.view.cli.CLIRenderer;
 
 import java.util.Scanner;
@@ -23,10 +24,10 @@ public class Main {
         String scelta = "";
 
         while (!scelta.equals("1") && !scelta.equals("2")) {
-            System.out.println("\n  ── Seleziona interfaccia");
-            System.out.println("  [1] CLI  — interfaccia testuale");
-            System.out.println("  [2] GUI  — interfaccia grafica");
-            System.out.print("\n  Scelta: ");
+            Printer.println("\n  ── Seleziona interfaccia");
+            Printer.println("  [1] CLI  — interfaccia testuale");
+            Printer.println("  [2] GUI  — interfaccia grafica");
+            Printer.print("\n  Scelta: ");
             scelta = scanner.nextLine().trim();
 
             if (!scelta.equals("1") && !scelta.equals("2")) {
