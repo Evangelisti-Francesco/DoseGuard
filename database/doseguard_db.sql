@@ -217,7 +217,7 @@ FLUSH PRIVILEGES;
 --  TEST DATA
 -- ══════════════════════════════
 
--- Users
+-- Users (Aggiunto il nuovo medico con id 9)
 INSERT INTO user (id, name, surname, fiscal_code, email, password, role) VALUES
 (1, 'Mario',     'Rossi',     'RSSMRA80A01H501U', 'mario.rossi@test.com',     'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PATIENT'),
 (2, 'Laura',     'Bianchi',   'BNCLRA85M42F205Z', 'laura.bianchi@test.com',   'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PATIENT'),
@@ -225,8 +225,9 @@ INSERT INTO user (id, name, surname, fiscal_code, email, password, role) VALUES
 (4, 'Andrea',    'Neri',      'NRNDR75C15H501Y',  'dr.neri@test.com',          'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR'),
 (5, 'Francesca', 'Ferrari',   'FRRFRN78D50F205W', 'dr.ferrari@test.com',       'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR'),
 (6, 'Stefano',   'Russo',     'RSSSFN82E20L219K', 'farmacia.russo@test.com',   'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'PHARMACIST'),
-(7, 'Marco', 'Rossi', 'RSSMRC80A01H501V', 'marco.rossi@test.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR'),
-(8, 'Elena', 'Gialli', 'GLLLNE85M42F205Y', 'elena.gialli@test.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR');
+(7, 'Marco',     'Rossi',     'RSSMRC80A01H501V', 'marco.rossi@test.com',      'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR'),
+(8, 'Elena',     'Gialli',    'GLLLNE85M42F205Y', 'elena.gialli@test.com',     'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR'),
+(9, 'Giorgio',   'Conti',     'CNTGRG80A01H501W', 'dr.conti@test.com',         'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'DOCTOR');
 
 -- Patient Details
 INSERT INTO patient_detail (user_id, fiscal_code, medical_history) VALUES
@@ -234,12 +235,13 @@ INSERT INTO patient_detail (user_id, fiscal_code, medical_history) VALUES
 (2, 'BNCLRA85M42F205Z', 'Allergia alla Penicillina'),
 (3, 'VVRGSP90B10L219X', 'Diabete tipo 2');
 
--- Doctor Details
+-- Doctor Details (Aggiunto il dettaglio per il neurologo id 9)
 INSERT INTO doctor_detail (user_id, specialization, medical_license) VALUES
 (4, 'Medicina Generale', 'MI-123456'),
 (5, 'Cardiologia',        'RM-654321'),
 (7, 'Medicina Generale', 'MI-998877'),
-(8, 'Cardiologia', 'RM-112233');
+(8, 'Cardiologia',        'RM-112233'),
+(9, 'Neurologia',         'TO-334455');
 
 -- Pharmacist Details
 INSERT INTO pharmacist_detail (user_id, pharmacy_name, license_number) VALUES
@@ -248,35 +250,68 @@ INSERT INTO pharmacist_detail (user_id, pharmacy_name, license_number) VALUES
 -- Prescriptions
 INSERT INTO prescription (id, doctor_id, patient_id, drug, dosage, frequency, issue_date, status) VALUES
 (1, 4, 1, 'Tachipirina', '1000 mg', '1 compressa ogni 8 ore', '2026-06-01', 'PENDING'),
-(2, 4, 1, 'Augmentin',   '1 gr',    '1 compressa ogni 12 ore', '2026-05-20', 'DISPENSED'),
-(3, 5, 2, 'Brufen',      '600 mg',  '1 bustina al bisogno',    '2026-06-05', 'PENDING');
+(2, 4, 1, 'Augmentin',   '1 gr',    '1 compressa ogni 12 ore', '2026-05-20', 'PENDING'),
+(3, 5, 2, 'Brufen',      '600 mg',  '1 bustina al bisogno',    '2026-06-05', 'PENDING'),
+(4, 5, 2, 'Cardioaspirina', '100 mg', '1 compressa al giorno', '2026-06-10', 'PENDING'),
+(5, 9, 3, 'Metformina',     '500 mg', '1 compressa ogni 12 ore', '2026-06-12', 'PENDING');
 
--- Time Slots
+-- Time Slots (Inclusi slot passati e slot di ottobre 2026 anche per il neurologo id 9)
 INSERT INTO time_slot (id, doctor_id, date, start_time, available) VALUES
-(1,  4, '2026-09-01', '09:00:00', FALSE),
-(2,  4, '2026-09-01', '09:30:00', FALSE),
-(3,  4, '2026-09-01', '10:00:00', TRUE),
-(4,  4, '2026-09-01', '10:30:00', TRUE),
-(5,  4, '2026-09-02', '15:00:00', FALSE),
-(6,  4, '2026-09-02', '15:30:00', TRUE),
-(7,  4, '2026-09-02', '16:00:00', FALSE),
-(8,  4, '2026-09-03', '11:00:00', TRUE),
-(9,  4, '2026-09-03', '11:30:00', TRUE),
-(10, 5, '2026-09-01', '14:00:00', TRUE),
-(11, 5, '2026-09-01', '14:30:00', FALSE),
-(12, 7, '2026-09-01', '11:00:00', TRUE),
-(13, 8, '2026-09-02', '10:00:00', TRUE);
+(1,  4, '2025-10-01', '09:00:00', FALSE),
+(2,  4, '2026-10-01', '09:30:00', FALSE),
+(3,  4, '2026-10-01', '10:00:00', TRUE),
+(4,  4, '2026-10-01', '10:30:00', TRUE),
+(5,  4, '2026-10-02', '15:00:00', FALSE),
+(6,  4, '2026-10-02', '15:30:00', TRUE),
+(7,  4, '2026-10-02', '16:00:00', FALSE),
+(8,  4, '2026-10-03', '11:00:00', TRUE),
+(9,  4, '2026-10-03', '11:30:00', TRUE),
+(10, 5, '2026-10-01', '14:00:00', TRUE),
+(11, 5, '2026-10-01', '14:30:00', FALSE),
+-- Slot passati / scaduti (non disponibili: available = FALSE)
+(12, 4, '2026-01-15', '10:00:00', FALSE),
+(13, 4, '2026-03-20', '15:00:00', FALSE),
+(14, 5, '2026-02-10', '09:30:00', FALSE),
+(15, 7, '2026-04-10', '09:00:00', FALSE),
+(18, 8, '2026-05-05', '14:00:00', FALSE),
+-- Slot passato per il nuovo Neurologo (id 9), non disponibile
+(21, 9, '2026-03-12', '10:00:00', FALSE),
+-- Slot futuri (Ottobre 2026) per i dottori (disponibili)
+(16, 7, '2026-10-10', '10:00:00', TRUE),
+(17, 7, '2026-10-11', '11:30:00', TRUE),
+(19, 8, '2026-10-15', '15:00:00', TRUE),
+(20, 8, '2026-10-16', '16:30:00', TRUE),
+-- Slot futuri (Ottobre 2026) per il nuovo Neurologo (id 9), disponibili
+(22, 9, '2026-10-18', '09:00:00', TRUE),
+(23, 9, '2026-10-18', '10:00:00', TRUE),
+(24, 9, '2026-10-19', '15:30:00', TRUE);
 
--- Appointments
+-- Appointments (Inclusi quelli collegati agli slot passati e al neurologo)
 INSERT INTO appointment (id, patient_id, doctor_id, slot_id, status) VALUES
 (1, 1, 4, 1, 'CONFIRMED'),
 (2, 2, 4, 2, 'CONFIRMED'),
-(3, 3, 4, 5, 'PENDING'),
+(3, 3, 4, 5, 'CANCELLED'),
 (4, 1, 4, 7, 'CANCELLED'),
-(5, 2, 5, 11, 'CONFIRMED');
+(5, 2, 5, 11, 'CONFIRMED'),
+-- Appuntamenti legati agli slot passati
+(6, 1, 4, 12, 'CONFIRMED'),
+(7, 2, 4, 13, 'CONFIRMED'),
+(8, 3, 5, 14, 'CONFIRMED'),
+(9, 1, 7, 15, 'CONFIRMED'),
+(10, 3, 8, 18, 'CONFIRMED'),
+-- Appuntamento passato legato al neurologo (id 9)
+(11, 2, 9, 21, 'CONFIRMED');
 
 -- Therapy Schedules
 INSERT INTO therapy_schedule (prescription_id, patient_id, scheduled_time, taken, notes) VALUES
 (1, 1, '2026-06-01 08:00:00', TRUE,  'Assunta regolarmente a colazione'),
 (1, 1, '2026-06-01 16:00:00', TRUE,  'Assunta nel pomeriggio'),
-(1, 1, '2026-06-01 23:00:00', FALSE, 'Dimenticata');
+(1, 1, '2026-06-01 23:00:00', FALSE, 'Dimenticata'),
+-- Per Laura (patient_id = 2): ha già assunto la Cardioaspirina
+(4, 2, '2026-06-10 08:30:00', TRUE,  'Assunta a colazione'),
+-- Per Laura (patient_id = 2): deve ancora assumere quella di domani
+(4, 2, '2026-06-11 08:30:00', FALSE, 'Programmata per domani mattina'),
+
+-- Per Giuseppe (patient_id = 3): ha dimenticato o deve assumere la Metformina
+(5, 3, '2026-06-12 12:00:00', FALSE, 'In attesa di assunzione a pranzo'),
+(5, 3, '2026-06-12 20:00:00', FALSE, 'Programmata per cena');

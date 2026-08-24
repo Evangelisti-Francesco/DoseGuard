@@ -1,79 +1,83 @@
 package it.ispwproject.doseguard.controller.gui;
 
-import it.ispwproject.doseguard.bean.*;
+import it.ispwproject.doseguard.bean.PatientBean;
+import it.ispwproject.doseguard.bean.PatientProgressBean;
+import it.ispwproject.doseguard.bean.TimeSlotBean;
 import it.ispwproject.doseguard.controller.applicativo.PatientManagementController;
 import it.ispwproject.doseguard.exception.DAOException;
 import it.ispwproject.doseguard.view.gui.ManagePatientsGUIView;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.List;
 
 public class ManagePatientsGUI {
 
-    private final Stage stage;
-    private final PatientManagementController patientManagementController = new PatientManagementController();
-    private final ManagePatientsGUIView view = new ManagePatientsGUIView();
+    private final Stage                       stage;
+    private final PatientManagementController patientController = new PatientManagementController();
+    private final ManagePatientsGUIView       view              = new ManagePatientsGUIView();
 
     public ManagePatientsGUI(Stage stage) {
         this.stage = stage;
     }
 
     public void show() {
-        BorderPane root = view.buildRoot(MainGUI::showDashboardDoctor);
-
         try {
-            view.patientCombo.getItems().setAll(patientManagementController.getPatients());
+            List<PatientBean> patients = patientController.getPatients();
+            view.patientCombo.getItems().setAll(patients);
+
+            if (patients.isEmpty()) {
+                view.errorLabel.setText("Nessun paziente trovato.");
+            }
+
         } catch (DAOException e) {
-            view.errorLabel.setText("Errore: " + e.getMessage());
+            view.errorLabel.setText("Errore nel caricamento dei pazienti: " + e.getMessage());
         }
 
         view.patientCombo.setOnAction(e -> {
             PatientBean selected = view.patientCombo.getValue();
-            if (selected == null) return;
-            loadPatientCard(selected);
+            if (selected != null) {
+                loadPatientDetails(selected);
+            }
         });
 
-        stage.setScene(GUIUtils.createScene(root));
+        stage.setScene(GUIUtils.createScene(view.buildRoot(MainGUI::showDashboardDoctor)));
         stage.show();
     }
 
-    private void loadPatientCard(PatientBean patient) {
-        VBox card = view.getPatientCard();
+    private void loadPatientDetails(PatientBean patient) {
+        view.errorLabel.setText("");
         try {
-            PatientProgressBean progress = patientManagementController.getProgress(patient.getId());
-            List<TimeSlotBean> upcoming   = patientManagementController.getUpcomingAppointments(patient.getId());
-            List<TimeSlotBean> completed  = patientManagementController.getCompletedAppointments(patient.getId());
+            List<TimeSlotBean> upcoming = patientController.getUpcomingAppointments(patient.getId());
+            List<TimeSlotBean> completed = patientController.getCompletedAppointments(patient.getId());
+            PatientProgressBean progress = patientController.getProgress(patient.getId());
 
-            view.buildPatientCard(card, patient, progress, upcoming, completed,
-                    notes -> handleUpdateProgress(patient, notes));
+            view.buildPatientCard(
+                    view.getPatientCard(),
+                    patient,
+                    progress,
+                    upcoming,
+                    completed,
+                    newNotes -> saveProgress(patient, newNotes)
+            );
 
         } catch (DAOException e) {
-            view.errorLabel.setText("Errore: " + e.getMessage());
+            view.errorLabel.setText("Errore nel caricamento dei dati del paziente: " + e.getMessage());
         }
     }
 
-    private void handleUpdateProgress(PatientBean patient, String notes) {
-        if (notes.isBlank()) {
+    private void saveProgress(PatientBean patient, String notes) {
+        if (notes == null || notes.isBlank()) {
             view.errorLabel.setText("Le note non possono essere vuote.");
             return;
         }
         try {
-            patientManagementController.updateProgress(new PatientProgressBean(patient, notes, null));
-            showInfo("Quadro clinico aggiornato con successo.");
-            loadPatientCard(patient);
+            patientController.updateProgress(new PatientProgressBean(patient, notes));
+            view.errorLabel.setStyle("-fx-text-fill: #2e7d32;"); // Colore verde successo
+            view.errorLabel.setText("Note e progressi aggiornati con successo.");
+            loadPatientDetails(patient); // Ricarica la scheda aggiornata
         } catch (DAOException e) {
-            view.errorLabel.setText("Errore: " + e.getMessage());
+            view.errorLabel.setStyle("-fx-text-fill: #d9534f;");
+            view.errorLabel.setText("Errore durante il salvataggio: " + e.getMessage());
         }
-    }
-
-    private void showInfo(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Operazione completata");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

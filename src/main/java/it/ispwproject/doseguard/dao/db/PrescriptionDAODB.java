@@ -153,6 +153,57 @@ public class PrescriptionDAODB implements PrescriptionDAO {
     }
 
     @Override
+    public List<Prescription> findByPatientId(int patientId) throws DAOException {
+        List<Prescription> result = new ArrayList<>();
+        String query = "SELECT id, doctor_id, patient_id, drug, dosage, frequency, issue_date, status " +
+                "FROM prescription WHERE patient_id = ?";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, patientId);
+
+            // 1. Leggiamo ed estraiamo tutti i dati grezzi in memoria per evitare conflitti con i DAO annidati
+            List<PrescriptionDataHolder> rawDataList = new ArrayList<>();
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    rawDataList.add(new PrescriptionDataHolder(
+                            rs.getInt("id"),
+                            rs.getInt("doctor_id"),
+                            rs.getInt("patient_id"),
+                            rs.getString("drug"),
+                            rs.getString("dosage"),
+                            rs.getString("frequency"),
+                            rs.getDate("issue_date")
+                    ));
+                }
+            }
+
+            // 2. Mappiamo gli oggetti sfruttando i DAO esistenti fuori dal ResultSet
+            for (PrescriptionDataHolder data : rawDataList) {
+                Doctor doctor = doctorDAO.findById(data.doctorId);
+                Patient patient = patientDAO.findById(data.patientId);
+
+                Prescription prescription = new Prescription(
+                        doctor,
+                        patient,
+                        data.drug,
+                        data.dosage,
+                        data.frequency,
+                        data.issueDate != null ? data.issueDate.toLocalDate() : java.time.LocalDate.now(java.time.ZoneId.systemDefault())
+                );
+                prescription.setId(data.id);
+                result.add(prescription);
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Errore durante la ricerca delle prescrizioni per il paziente ID: " + patientId, e);
+        }
+
+        return result;
+    }
+
+    @Override
     public void markAsFulfilled(int prescriptionId, int pharmacistId) throws DAOException {
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(MARK_AS_FULFILLED)) {

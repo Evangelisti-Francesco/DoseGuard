@@ -67,6 +67,17 @@ public class PrescriptionController {
         this.prescriptionDAO.markAsFulfilled(prescriptionId, pharmacistId);
     }
 
+    public List<PrescriptionBean> getPrescriptionsByPatientId(int patientId) throws DAOException {
+        // Richiama il DAO per ottenere la lista di oggetti Model del paziente
+        List<Prescription> prescriptionsList = this.prescriptionDAO.findByPatientId(patientId);
+
+        List<PrescriptionBean> beanList = new java.util.ArrayList<>();
+        for (Prescription p : prescriptionsList) {
+            beanList.add(mapModelToBean(p));
+        }
+        return beanList;
+    }
+
     private PrescriptionBean mapModelToBean(Prescription p) {
         PrescriptionBean bean = new PrescriptionBean();
         bean.setId(p.getId());

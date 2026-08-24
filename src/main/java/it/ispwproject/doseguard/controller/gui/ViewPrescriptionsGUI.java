@@ -1,10 +1,12 @@
 package it.ispwproject.doseguard.controller.gui;
 
-import it.ispwproject.doseguard.bean.PatientBean;
 import it.ispwproject.doseguard.bean.PrescriptionBean;
 import it.ispwproject.doseguard.controller.applicativo.PrescriptionController;
 import it.ispwproject.doseguard.exception.DAOException;
+import it.ispwproject.doseguard.model.Doctor;
 import it.ispwproject.doseguard.model.Patient;
+import it.ispwproject.doseguard.model.Pharmacist;
+import it.ispwproject.doseguard.model.User;
 import it.ispwproject.doseguard.pattern.singleton.SessionManager;
 import it.ispwproject.doseguard.view.gui.ViewPrescriptionsGUIView;
 import javafx.stage.Stage;
@@ -22,30 +24,68 @@ public class ViewPrescriptionsGUI {
     }
 
     public void show() {
-        bindEvents();
-        loadPrescriptions();
+        User loggedUser = SessionManager.getInstance().getLoggedUser();
+
+        if (loggedUser instanceof Patient patient) {
+            // Nasconde la barra di ricerca se l'utente è un paziente e carica usando l'ID
+            view.searchSectionBox.setVisible(false);
+            view.searchSectionBox.setManaged(false);
+            loadPrescriptionsForPatientId(patient.getId());
+
+        } else if (loggedUser instanceof Doctor || loggedUser instanceof Pharmacist) {
+            // Se è medico o farmacista, mostra il campo di ricerca per codice fiscale
+            view.searchSectionBox.setVisible(true);
+            view.searchSectionBox.setManaged(true);
+
+            view.searchBtn.setOnAction(e -> {
+                String fiscalCode = view.fiscalCodeField.getText();
+                if (fiscalCode == null || fiscalCode.isBlank()) {
+                    view.setError("Inserire un codice fiscale valido.");
+                    return;
+                }
+                loadPrescriptionsForFiscalCode(fiscalCode.trim());
+            });
+        }
+
+        bindActions();
         stage.setScene(GUIUtils.createScene(view.buildRoot()));
         stage.show();
     }
 
-    private void loadPrescriptions() {
+    // Caricamento diretto tramite ID per il Paziente loggato
+    private void loadPrescriptionsForPatientId(int patientId) {
         view.clearError();
         try {
-            Patient p = (Patient) SessionManager.getInstance().getLoggedUser();
-            PatientBean pb = new PatientBean(p.getId(), p.getName(), p.getSurname(), p.getEmail(), p.getFiscalCode());
-
-            List<PrescriptionBean> prescriptions = prescriptionController.getPatientPrescriptions(pb.getFiscalCode());
-            view.showPrescriptions(prescriptions, this::onPrescriptionSelected);
+            List<PrescriptionBean> prescriptions = prescriptionController.getPrescriptionsByPatientId(patientId);
+            view.renderPrescriptions(prescriptions);
         } catch (DAOException e) {
-            view.setError("Errore durante il recupero delle prescrizioni: " + e.getMessage());
+            view.setError("Errore nel recupero delle prescrizioni: " + e.getMessage());
         }
     }
 
-    private void onPrescriptionSelected(PrescriptionBean prescription) {
-        // Logica eventuale al click su una singola ricetta (es. mostra dettaglio o scarica PDF)
+    // Ricerca tramite Codice Fiscale (per Medici e Farmacisti)
+    private void loadPrescriptionsForFiscalCode(String fiscalCode) {
+        view.clearError();
+        try {
+            List<PrescriptionBean> prescriptions = prescriptionController.getPatientPrescriptions(fiscalCode);
+            view.renderPrescriptions(prescriptions);
+        } catch (DAOException e) {
+            view.setError("Errore nel recupero delle prescrizioni: " + e.getMessage());
+        }
     }
 
-    private void bindEvents() {
-        view.goBackBtn.setOnAction(e -> MainGUI.showDashboardPatient());
+    private void bindActions() {
+        view.goBackBtn.setOnAction(e -> {
+            User loggedUser = SessionManager.getInstance().getLoggedUser();
+            if (loggedUser instanceof Patient) {
+                MainGUI.showDashboardPatient();
+            } else if (loggedUser instanceof Doctor) {
+                MainGUI.showDashboardDoctor();
+            } else if (loggedUser instanceof Pharmacist) {
+                MainGUI.showDashboardPharmacist();
+            } else {
+                MainGUI.showLogin();
+            }
+        });
     }
 }

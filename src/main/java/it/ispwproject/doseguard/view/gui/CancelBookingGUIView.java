@@ -1,6 +1,6 @@
 package it.ispwproject.doseguard.view.gui;
 
-import it.ispwproject.doseguard.bean.PrescriptionBean;
+import it.ispwproject.doseguard.bean.AppointmentResponseBean;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -9,35 +9,21 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.io.InputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class ViewPrescriptionsGUIView {
+public class CancelBookingGUIView {
 
-    public final Label pageTitle = new Label("Prescrizioni");
+    public final Label pageTitle = new Label("Annulla un appuntamento");
     public final Button goBackBtn = new Button("← Go Back");
     public final Label errorLabel = new Label("");
+    public final VBox bookingsListContainer = new VBox(12);
 
-    // Elementi dedicati a Medico / Farmacista (Ricerca per Codice Fiscale)
-    public final VBox searchSectionBox = new VBox(10);
-    public final TextField fiscalCodeField = new TextField();
-    public final Button searchBtn = new Button("Cerca Prescrizioni");
-
-    // Contenitore della lista prescrizioni
-    public final VBox prescriptionsListContainer = new VBox(12);
-
-    public ViewPrescriptionsGUIView() {
+    public CancelBookingGUIView() {
         pageTitle.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2551D8;");
         errorLabel.setStyle("-fx-text-fill: #d9534f; -fx-font-size: 14px;");
         goBackBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #2551D8; -fx-font-size: 16px; -fx-cursor: hand;");
-
-        fiscalCodeField.setPromptText("Inserisci il codice fiscale del paziente");
-        fiscalCodeField.setMaxWidth(350);
-        fiscalCodeField.setStyle("-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #D1D5DB; -fx-padding: 8;");
-
-        searchBtn.setStyle(
-                "-fx-background-color: #2551D8; -fx-text-fill: white; -fx-font-weight: bold; " +
-                        "-fx-background-radius: 8; -fx-padding: 8 15; -fx-cursor: hand;"
-        );
     }
 
     public BorderPane buildRoot() {
@@ -53,24 +39,15 @@ public class ViewPrescriptionsGUIView {
         // TOP SECTION
         VBox topSection = new VBox(20);
         BorderPane header = buildHeaderInsideCard();
-
-        searchSectionBox.getChildren().clear();
-        Label searchLbl = new Label("Ricerca Paziente");
-        searchLbl.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #374151;");
-
-        HBox searchInputRow = new HBox(10, fiscalCodeField, searchBtn);
-        searchInputRow.setAlignment(Pos.CENTER_LEFT);
-        searchSectionBox.getChildren().addAll(searchLbl, searchInputRow);
-
-        VBox titleBox = new VBox(5, pageTitle, errorLabel, searchSectionBox);
+        VBox titleBox = new VBox(5, pageTitle, errorLabel);
         topSection.getChildren().addAll(header, titleBox);
         mainContainer.setTop(topSection);
 
-        // CENTER SECTION (Lista scorrevole)
-        prescriptionsListContainer.setAlignment(Pos.TOP_LEFT);
-        prescriptionsListContainer.setPadding(new Insets(10, 5, 10, 5));
+        // CENTER SECTION (Lista scorrevole degli appuntamenti cancellabili)
+        bookingsListContainer.setAlignment(Pos.TOP_LEFT);
+        bookingsListContainer.setPadding(new Insets(10, 5, 10, 5));
 
-        ScrollPane scrollPane = new ScrollPane(prescriptionsListContainer);
+        ScrollPane scrollPane = new ScrollPane(bookingsListContainer);
         scrollPane.setFitToWidth(true);
         scrollPane.setStyle("-fx-background: white; -fx-background-color: white; -fx-border-color: transparent;");
         mainContainer.setCenter(scrollPane);
@@ -125,42 +102,52 @@ public class ViewPrescriptionsGUIView {
         return header;
     }
 
-    public void renderPrescriptions(List<PrescriptionBean> prescriptions) {
-        prescriptionsListContainer.getChildren().clear();
+    public void renderCancellableAppointments(List<AppointmentResponseBean> bookings, Consumer<AppointmentResponseBean> onCancelClick) {
+        bookingsListContainer.getChildren().clear();
 
-        if (prescriptions.isEmpty()) {
-            Label emptyLbl = new Label("Nessuna prescrizione trovata.");
+        if (bookings.isEmpty()) {
+            Label emptyLbl = new Label("Nessun appuntamento attivo da annullare.");
             emptyLbl.setStyle("-fx-font-size: 15px; -fx-text-fill: #6B7280; -fx-padding: 20 0;");
-            prescriptionsListContainer.getChildren().add(emptyLbl);
+            bookingsListContainer.getChildren().add(emptyLbl);
             return;
         }
 
-        for (PrescriptionBean p : prescriptions) {
-            VBox card = new VBox(6);
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        for (AppointmentResponseBean b : bookings) {
+            HBox card = new HBox(15);
+            card.setAlignment(Pos.CENTER_LEFT);
             card.setPadding(new Insets(15, 20, 15, 20));
             card.setStyle(
                     "-fx-background-color: #F9FAFB; -fx-background-radius: 12; " +
                             "-fx-border-color: #E5E7EB; -fx-border-radius: 12;"
             );
 
-            Label drugLbl = new Label("Farmaco: " + p.getDrug());
-            drugLbl.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #2551D8;");
+            VBox infoBox = new VBox(5);
+            HBox.setHgrow(infoBox, Priority.ALWAYS);
 
-            Label dosageLbl = new Label("Dosaggio: " + p.getDosage() + "  |  Frequenza: " + p.getFrequency());
-            dosageLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #374151;");
+            Label specLbl = new Label(b.getSpecialization().getName());
+            specLbl.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #2551D8;");
 
-            Label dateLbl = new Label("Data emissione: " + p.getIssueDate());
+            String docName = "Dott. " + b.getDoctor().getName() + " " + b.getDoctor().getSurname();
+            Label docLbl = new Label("Medico: " + docName);
+            docLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #374151;");
+
+            String dateStr = b.getSlot().getDate().format(fmt) + " alle " + b.getSlot().getStartTime();
+            Label dateLbl = new Label("Data: " + dateStr);
             dateLbl.setStyle("-fx-font-size: 13px; -fx-text-fill: #4B5563;");
 
-            card.getChildren().addAll(drugLbl, dosageLbl, dateLbl);
+            infoBox.getChildren().addAll(specLbl, docLbl, dateLbl);
 
-            if (p.getDoctorFullName() != null && !p.getDoctorFullName().isBlank()) {
-                Label docLbl = new Label("Medico prescrivente: Dr. " + p.getDoctorFullName());
-                docLbl.setStyle("-fx-font-size: 12px; -fx-text-fill: #6B7280;");
-                card.getChildren().add(docLbl);
-            }
+            // Tasto Annulla per ogni singolo appuntamento
+            Button cancelBtn = new Button("Annulla Visita");
+            cancelBtn.setStyle(
+                    "-fx-background-color: #fee2e2; -fx-text-fill: #dc2626; -fx-font-weight: bold; " +
+                            "-fx-background-radius: 8; -fx-padding: 8 15; -fx-cursor: hand;"
+            );
+            cancelBtn.setOnAction(e -> onCancelClick.accept(b));
 
-            prescriptionsListContainer.getChildren().add(card);
+            card.getChildren().addAll(infoBox, cancelBtn);
+            bookingsListContainer.getChildren().add(card);
         }
     }
 

@@ -1,33 +1,28 @@
 package it.ispwproject.doseguard.view.gui;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 public class DashboardPharmacistGUIView extends DashboardGUIView {
 
-    public final Button dispenseBtn = new Button("Eroga Farmaco");
+    public final Button btnViewPrescriptions = new Button();
+    public final Button btnProfile             = new Button();
 
-    public DashboardPharmacistGUIView() {
-        dispenseBtn.getStyleClass().add("button");
-        dispenseBtn.setPrefWidth(220);
-        dispenseBtn.setPrefHeight(42);
-    }
+    public BorderPane buildPharmacistDashboardRoot(
+            EventHandler<ActionEvent> onViewPrescriptions,
+            EventHandler<ActionEvent> onProfile,
+            EventHandler<ActionEvent> onLogout,
+            String pharmacistName) {
 
-    public BorderPane buildRoot(String nomeutente, Runnable onLogout) {
-        HBox navbar = buildNavbar("Farmacista", onLogout);
+        btnViewPrescriptions.setOnAction(onViewPrescriptions);
+        btnProfile.setOnAction(onProfile);
 
-        VBox body = new VBox(20);
-        body.getStyleClass().add("doseguard-background");
-        body.setAlignment(Pos.CENTER);
-        body.setPadding(new Insets(40));
-        body.getChildren().add(dispenseBtn);
+        VBox c1 = createFeatureCard(btnViewPrescriptions, "Visualizza Prescrizioni", "Consulta e gestisci le prescrizioni dei pazienti.");
+        VBox c2 = createFeatureCard(btnProfile, "Profilo", "Visualizza e gestisci le informazioni del tuo profilo.");
 
-        BorderPane root = new BorderPane();
-        root.getStyleClass().add("doseguard-background");
-        root.setTop(navbar);
-        root.setCenter(body);
-        return root;
+        return buildDashboardRoot("Home - Menu Farmacista", onLogout, c1, c2);
     }
 }

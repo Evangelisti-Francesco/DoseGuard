@@ -47,6 +47,16 @@ public class BookAppointmentGUI {
         view.clearError();
         try {
             List<SpecializationBean> specs = bookingController.getAvailableSpecializations();
+
+            // AGGIUNGI QUESTO BLOCCO PER FORZARE/AGGIUNGERE NEUROLOGY SE MANCA
+            boolean hasNeurology = specs.stream()
+                    .anyMatch(s -> s.getName().toLowerCase().contains("neuro"));
+            if (!hasNeurology) {
+                SpecializationBean neuroBean = new SpecializationBean();
+                neuroBean.setName("Neurology");
+                specs.add(neuroBean);
+            }
+
             view.showSpecializations(specs, this::onSpecializationSelected);
         } catch (DAOException e) {
             view.setError("Errore caricamento specializzazioni: " + e.getMessage());

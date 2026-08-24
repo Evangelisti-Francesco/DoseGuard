@@ -40,6 +40,17 @@ public class PrescriptionDAOMemory implements PrescriptionDAO {
     }
 
     @Override
+    public List<Prescription> findByPatientId(int patientId) throws DAOException {
+        List<Prescription> result = new ArrayList<>();
+        for (Prescription p : memoryMap.values()) {
+            if (p.getPatient() != null && p.getPatient().getId() == patientId) {
+                result.add(p);
+            }
+        }
+        return result;
+    }
+
+    @Override
     public synchronized void markAsFulfilled(int prescriptionId, int pharmacistId) throws DAOException {
         Prescription p = memoryMap.get(prescriptionId);
         if (p != null) {

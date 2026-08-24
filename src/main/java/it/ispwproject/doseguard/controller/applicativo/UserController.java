@@ -8,7 +8,7 @@ import it.ispwproject.doseguard.util.ValidationUtils;
 
 public class UserController {
 
-    private  final UserDAO userDAO;
+    private final UserDAO userDAO;
 
     public UserController() {
         this.userDAO = DAOFactory.getUserDAO();
@@ -26,7 +26,4 @@ public class UserController {
         userDAO.updateEmail(id, newEmail);
         SessionManager.getInstance().getLoggedUser().setEmail(newEmail);
     }
-
-
-
 }

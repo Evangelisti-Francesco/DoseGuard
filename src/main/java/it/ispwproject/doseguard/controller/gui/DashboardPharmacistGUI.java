@@ -1,7 +1,10 @@
 package it.ispwproject.doseguard.controller.gui;
 
+import it.ispwproject.doseguard.dao.ConnectionFactory;
 import it.ispwproject.doseguard.pattern.singleton.SessionManager;
 import it.ispwproject.doseguard.view.gui.DashboardPharmacistGUIView;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class DashboardPharmacistGUI {
@@ -14,17 +17,30 @@ public class DashboardPharmacistGUI {
     }
 
     public void show() {
-        String nome = SessionManager.getInstance().getLoggedUser().getName();
+        String pharmacistName = "";
+        try {
+            if (SessionManager.getInstance().getLoggedUser() != null) {
+                pharmacistName = SessionManager.getInstance().getLoggedUser().getName();
+            }
+        } catch (Exception e) {
+            // Gestione silenziosa se il nome non è disponibile
+        }
 
-        view.dispenseBtn.setOnAction(e -> new DispenseMedicationGUI(stage).show());
+        BorderPane root = view.buildPharmacistDashboardRoot(
+                e -> new ViewPrescriptionsGUI(stage).show(),
+                e -> new EditProfileGUI(stage).show(),
+                e -> handleLogout(),
+                pharmacistName
+        );
 
-        stage.setScene(GUIUtils.createScene(view.buildRoot(nome, this::handleLogout)));
+        stage.setScene(new Scene(root, 1200, 750));
+        stage.setTitle("DoseGuard - Dashboard Farmacista");
         stage.show();
     }
 
     private void handleLogout() {
         try {
-            it.ispwproject.doseguard.dao.ConnectionFactory.clearRole();
+            ConnectionFactory.clearRole();
         } catch (java.sql.SQLException ex) {
             /* ignora */
         }
