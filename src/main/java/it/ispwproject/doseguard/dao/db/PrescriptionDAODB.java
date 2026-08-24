@@ -36,6 +36,14 @@ public class PrescriptionDAODB implements PrescriptionDAO {
     private final DoctorDAO doctorDAO;
     private final PatientDAO patientDAO;
 
+    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_DOCTOR_ID = "doctor_id";
+    private static final String COLUMN_PATIENT_ID = "patient_id";
+    private static final String COLUMN_DRUG = "drug";
+    private static final String COLUMN_DOSAGE = "dosage";
+    private static final String COLUMN_FREQUENCY = "frequency";
+    private static final String COLUMN_ISSUE_DATE = "issue_date";
+
     public PrescriptionDAODB() {
         this.doctorDAO = DAOFactory.getDoctorDAO();
         this.patientDAO = DAOFactory.getPatientDAO();
@@ -80,16 +88,16 @@ public class PrescriptionDAODB implements PrescriptionDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     rawDataList.add(new PrescriptionDataHolder(
-                            rs.getInt("id"),
-                            rs.getInt("doctor_id"),
-                            rs.getInt("patient_id"),
-                            rs.getString("drug"),
-                            rs.getString("dosage"),
-                            rs.getString("frequency"),
-                            rs.getDate("issue_date")
+                            rs.getInt(COLUMN_ID),
+                            rs.getInt(COLUMN_DOCTOR_ID),
+                            rs.getInt(COLUMN_PATIENT_ID),
+                            rs.getString(COLUMN_DRUG),
+                            rs.getString(COLUMN_DOSAGE),
+                            rs.getString(COLUMN_FREQUENCY),
+                            rs.getDate(COLUMN_ISSUE_DATE)
                     ));
                 }
-            } // Il ResultSet si chiude in sicurezza qui
+            }
 
             // 2. Mappiamo gli oggetti e richiamiamo gli altri DAO fuori dal ResultSet
             for (PrescriptionDataHolder data : rawDataList) {
@@ -168,13 +176,13 @@ public class PrescriptionDAODB implements PrescriptionDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     rawDataList.add(new PrescriptionDataHolder(
-                            rs.getInt("id"),
-                            rs.getInt("doctor_id"),
-                            rs.getInt("patient_id"),
-                            rs.getString("drug"),
-                            rs.getString("dosage"),
-                            rs.getString("frequency"),
-                            rs.getDate("issue_date")
+                            rs.getInt(COLUMN_ID),
+                            rs.getInt(COLUMN_DOCTOR_ID),
+                            rs.getInt(COLUMN_PATIENT_ID),
+                            rs.getString(COLUMN_DRUG),
+                            rs.getString(COLUMN_DOSAGE),
+                            rs.getString(COLUMN_FREQUENCY),
+                            rs.getDate(COLUMN_ISSUE_DATE)
                     ));
                 }
             }
@@ -217,19 +225,19 @@ public class PrescriptionDAODB implements PrescriptionDAO {
     }
 
     private Prescription mapResultSetToPrescription(ResultSet rs) throws SQLException, DAOException {
-        int doctorId = rs.getInt("doctor_id");
-        int patientId = rs.getInt("patient_id");
+        int doctorId = rs.getInt(COLUMN_DOCTOR_ID);
+        int patientId = rs.getInt(COLUMN_PATIENT_ID);
 
-        String drug = rs.getString("drug");
-        String dosage = rs.getString("dosage");
-        String frequency = rs.getString("frequency");
-        Date issueDate = rs.getDate("issue_date");
+        String drug = rs.getString(COLUMN_DRUG);
+        String dosage = rs.getString(COLUMN_DOSAGE);
+        String frequency = rs.getString(COLUMN_FREQUENCY);
+        Date issueDate = rs.getDate(COLUMN_ISSUE_DATE);
 
         Doctor doctor = doctorDAO.findById(doctorId);
         Patient patient = patientDAO.findById(patientId);
 
         Prescription prescription = new Prescription(doctor, patient, drug, dosage, frequency, issueDate != null ? issueDate.toLocalDate() : java.time.LocalDate.now(java.time.ZoneId.systemDefault()));
-        prescription.setId(rs.getInt("id"));
+        prescription.setId(rs.getInt(COLUMN_ID));
         return prescription;
     }
 }
