@@ -33,4 +33,4 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Evangelisti-Francesco_DoseGuard -Dsonar.exclusions="**/view/**,**/controller/cli/**,**/controller/gui/**,**/demo/**"
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Evangelisti-Francesco_DoseGuard -Dsonar.organization=evangelisti-francesco -Dsonar.host.url=https://sonarcloud.io -Dsonar.exclusions="**/view/**,**/controller/cli/**,**/controller/gui/**,**/demo/**"
