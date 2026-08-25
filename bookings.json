@@ -11,6 +11,7 @@
       "role": "PATIENT"
     },
     "doctor": {
+      "specialization": "Medicina Generale",
       "id": 4,
       "name": "Andrea",
       "surname": "Neri",
@@ -21,8 +22,23 @@
       "id": 1,
       "name": "Medicina Generale"
     },
+    "timeSlot": {
+      "id": 1,
+      "doctor": {
+        "specialization": "Medicina Generale",
+        "id": 4,
+        "name": "Andrea",
+        "surname": "Neri",
+        "email": "dr.neri@test.com",
+        "role": "DOCTOR"
+      },
+      "date": "2025-10-01",
+      "startTime": "09:00",
+      "available": false
+    },
     "status": "CONFIRMED",
-    "notes": "Visita di controllo generale"
+    "notes": "Visita di controllo generale",
+    "creationAt": "2026-06-01T10:00:00"
   },
   {
     "id": 2,
@@ -36,6 +52,7 @@
       "role": "PATIENT"
     },
     "doctor": {
+      "specialization": "Medicina Generale",
       "id": 4,
       "name": "Andrea",
       "surname": "Neri",
@@ -46,8 +63,23 @@
       "id": 1,
       "name": "Medicina Generale"
     },
+    "timeSlot": {
+      "id": 2,
+      "doctor": {
+        "specialization": "Medicina Generale",
+        "id": 4,
+        "name": "Andrea",
+        "surname": "Neri",
+        "email": "dr.neri@test.com",
+        "role": "DOCTOR"
+      },
+      "date": "2026-10-01",
+      "startTime": "09:30",
+      "available": false
+    },
     "status": "CONFIRMED",
-    "notes": "Controllo periodico"
+    "notes": "Controllo periodico",
+    "creationAt": "2026-06-01T10:00:00"
   },
   {
     "id": 3,
@@ -61,6 +93,7 @@
       "role": "PATIENT"
     },
     "doctor": {
+      "specialization": "Medicina Generale",
       "id": 4,
       "name": "Andrea",
       "surname": "Neri",
@@ -71,8 +104,23 @@
       "id": 1,
       "name": "Medicina Generale"
     },
-    "status": "PENDING",
-    "notes": "Prima visita diabetologica"
+    "timeSlot": {
+      "id": 5,
+      "doctor": {
+        "specialization": "Medicina Generale",
+        "id": 4,
+        "name": "Andrea",
+        "surname": "Neri",
+        "email": "dr.neri@test.com",
+        "role": "DOCTOR"
+      },
+      "date": "2026-10-02",
+      "startTime": "15:00",
+      "available": false
+    },
+    "status": "CANCELLED",
+    "notes": "Prima visita diabetologica",
+    "creationAt": "2026-06-01T10:00:00"
   },
   {
     "id": 4,
@@ -86,6 +134,7 @@
       "role": "PATIENT"
     },
     "doctor": {
+      "specialization": "Medicina Generale",
       "id": 4,
       "name": "Andrea",
       "surname": "Neri",
@@ -96,8 +145,23 @@
       "id": 1,
       "name": "Medicina Generale"
     },
+    "timeSlot": {
+      "id": 7,
+      "doctor": {
+        "specialization": "Medicina Generale",
+        "id": 4,
+        "name": "Andrea",
+        "surname": "Neri",
+        "email": "dr.neri@test.com",
+        "role": "DOCTOR"
+      },
+      "date": "2026-10-02",
+      "startTime": "16:00",
+      "available": false
+    },
     "status": "CANCELLED",
-    "notes": "Appuntamento annullato dal paziente"
+    "notes": "Appuntamento annullato dal paziente",
+    "creationAt": "2026-06-01T10:00:00"
   },
   {
     "id": 5,
@@ -111,6 +175,7 @@
       "role": "PATIENT"
     },
     "doctor": {
+      "specialization": "Cardiologia",
       "id": 5,
       "name": "Francesca",
       "surname": "Ferrari",
@@ -121,12 +186,28 @@
       "id": 2,
       "name": "Cardiologia"
     },
+    "timeSlot": {
+      "id": 11,
+      "doctor": {
+        "specialization": "Cardiologia",
+        "id": 5,
+        "name": "Francesca",
+        "surname": "Ferrari",
+        "email": "dr.ferrari@test.com",
+        "role": "DOCTOR"
+      },
+      "date": "2026-10-01",
+      "startTime": "14:30",
+      "available": false
+    },
     "status": "CONFIRMED",
-    "notes": "Visita cardiologica specialistica"
+    "notes": "Visita cardiologica specialistica",
+    "creationAt": "2026-06-01T10:00:00"
   },
   {
     "id": 6,
     "patient": {
+      "fiscalCode": "RSSMRA80A01H501U",
       "favouriteDoctors": [],
       "id": 1,
       "name": "Mario",
@@ -135,44 +216,85 @@
       "role": "PATIENT"
     },
     "doctor": {
-      "specialization": "Cardiologia",
-      "id": 5,
-      "name": "Francesca",
-      "surname": "Ferrari",
-      "email": "dr.ferrari@test.com",
+      "specialization": "Medicina Generale",
+      "id": 4,
+      "name": "Andrea",
+      "surname": "Neri",
+      "email": "dr.neri@test.com",
       "role": "DOCTOR"
     },
     "specialization": {
       "id": 1,
-      "name": "Cardiologia"
+      "name": "Medicina Generale"
     },
     "timeSlot": {
-      "id": 10,
+      "id": 12,
       "doctor": {
-        "specialization": "Cardiologia",
-        "id": 5,
-        "name": "Francesca",
-        "surname": "Ferrari",
-        "email": "dr.ferrari@test.com",
+        "specialization": "Medicina Generale",
+        "id": 4,
+        "name": "Andrea",
+        "surname": "Neri",
+        "email": "dr.neri@test.com",
         "role": "DOCTOR"
       },
-      "date": "2026-09-01",
-      "startTime": "14:00",
-      "available": true,
-      "reservedUntil": "2026-08-23T17:52:29.4691695"
+      "date": "2026-01-15",
+      "startTime": "10:00",
+      "available": false
     },
-    "status": "CANCELLED",
-    "notes": "",
-    "creationAt": "2026-08-23T17:49:31.6199199"
+    "status": "CONFIRMED",
+    "notes": "Visita passata",
+    "creationAt": "2026-01-10T10:00:00"
   },
   {
     "id": 7,
     "patient": {
+      "fiscalCode": "BNCLRA85M42F205Z",
       "favouriteDoctors": [],
+      "id": 2,
+      "name": "Laura",
+      "surname": "Bianchi",
+      "email": "laura.bianchi@test.com",
+      "role": "PATIENT"
+    },
+    "doctor": {
+      "specialization": "Medicina Generale",
+      "id": 4,
+      "name": "Andrea",
+      "surname": "Neri",
+      "email": "dr.neri@test.com",
+      "role": "DOCTOR"
+    },
+    "specialization": {
       "id": 1,
-      "name": "Mario",
-      "surname": "Rossi",
-      "email": "mario.rossi@test.com",
+      "name": "Medicina Generale"
+    },
+    "timeSlot": {
+      "id": 13,
+      "doctor": {
+        "specialization": "Medicina Generale",
+        "id": 4,
+        "name": "Andrea",
+        "surname": "Neri",
+        "email": "dr.neri@test.com",
+        "role": "DOCTOR"
+      },
+      "date": "2026-03-20",
+      "startTime": "15:00",
+      "available": false
+    },
+    "status": "CONFIRMED",
+    "notes": "Visita passata di controllo",
+    "creationAt": "2026-03-10T10:00:00"
+  },
+  {
+    "id": 8,
+    "patient": {
+      "fiscalCode": "VVRGSP90B10L219X",
+      "favouriteDoctors": [],
+      "id": 3,
+      "name": "Giuseppe",
+      "surname": "Verdi",
+      "email": "giuseppe.verdi@test.com",
       "role": "PATIENT"
     },
     "doctor": {
@@ -184,11 +306,11 @@
       "role": "DOCTOR"
     },
     "specialization": {
-      "id": 1,
+      "id": 2,
       "name": "Cardiologia"
     },
     "timeSlot": {
-      "id": 10,
+      "id": 14,
       "doctor": {
         "specialization": "Cardiologia",
         "id": 5,
@@ -197,18 +319,18 @@
         "email": "dr.ferrari@test.com",
         "role": "DOCTOR"
       },
-      "date": "2026-09-01",
-      "startTime": "14:00",
-      "available": true,
-      "reservedUntil": "2026-08-23T17:56:34.6739379"
+      "date": "2026-02-10",
+      "startTime": "09:30",
+      "available": false
     },
-    "status": "CANCELLED",
-    "notes": "",
-    "creationAt": "2026-08-23T17:53:36.7807769"
+    "status": "CONFIRMED",
+    "notes": "Controllo cardiologico passato",
+    "creationAt": "2026-02-01T10:00:00"
   },
   {
-    "id": 8,
+    "id": 9,
     "patient": {
+      "fiscalCode": "RSSMRA80A01H501U",
       "favouriteDoctors": [],
       "id": 1,
       "name": "Mario",
@@ -229,7 +351,7 @@
       "name": "Medicina Generale"
     },
     "timeSlot": {
-      "id": 12,
+      "id": 15,
       "doctor": {
         "specialization": "Medicina Generale",
         "id": 7,
@@ -238,18 +360,59 @@
         "email": "marco.rossi@test.com",
         "role": "DOCTOR"
       },
-      "date": "2026-09-01",
-      "startTime": "11:00",
-      "available": false,
-      "reservedUntil": "2026-08-23T18:00:00"
+      "date": "2026-04-10",
+      "startTime": "09:00",
+      "available": false
     },
     "status": "CONFIRMED",
-    "notes": "Prima visita con il nuovo medico",
-    "creationAt": "2026-08-23T18:00:00"
+    "notes": "Visita con medico Marco Rossi",
+    "creationAt": "2026-04-01T10:00:00"
   },
   {
-    "id": 9,
+    "id": 10,
     "patient": {
+      "fiscalCode": "VVRGSP90B10L219X",
+      "favouriteDoctors": [],
+      "id": 3,
+      "name": "Giuseppe",
+      "surname": "Verdi",
+      "email": "giuseppe.verdi@test.com",
+      "role": "PATIENT"
+    },
+    "doctor": {
+      "specialization": "Cardiologia",
+      "id": 8,
+      "name": "Elena",
+      "surname": "Gialli",
+      "email": "elena.gialli@test.com",
+      "role": "DOCTOR"
+    },
+    "specialization": {
+      "id": 2,
+      "name": "Cardiologia"
+    },
+    "timeSlot": {
+      "id": 18,
+      "doctor": {
+        "specialization": "Cardiologia",
+        "id": 8,
+        "name": "Elena",
+        "surname": "Gialli",
+        "email": "elena.gialli@test.com",
+        "role": "DOCTOR"
+      },
+      "date": "2026-05-05",
+      "startTime": "14:00",
+      "available": false
+    },
+    "status": "CONFIRMED",
+    "notes": "Visita cardiologica passata",
+    "creationAt": "2026-05-01T10:00:00"
+  },
+  {
+    "id": 11,
+    "patient": {
+      "fiscalCode": "BNCLRA85M42F205Z",
       "favouriteDoctors": [],
       "id": 2,
       "name": "Laura",
@@ -258,75 +421,33 @@
       "role": "PATIENT"
     },
     "doctor": {
-      "specialization": "Cardiologia",
-      "id": 8,
-      "name": "Elena",
-      "surname": "Gialli",
-      "email": "elena.gialli@test.com",
+      "specialization": "Neurologia",
+      "id": 9,
+      "name": "Giorgio",
+      "surname": "Conti",
+      "email": "dr.conti@test.com",
       "role": "DOCTOR"
     },
     "specialization": {
-      "id": 2,
-      "name": "Cardiologia"
+      "id": 3,
+      "name": "Neurologia"
     },
     "timeSlot": {
-      "id": 13,
+      "id": 21,
       "doctor": {
-        "specialization": "Cardiologia",
-        "id": 8,
-        "name": "Elena",
-        "surname": "Gialli",
-        "email": "elena.gialli@test.com",
+        "specialization": "Neurologia",
+        "id": 9,
+        "name": "Giorgio",
+        "surname": "Conti",
+        "email": "dr.conti@test.com",
         "role": "DOCTOR"
       },
-      "date": "2026-09-02",
+      "date": "2026-03-12",
       "startTime": "10:00",
-      "available": false,
-      "reservedUntil": "2026-08-23T18:05:00"
+      "available": false
     },
     "status": "CONFIRMED",
-    "notes": "Controllo cardiologico di routine",
-    "creationAt": "2026-08-23T18:05:00"
-  },
-  {
-    "id": 10,
-    "patient": {
-      "favouriteDoctors": [],
-      "id": 1,
-      "name": "Mario",
-      "surname": "Rossi",
-      "email": "mario.rossi@test.com",
-      "role": "PATIENT"
-    },
-    "doctor": {
-      "specialization": "Cardiologia",
-      "id": 8,
-      "name": "Elena",
-      "surname": "Gialli",
-      "email": "elena.gialli@test.com",
-      "role": "DOCTOR"
-    },
-    "specialization": {
-      "id": 1,
-      "name": "Cardiologia"
-    },
-    "timeSlot": {
-      "id": 13,
-      "doctor": {
-        "specialization": "Cardiologia",
-        "id": 8,
-        "name": "Elena",
-        "surname": "Gialli",
-        "email": "elena.gialli@test.com",
-        "role": "DOCTOR"
-      },
-      "date": "2026-09-02",
-      "startTime": "10:00",
-      "available": true,
-      "reservedUntil": "2026-08-23T18:11:37.5524651"
-    },
-    "status": "CANCELLED",
-    "notes": "",
-    "creationAt": "2026-08-23T18:08:39.2702635"
+    "notes": "Visita neurologica passata con il Dr. Conti",
+    "creationAt": "2026-03-01T10:00:00"
   }
 ]

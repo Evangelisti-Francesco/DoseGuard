@@ -9,7 +9,7 @@
       "email": "dr.neri@test.com",
       "role": "DOCTOR"
     },
-    "date": "2026-09-01",
+    "date": "2025-10-01",
     "startTime": "09:00",
     "available": false
   },
@@ -23,7 +23,7 @@
       "email": "dr.neri@test.com",
       "role": "DOCTOR"
     },
-    "date": "2026-09-01",
+    "date": "2026-10-01",
     "startTime": "09:30",
     "available": false
   },
@@ -37,7 +37,7 @@
       "email": "dr.neri@test.com",
       "role": "DOCTOR"
     },
-    "date": "2026-09-01",
+    "date": "2026-10-01",
     "startTime": "10:00",
     "available": true
   },
@@ -51,7 +51,7 @@
       "email": "dr.neri@test.com",
       "role": "DOCTOR"
     },
-    "date": "2026-09-01",
+    "date": "2026-10-01",
     "startTime": "10:30",
     "available": true
   },
@@ -65,7 +65,7 @@
       "email": "dr.neri@test.com",
       "role": "DOCTOR"
     },
-    "date": "2026-09-02",
+    "date": "2026-10-02",
     "startTime": "15:00",
     "available": false
   },
@@ -79,7 +79,7 @@
       "email": "dr.neri@test.com",
       "role": "DOCTOR"
     },
-    "date": "2026-09-02",
+    "date": "2026-10-02",
     "startTime": "15:30",
     "available": true
   },
@@ -93,7 +93,7 @@
       "email": "dr.neri@test.com",
       "role": "DOCTOR"
     },
-    "date": "2026-09-02",
+    "date": "2026-10-02",
     "startTime": "16:00",
     "available": false
   },
@@ -107,7 +107,7 @@
       "email": "dr.neri@test.com",
       "role": "DOCTOR"
     },
-    "date": "2026-09-03",
+    "date": "2026-10-03",
     "startTime": "11:00",
     "available": true
   },
@@ -121,7 +121,7 @@
       "email": "dr.neri@test.com",
       "role": "DOCTOR"
     },
-    "date": "2026-09-03",
+    "date": "2026-10-03",
     "startTime": "11:30",
     "available": true
   },
@@ -135,7 +135,7 @@
       "email": "dr.ferrari@test.com",
       "role": "DOCTOR"
     },
-    "date": "2026-09-01",
+    "date": "2026-10-01",
     "startTime": "14:00",
     "available": true
   },
@@ -149,12 +149,54 @@
       "email": "dr.ferrari@test.com",
       "role": "DOCTOR"
     },
-    "date": "2026-09-01",
+    "date": "2026-10-01",
     "startTime": "14:30",
     "available": false
   },
   {
     "id": 12,
+    "doctor": {
+      "specialization": "Medicina Generale",
+      "id": 4,
+      "name": "Andrea",
+      "surname": "Neri",
+      "email": "dr.neri@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-01-15",
+    "startTime": "10:00",
+    "available": false
+  },
+  {
+    "id": 13,
+    "doctor": {
+      "specialization": "Medicina Generale",
+      "id": 4,
+      "name": "Andrea",
+      "surname": "Neri",
+      "email": "dr.neri@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-03-20",
+    "startTime": "15:00",
+    "available": false
+  },
+  {
+    "id": 14,
+    "doctor": {
+      "specialization": "Cardiologia",
+      "id": 5,
+      "name": "Francesca",
+      "surname": "Ferrari",
+      "email": "dr.ferrari@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-02-10",
+    "startTime": "09:30",
+    "available": false
+  },
+  {
+    "id": 15,
     "doctor": {
       "specialization": "Medicina Generale",
       "id": 7,
@@ -163,12 +205,40 @@
       "email": "marco.rossi@test.com",
       "role": "DOCTOR"
     },
-    "date": "2026-09-01",
-    "startTime": "11:00",
+    "date": "2026-04-10",
+    "startTime": "09:00",
     "available": false
   },
   {
-    "id": 13,
+    "id": 16,
+    "doctor": {
+      "specialization": "Medicina Generale",
+      "id": 7,
+      "name": "Marco",
+      "surname": "Rossi",
+      "email": "marco.rossi@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-10-10",
+    "startTime": "10:00",
+    "available": true
+  },
+  {
+    "id": 17,
+    "doctor": {
+      "specialization": "Medicina Generale",
+      "id": 7,
+      "name": "Marco",
+      "surname": "Rossi",
+      "email": "marco.rossi@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-10-11",
+    "startTime": "11:30",
+    "available": true
+  },
+  {
+    "id": 18,
     "doctor": {
       "specialization": "Cardiologia",
       "id": 8,
@@ -177,8 +247,92 @@
       "email": "elena.gialli@test.com",
       "role": "DOCTOR"
     },
-    "date": "2026-09-02",
+    "date": "2026-05-05",
+    "startTime": "14:00",
+    "available": false
+  },
+  {
+    "id": 19,
+    "doctor": {
+      "specialization": "Cardiologia",
+      "id": 8,
+      "name": "Elena",
+      "surname": "Gialli",
+      "email": "elena.gialli@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-10-15",
+    "startTime": "15:00",
+    "available": true
+  },
+  {
+    "id": 20,
+    "doctor": {
+      "specialization": "Cardiologia",
+      "id": 8,
+      "name": "Elena",
+      "surname": "Gialli",
+      "email": "elena.gialli@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-10-16",
+    "startTime": "16:30",
+    "available": true
+  },
+  {
+    "id": 21,
+    "doctor": {
+      "specialization": "Neurologia",
+      "id": 9,
+      "name": "Giorgio",
+      "surname": "Conti",
+      "email": "dr.conti@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-03-12",
     "startTime": "10:00",
+    "available": false
+  },
+  {
+    "id": 22,
+    "doctor": {
+      "specialization": "Neurologia",
+      "id": 9,
+      "name": "Giorgio",
+      "surname": "Conti",
+      "email": "dr.conti@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-10-18",
+    "startTime": "09:00",
+    "available": true
+  },
+  {
+    "id": 23,
+    "doctor": {
+      "specialization": "Neurologia",
+      "id": 9,
+      "name": "Giorgio",
+      "surname": "Conti",
+      "email": "dr.conti@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-10-18",
+    "startTime": "10:00",
+    "available": true
+  },
+  {
+    "id": 24,
+    "doctor": {
+      "specialization": "Neurologia",
+      "id": 9,
+      "name": "Giorgio",
+      "surname": "Conti",
+      "email": "dr.conti@test.com",
+      "role": "DOCTOR"
+    },
+    "date": "2026-10-19",
+    "startTime": "15:30",
     "available": true
   }
 ]
