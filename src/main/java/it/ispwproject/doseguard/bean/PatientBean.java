@@ -18,9 +18,7 @@ public class PatientBean {
         this.fiscalCode = fiscalCode;
     }
 
-    public String getFullName() {
-        return name + " " + surname;
-    }
+    public String getFullName() {return name + " " + surname;}
 
     public int getId() { return id; } public void setId(int id) { this.id = id; }
 
