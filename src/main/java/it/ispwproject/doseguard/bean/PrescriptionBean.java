@@ -27,53 +27,31 @@ public class PrescriptionBean {
     }
 
     // Getter e Setter
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
+    public int getId() {return id;} public void setId(int id) {this.id = id;}
 
-    public String getDoctorFullName() {
-        return doctorFullName;
-    }
-    public void setDoctorFullName(String doctorFullName) {
-        this.doctorFullName = doctorFullName;
-    }
+    public String getDoctorFullName() { return doctorFullName; } public void setDoctorFullName(String doctorFullName) { this.doctorFullName = doctorFullName;}
 
-    public String getPatientFiscalCode() {
-        return patientFiscalCode;
-    }
-    public void setPatientFiscalCode(String patientFiscalCode) {
-        this.patientFiscalCode = patientFiscalCode;
-    }
+    public String getPatientFiscalCode() {return patientFiscalCode;} public void setPatientFiscalCode(String patientFiscalCode) {this.patientFiscalCode = patientFiscalCode;}
 
-
-    public String getDrug() {
-        return drug;
-    }
-    public void setDrug(String drug) {
+    public String getDrug() {return drug;} public void setDrug(String drug) {
         this.drug = drug;
     }
 
     public String getDosage() {
         return dosage;
-    }
-    public void setDosage(String dosage) {
+    } public void setDosage(String dosage) {
         this.dosage = dosage;
     }
 
     public String getFrequency() {
         return frequency;
-    }
-    public void setFrequency(String frequency) {
+    } public void setFrequency(String frequency) {
         this.frequency = frequency;
     }
 
     public LocalDate getIssueDate() {
         return issueDate;
-    }
-    public void setIssueDate(LocalDate issueDate) {
+    } public void setIssueDate(LocalDate issueDate) {
         this.issueDate = issueDate;
     }
 }

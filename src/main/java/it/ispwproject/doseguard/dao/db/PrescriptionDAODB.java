@@ -75,72 +75,74 @@ public class PrescriptionDAODB implements PrescriptionDAO {
 
     @Override
     public List<Prescription> getByPatientFiscalCode(String fiscalCode) throws DAOException {
-        List<Prescription> result = new ArrayList<>();
-
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(GET_BY_PATIENT_FISCAL_CODE)) {
 
             stmt.setString(1, fiscalCode);
             stmt.setString(2, fiscalCode);
 
-            // 1. Leggiamo ed estraiamo tutti i dati dal ResultSet in memoria
-            List<PrescriptionDataHolder> rawDataList = new ArrayList<>();
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    rawDataList.add(new PrescriptionDataHolder(
-                            rs.getInt(COLUMN_ID),
-                            rs.getInt(COLUMN_DOCTOR_ID),
-                            rs.getInt(COLUMN_PATIENT_ID),
-                            rs.getString(COLUMN_DRUG),
-                            rs.getString(COLUMN_DOSAGE),
-                            rs.getString(COLUMN_FREQUENCY),
-                            rs.getDate(COLUMN_ISSUE_DATE)
-                    ));
-                }
-            }
-
-            // 2. Mappiamo gli oggetti e richiamiamo gli altri DAO fuori dal ResultSet
-            for (PrescriptionDataHolder data : rawDataList) {
-                Doctor doctor = doctorDAO.findById(data.doctorId);
-                Patient patient = patientDAO.findById(data.patientId);
-
-                Prescription prescription = new Prescription(
-                        doctor,
-                        patient,
-                        data.drug,
-                        data.dosage,
-                        data.frequency,
-                        data.issueDate != null ? data.issueDate.toLocalDate() : java.time.LocalDate.now(java.time.ZoneId.systemDefault())
-                );
-                prescription.setId(data.id);
-                result.add(prescription);
-            }
+            return fetchPrescriptions(stmt);
 
         } catch (SQLException e) {
             throw new DAOException("Errore durante il recupero delle ricette del paziente: " + e.getMessage(), e);
         }
-        return result;
     }
 
-    // Classe di supporto interna (in coda a PrescriptionDAODB.java)
-    private static class PrescriptionDataHolder {
-        int id;
-        int doctorId;
-        int patientId;
-        String drug;
-        String dosage;
-        String frequency;
-        Date issueDate;
+    @Override
+    public List<Prescription> findByPatientId(int patientId) throws DAOException {
+        String query = "SELECT id, doctor_id, patient_id, drug, dosage, frequency, issue_date, status " +
+                "FROM prescription WHERE patient_id = ?";
 
-        PrescriptionDataHolder(int id, int doctorId, int patientId, String drug, String dosage, String frequency, Date issueDate) {
-            this.id = id;
-            this.doctorId = doctorId;
-            this.patientId = patientId;
-            this.drug = drug;
-            this.dosage = dosage;
-            this.frequency = frequency;
-            this.issueDate = issueDate;
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, patientId);
+
+            return fetchPrescriptions(stmt);
+
+        } catch (SQLException e) {
+            throw new DAOException("Errore durante la ricerca delle prescrizioni per il paziente ID: " + patientId, e);
         }
+    }
+
+    /**
+     * Metodo di supporto privato per evitare la duplicazione del codice di estrazione e mapping.
+     */
+    private List<Prescription> fetchPrescriptions(PreparedStatement stmt) throws SQLException, DAOException {
+        List<PrescriptionDataHolder> rawDataList = new ArrayList<>();
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                rawDataList.add(new PrescriptionDataHolder(
+                        rs.getInt(COLUMN_ID),
+                        rs.getInt(COLUMN_DOCTOR_ID),
+                        rs.getInt(COLUMN_PATIENT_ID),
+                        rs.getString(COLUMN_DRUG),
+                        rs.getString(COLUMN_DOSAGE),
+                        rs.getString(COLUMN_FREQUENCY),
+                        rs.getDate(COLUMN_ISSUE_DATE)
+                ));
+            }
+        }
+
+        List<Prescription> result = new ArrayList<>();
+        for (PrescriptionDataHolder data : rawDataList) {
+            Doctor doctor = doctorDAO.findById(data.doctorId);
+            Patient patient = patientDAO.findById(data.patientId);
+
+            Prescription prescription = new Prescription(
+                    doctor,
+                    patient,
+                    data.drug,
+                    data.dosage,
+                    data.frequency,
+                    data.issueDate != null ? data.issueDate.toLocalDate() : java.time.LocalDate.now(java.time.ZoneId.systemDefault())
+            );
+            prescription.setId(data.id);
+            result.add(prescription);
+        }
+
+        return result;
     }
 
     @Override
@@ -161,62 +163,10 @@ public class PrescriptionDAODB implements PrescriptionDAO {
     }
 
     @Override
-    public List<Prescription> findByPatientId(int patientId) throws DAOException {
-        List<Prescription> result = new ArrayList<>();
-        String query = "SELECT id, doctor_id, patient_id, drug, dosage, frequency, issue_date, status " +
-                "FROM prescription WHERE patient_id = ?";
-
-        try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setInt(1, patientId);
-
-            // 1. Leggiamo ed estraiamo tutti i dati grezzi in memoria per evitare conflitti con i DAO annidati
-            List<PrescriptionDataHolder> rawDataList = new ArrayList<>();
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    rawDataList.add(new PrescriptionDataHolder(
-                            rs.getInt(COLUMN_ID),
-                            rs.getInt(COLUMN_DOCTOR_ID),
-                            rs.getInt(COLUMN_PATIENT_ID),
-                            rs.getString(COLUMN_DRUG),
-                            rs.getString(COLUMN_DOSAGE),
-                            rs.getString(COLUMN_FREQUENCY),
-                            rs.getDate(COLUMN_ISSUE_DATE)
-                    ));
-                }
-            }
-
-            // 2. Mappiamo gli oggetti sfruttando i DAO esistenti fuori dal ResultSet
-            for (PrescriptionDataHolder data : rawDataList) {
-                Doctor doctor = doctorDAO.findById(data.doctorId);
-                Patient patient = patientDAO.findById(data.patientId);
-
-                Prescription prescription = new Prescription(
-                        doctor,
-                        patient,
-                        data.drug,
-                        data.dosage,
-                        data.frequency,
-                        data.issueDate != null ? data.issueDate.toLocalDate() : java.time.LocalDate.now(java.time.ZoneId.systemDefault())
-                );
-                prescription.setId(data.id);
-                result.add(prescription);
-            }
-
-        } catch (SQLException e) {
-            throw new DAOException("Errore durante la ricerca delle prescrizioni per il paziente ID: " + patientId, e);
-        }
-
-        return result;
-    }
-
-    @Override
     public void markAsFulfilled(int prescriptionId, int pharmacistId) throws DAOException {
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(MARK_AS_FULFILLED)) {
 
-            // La query accetta solo 1 parametro (prescriptionId)
             stmt.setInt(1, prescriptionId);
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -239,5 +189,26 @@ public class PrescriptionDAODB implements PrescriptionDAO {
         Prescription prescription = new Prescription(doctor, patient, drug, dosage, frequency, issueDate != null ? issueDate.toLocalDate() : java.time.LocalDate.now(java.time.ZoneId.systemDefault()));
         prescription.setId(rs.getInt(COLUMN_ID));
         return prescription;
+    }
+
+    // Classe di supporto interna
+    private static class PrescriptionDataHolder {
+        int id;
+        int doctorId;
+        int patientId;
+        String drug;
+        String dosage;
+        String frequency;
+        Date issueDate;
+
+        PrescriptionDataHolder(int id, int doctorId, int patientId, String drug, String dosage, String frequency, Date issueDate) {
+            this.id = id;
+            this.doctorId = doctorId;
+            this.patientId = patientId;
+            this.drug = drug;
+            this.dosage = dosage;
+            this.frequency = frequency;
+            this.issueDate = issueDate;
+        }
     }
 }
