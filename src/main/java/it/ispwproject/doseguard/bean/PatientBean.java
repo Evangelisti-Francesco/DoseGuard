@@ -22,20 +22,14 @@ public class PatientBean {
         return name + " " + surname;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() { return id; } public void setId(int id) { this.id = id; }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getName() { return name; } public void setName(String name) { this.name = name; }
 
-    public String getSurname() { return surname; }
-    public void setSurname(String surname) { this.surname = surname; }
+    public String getSurname() { return surname; } public void setSurname(String surname) { this.surname = surname; }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getEmail() { return email; } public void setEmail(String email) { this.email = email; }
 
-    public String getFiscalCode() { return fiscalCode; }
-    public void setFiscalCode(String fiscalCode) { this.fiscalCode = fiscalCode; }
-
+    public String getFiscalCode() { return fiscalCode; } public void setFiscalCode(String fiscalCode) { this.fiscalCode = fiscalCode; }
 
 }
