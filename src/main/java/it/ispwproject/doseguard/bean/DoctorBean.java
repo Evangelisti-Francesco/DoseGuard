@@ -8,6 +8,8 @@ public class DoctorBean {
     private String email;
     private boolean favourite;
 
+    public  DoctorBean() {}
+
     public DoctorBean(int id, String name, String surname, String email, boolean favourite) {
         this.id = id;
         this.name = name;
