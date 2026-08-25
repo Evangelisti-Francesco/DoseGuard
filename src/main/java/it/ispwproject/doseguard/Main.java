@@ -26,7 +26,6 @@ public class Main {
             Printer.println("  [1] CLI  — interfaccia testuale");
             Printer.println("  [2] GUI  — interfaccia grafica");
             Printer.print("\n  Scelta: ");
-
             scelta = scanner.nextLine().trim();
 
             if (!scelta.equals("1") && !scelta.equals("2")) {

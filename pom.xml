@@ -12,9 +12,12 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Configurazione Sonar -->
+
+        <!-- Configurazioni SonarCloud -->
         <sonar.organization>evangelisti-francesco</sonar.organization>
-        <sonar.coverage.exclusions>**/*</sonar.coverage.exclusions>
+        <sonar.projectKey>Evangelisti-Francesco_DoseGuard</sonar.projectKey>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
         <sonar.exclusions>**/view/**,**/controller/cli/**,**/controller/gui/**,**/demo/**</sonar.exclusions>
     </properties>
 
