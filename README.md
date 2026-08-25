@@ -2,7 +2,7 @@
 Developed for the Software Engineering and Web Design course, University of Rome Tor Vergata.
 
 <p align="center">
-  <img src="src/main/resources/icons/Brand_Logo.png" width="300" style="background-color: white; padding: 10px; border-radius: 10px;"/>
+  <img src="src/main/resources/icons/Brand_logo.png" width="300" style="background-color: white; padding: 10px; border-radius: 10px;"/>
 </p>
 
 ## Description
