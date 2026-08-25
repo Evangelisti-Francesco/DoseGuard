@@ -30,7 +30,6 @@ public class PrescriptionBean {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -38,7 +37,6 @@ public class PrescriptionBean {
     public String getDoctorFullName() {
         return doctorFullName;
     }
-
     public void setDoctorFullName(String doctorFullName) {
         this.doctorFullName = doctorFullName;
     }
@@ -46,7 +44,6 @@ public class PrescriptionBean {
     public String getPatientFiscalCode() {
         return patientFiscalCode;
     }
-
     public void setPatientFiscalCode(String patientFiscalCode) {
         this.patientFiscalCode = patientFiscalCode;
     }
@@ -55,7 +52,6 @@ public class PrescriptionBean {
     public String getDrug() {
         return drug;
     }
-
     public void setDrug(String drug) {
         this.drug = drug;
     }
@@ -63,7 +59,6 @@ public class PrescriptionBean {
     public String getDosage() {
         return dosage;
     }
-
     public void setDosage(String dosage) {
         this.dosage = dosage;
     }
@@ -71,7 +66,6 @@ public class PrescriptionBean {
     public String getFrequency() {
         return frequency;
     }
-
     public void setFrequency(String frequency) {
         this.frequency = frequency;
     }
@@ -79,7 +73,6 @@ public class PrescriptionBean {
     public LocalDate getIssueDate() {
         return issueDate;
     }
-
     public void setIssueDate(LocalDate issueDate) {
         this.issueDate = issueDate;
     }
