@@ -6,7 +6,7 @@ import it.ispwproject.doseguard.model.Booking;
 import it.ispwproject.doseguard.service.NotificationService;
 import it.ispwproject.doseguard.util.logger.AppLogger;
 
-public class BookingCancellationObserver implements Observer {
+public class  BookingCancellationObserver implements Observer {
 
     private final Booking booking;
 
