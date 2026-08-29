@@ -19,7 +19,9 @@ public class RegistrationBean {
     // Solo per medico
     private List<SpecializationBean> specializations;
 
-    public RegistrationBean() {}
+    public RegistrationBean() {
+        // Constructor required by the framework for instantiation
+    }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
