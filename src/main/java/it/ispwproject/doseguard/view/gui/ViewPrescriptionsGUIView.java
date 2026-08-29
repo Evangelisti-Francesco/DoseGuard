@@ -50,7 +50,6 @@ public class ViewPrescriptionsGUIView {
         mainContainer.setPadding(new Insets(30, 45, 30, 45));
         mainContainer.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);");
 
-        // TOP SECTION
         VBox topSection = new VBox(20);
         BorderPane header = buildHeaderInsideCard();
 
@@ -66,7 +65,6 @@ public class ViewPrescriptionsGUIView {
         topSection.getChildren().addAll(header, titleBox);
         mainContainer.setTop(topSection);
 
-        // CENTER SECTION (Lista scorrevole)
         prescriptionsListContainer.setAlignment(Pos.TOP_LEFT);
         prescriptionsListContainer.setPadding(new Insets(10, 5, 10, 5));
 
@@ -75,7 +73,6 @@ public class ViewPrescriptionsGUIView {
         scrollPane.setStyle("-fx-background: white; -fx-background-color: white; -fx-border-color: transparent;");
         mainContainer.setCenter(scrollPane);
 
-        // BOTTOM SECTION
         HBox footer = new HBox(goBackBtn);
         footer.setPadding(new Insets(10, 0, 0, 0));
         footer.setAlignment(Pos.CENTER_LEFT);

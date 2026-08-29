@@ -13,7 +13,7 @@ public class RegistrationView {
     }
 
     public String chiediPassword(String label) {
-        return CLIRenderer.chiediCampo(label);   // In CLI il testo resta visibile
+        return CLIRenderer.chiediCampo(label);
     }
 
     public Role chiediRuolo() {

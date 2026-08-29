@@ -37,15 +37,12 @@ public class RegistrationGUI {
         bean.setPassword(view.passwordField.getText().trim());
         bean.setConfirmPassword(view.confirmPasswordField.getText().trim());
 
-        // Selezione del ruolo specifico per DoseGuard
+        // Selezione del ruolo
         if (view.doctorRadio.isSelected()) {
             bean.setRole(Role.DOCTOR);
-            // 1. Recuperi il valore selezionato dalla ComboBox
             String specName = view.specializationComboBox.getValue();
-            // 2. Crei il Bean della specializzazione
             SpecializationBean specBean = new SpecializationBean();
             specBean.setName(specName);
-            // 3. Lo assegni tramite il setter passando una Lista
             bean.setSpecializations(List.of(specBean));
         } else if (view.pharmacistRadio.isSelected()) {
             bean.setRole(Role.PHARMACIST);

@@ -38,14 +38,12 @@ public class ViewMedicationsGUIView {
         mainContainer.setPadding(new Insets(30, 45, 30, 45));
         mainContainer.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);");
 
-        // TOP SECTION
         VBox topSection = new VBox(20);
         BorderPane header = buildHeaderInsideCard();
         VBox titleBox = new VBox(5, pageTitle, errorLabel);
         topSection.getChildren().addAll(header, titleBox);
         mainContainer.setTop(topSection);
 
-        // CENTER SECTION (Contenitore scorrevole)
         mainContentBox.setAlignment(Pos.TOP_LEFT);
         mainContentBox.setPadding(new Insets(10, 5, 10, 5));
 
@@ -54,7 +52,6 @@ public class ViewMedicationsGUIView {
         scrollPane.setStyle("-fx-background: white; -fx-background-color: white; -fx-border-color: transparent;");
         mainContainer.setCenter(scrollPane);
 
-        // BOTTOM SECTION
         HBox footer = new HBox(goBackBtn);
         footer.setPadding(new Insets(10, 0, 0, 0));
         footer.setAlignment(Pos.CENTER_LEFT);
@@ -114,7 +111,6 @@ public class ViewMedicationsGUIView {
             return;
         }
 
-        // Sezione DA ASSUMERE
         Label pendingTitle = new Label("Da assumere");
         pendingTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1F2937; -fx-padding: 10 0 5 0;");
         pendingContainer.getChildren().clear();
@@ -131,7 +127,6 @@ public class ViewMedicationsGUIView {
             }
         }
 
-        // Sezione ASSUNTI
         Label takenTitle = new Label("Assunti");
         takenTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1F2937; -fx-padding: 15 0 5 0;");
         takenContainer.getChildren().clear();

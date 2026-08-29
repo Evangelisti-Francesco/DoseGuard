@@ -63,7 +63,7 @@ public class EditProfileGUI {
             }
         });
 
-        // Tasto Go Back (Torna alla dashboard in base al ruolo)
+        // Tasto Go Back
         view.goBackBtn.setOnAction(e -> {
             User user = SessionManager.getInstance().getLoggedUser();
             if (user instanceof it.ispwproject.doseguard.model.Patient) {

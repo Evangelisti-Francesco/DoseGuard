@@ -34,7 +34,7 @@ public class BookAppointmentCLI extends AbstractCLIState {
         TimeSlotBean slot = null;
 
         try {
-            // Step 1 – specializzazione
+            // Specializzazione
             List<SpecializationBean> specializations = bookingController.getAvailableSpecializations();
             if (specializations.isEmpty()) {
                 view.mostraMessaggio("Nessuna specializzazione disponibile.");
@@ -45,7 +45,7 @@ public class BookAppointmentCLI extends AbstractCLIState {
             if (sc == 0) { goBack(context); return; }
             SpecializationBean specialization = specializations.get(sc - 1);
 
-            // Step 2 – medico
+            // Medico
             List<DoctorBean> allDoctors = bookingController.getDoctorsBySpecialization(specialization);
             if (allDoctors.isEmpty()) {
                 view.mostraMessaggio("Nessun medico disponibile per questa specializzazione.");
@@ -60,7 +60,7 @@ public class BookAppointmentCLI extends AbstractCLIState {
             ordered.addAll(others);
             DoctorBean doctor = ordered.get(dc - 1);
 
-            // Step 3 – slot
+            // Slot
             List<TimeSlotBean> available = bookingController.getDoctorAvailability(doctor)
                     .stream().filter(TimeSlotBean::isAvailable).toList();
             if (available.isEmpty()) {
@@ -72,10 +72,10 @@ public class BookAppointmentCLI extends AbstractCLIState {
             if (slc == 0) { goBack(context); return; }
             slot = available.get(slc - 1);
 
-            // Step 3.5 – note
+            // Note
             String notes = view.chiediNote();
 
-            // Step 4 – riepilogo
+            // Riepilogo
             AppointmentRequestBean request = new AppointmentRequestBean(patientBean, doctor, specialization, slot, notes);
             AppointmentResponseBean summary = bookingController.prepareBookingSummary(request);
             view.mostraRiepilogo(summary);
@@ -86,7 +86,7 @@ public class BookAppointmentCLI extends AbstractCLIState {
                 goBack(context); return;
             }
 
-            // Step 5 – creazione
+            // Creazione
             AppointmentResponseBean response = bookingController.createBooking(request);
             view.mostraConferma(response);
 

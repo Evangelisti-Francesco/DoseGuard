@@ -68,7 +68,7 @@ public class PrescriptionController {
     }
 
     public List<PrescriptionBean> getPrescriptionsByPatientId(int patientId) throws DAOException {
-        // Richiama il DAO per ottenere la lista di oggetti Model del paziente
+
         List<Prescription> prescriptionsList = this.prescriptionDAO.findByPatientId(patientId);
 
         List<PrescriptionBean> beanList = new java.util.ArrayList<>();

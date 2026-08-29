@@ -19,9 +19,7 @@ public class RegistrationBean {
     // Solo per medico
     private List<SpecializationBean> specializations;
 
-    public RegistrationBean() {
-        // Campi popolati durante la registrazione da CLI o JavaFX
-    }
+    public RegistrationBean() {}
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

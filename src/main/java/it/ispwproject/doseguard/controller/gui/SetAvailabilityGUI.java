@@ -47,7 +47,7 @@ public class SetAvailabilityGUI {
         }
 
         try {
-            // Creo lo slot usando solo startTime (id 0 per autoincrement, disponibilità true)
+            // Creo lo slot
             availabilityController.addSlot(new TimeSlotBean(0, date, startTime, true));
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

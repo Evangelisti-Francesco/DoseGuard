@@ -26,7 +26,6 @@ public class PrescriptionBean {
         this.frequency = frequency;
     }
 
-    // Getter e Setter
     public int getId() {return id;} public void setId(int id) {this.id = id;}
 
     public String getDoctorFullName() { return doctorFullName; } public void setDoctorFullName(String doctorFullName) { this.doctorFullName = doctorFullName;}

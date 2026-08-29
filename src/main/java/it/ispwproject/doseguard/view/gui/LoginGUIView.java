@@ -39,15 +39,12 @@ public class LoginGUIView {
         registerBtn.setOnAction(e -> onRegister.run());
         signupLink.setOnAction(e -> onRegister.run());
 
-        // Card principale con altezza bilanciata per mostrarsi interamente con margine sopra e sotto
         HBox cardContainer = new HBox();
         cardContainer.setMaxWidth(1100);
         cardContainer.setMaxHeight(640);
         cardContainer.setStyle("-fx-background-color: white; -fx-background-radius: 24; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 20, 0, 0, 8);");
 
-        // ==========================================
-        // COLONNA DI SINISTRA
-        // ==========================================
+
         VBox leftSide = new VBox(0);
         leftSide.setPrefWidth(400);
         leftSide.setMinWidth(400);
@@ -90,9 +87,7 @@ public class LoginGUIView {
 
         leftSide.getChildren().addAll(doctorImage, bannerBox);
 
-        // ==========================================
-        // COLONNA DI DESTRA
-        // ==========================================
+
         VBox rightSide = new VBox(12);
         rightSide.setPadding(new Insets(30, 50, 30, 50));
         rightSide.setAlignment(Pos.CENTER_LEFT);
@@ -154,7 +149,6 @@ public class LoginGUIView {
 
         cardContainer.getChildren().addAll(leftSide, rightSide);
 
-        // Padding simmetrico e bilanciato sopra e sotto per mostrare tutto il riquadro
         StackPane centerContainer = new StackPane(cardContainer);
         centerContainer.setPadding(new Insets(20));
         root.setCenter(centerContainer);

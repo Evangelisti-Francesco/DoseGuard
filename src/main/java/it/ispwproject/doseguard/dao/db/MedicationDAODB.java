@@ -43,12 +43,10 @@ public class MedicationDAODB implements MedicationDAO {
     public List<Medication> getByPatient(int patientId) throws DAOException {
         List<Medication> result = new ArrayList<>();
 
-        // Recuperiamo prima l'oggetto Patient per non aprire query nidificate mentre si scorre il ResultSet
         Patient patient = null;
         try {
             patient = patientDAO.findById(patientId);
         } catch (DAOException ignored) {
-            // Se fallisce il recupero del paziente completo, usiamo un oggetto stub per non bloccare i farmaci
             patient = new Patient(patientId, "", "", "", "", null);
         }
 

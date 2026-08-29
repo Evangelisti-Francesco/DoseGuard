@@ -21,7 +21,7 @@ public class Prescription {
         this.frequency = frequency;
         this.issueDate = issueDate;
     }
-    // Getter e Setter
+
     public int getId() { return id; } public void setId(int id) { this.id = id; }
 
     public Doctor getDoctor() { return doctor; } public void setDoctor(Doctor doctor) { this.doctor = doctor; }

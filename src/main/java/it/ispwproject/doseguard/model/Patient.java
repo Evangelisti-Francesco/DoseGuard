@@ -10,7 +10,6 @@ public class Patient extends User {
     private String fiscalCode;
     private List<Doctor> favouriteDoctors;
 
-    //Costruttori
     public Patient() {
         super();
         this.favouriteDoctors = new ArrayList<Doctor>();

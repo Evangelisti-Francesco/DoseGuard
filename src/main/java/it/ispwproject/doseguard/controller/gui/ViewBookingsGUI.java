@@ -66,17 +66,14 @@ public class ViewBookingsGUI {
     }
 
     private void setupToggleGroup() {
-        // Collega i pulsanti a un ToggleGroup logico per fare in modo che se ne selezioni uno, gli altri si spengono
         javafx.scene.control.ToggleGroup group = new javafx.scene.control.ToggleGroup();
         view.confirmedTabBtn.setToggleGroup(group);
         view.cancelledTabBtn.setToggleGroup(group);
         view.pastTabBtn.setToggleGroup(group);
 
-        // Seleziona di default i confermati all'apertura
         view.confirmedTabBtn.setSelected(true);
         view.renderAppointments(confirmed, "Non hai appuntamenti confermati.");
 
-        // Azioni al cambio tab
         view.confirmedTabBtn.setOnAction(e -> {
             if (view.confirmedTabBtn.isSelected()) {
                 view.renderAppointments(confirmed, "Non hai appuntamenti confermati.");

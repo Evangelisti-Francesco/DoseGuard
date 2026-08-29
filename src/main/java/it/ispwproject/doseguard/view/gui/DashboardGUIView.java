@@ -38,7 +38,7 @@ public class DashboardGUIView {
         // Pulsante circolare che racchiude l'immagine del profilo
         Button profileBtn = new Button();
         profileBtn.setGraphic(profileImage);
-        profileBtn.setOnAction(profileHandler); // <-- Usa correttamente il parametro EventHandler<ActionEvent>
+        profileBtn.setOnAction(profileHandler);
 
         profileBtn.setShape(new javafx.scene.shape.Circle(20));
         profileBtn.setMinSize(42, 42);

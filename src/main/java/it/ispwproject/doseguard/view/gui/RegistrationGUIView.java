@@ -1,32 +1,18 @@
 package it.ispwproject.doseguard.view.gui;
 
-
-
 import javafx.geometry.Insets;
-
 import javafx.geometry.Pos;
-
 import javafx.scene.control.*;
-
 import javafx.scene.image.Image;
-
 import javafx.scene.image.ImageView;
-
 import javafx.scene.layout.*;
-
 
 
 public class RegistrationGUIView {
 
-
-
     private static final double FORM_WIDTH = 900;
 
     private static final double EXTRA_SECTION_WIDTH = 820;
-
-
-
-// Campi esposti al controller
 
     public final TextField nameField = new TextField();
 
@@ -44,15 +30,7 @@ public class RegistrationGUIView {
 
     public final TextField visibleConfirmPasswordField = new TextField();
 
-
-
-// Nuovo campo esposto per il Farmacista
-
     public final TextField pharmacyNameField = new TextField();
-
-
-
-// Scelta Ruolo
 
     public final RadioButton patientRadio = new RadioButton("Paziente");
 
@@ -62,24 +40,17 @@ public class RegistrationGUIView {
 
     public final ComboBox<String> specializationComboBox = new ComboBox<>();
 
-
-
     public final Label errorLabel = new Label("");
 
     public final Button registerBtn = new Button("Registrami");
 
-
-
     private VBox doctorSection;
 
-    private VBox pharmacistSection; // Sezione dinamica per il farmacista
-
-
+    private VBox pharmacistSection;
 
     public RegistrationGUIView() {
 
-// Password bindings
-
+        // Password
         visiblePasswordField.setVisible(false);
 
         visibleConfirmPasswordField.setVisible(false);
@@ -95,7 +66,6 @@ public class RegistrationGUIView {
         visiblePasswordField.textProperty().bindBidirectional(passwordField.textProperty());
 
         visibleConfirmPasswordField.textProperty().bindBidirectional(confirmPasswordField.textProperty());
-
 
 
         errorLabel.setWrapText(true);
@@ -114,7 +84,7 @@ public class RegistrationGUIView {
 
 
 
-// Opzioni di specializzazione per i medici
+        // Opzioni di specializzazione per i medici
 
         specializationComboBox.getItems().addAll(
 
@@ -134,7 +104,7 @@ public class RegistrationGUIView {
 
 
 
-// Configurazione campo farmacia
+        // Configurazione campo farmacia
 
         pharmacyNameField.setPromptText("inserisci nome farmacia");
 

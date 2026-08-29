@@ -27,13 +27,12 @@ public class ViewPrescriptionsGUI {
         User loggedUser = SessionManager.getInstance().getLoggedUser();
 
         if (loggedUser instanceof Patient patient) {
-            // Nasconde la barra di ricerca se l'utente è un paziente e carica usando l'ID
             view.searchSectionBox.setVisible(false);
             view.searchSectionBox.setManaged(false);
             loadPrescriptionsForPatientId(patient.getId());
 
         } else if (loggedUser instanceof Doctor || loggedUser instanceof Pharmacist) {
-            // Se è medico o farmacista, mostra il campo di ricerca per codice fiscale
+            // Se medico o farmacista
             view.searchSectionBox.setVisible(true);
             view.searchSectionBox.setManaged(true);
 
@@ -52,7 +51,7 @@ public class ViewPrescriptionsGUI {
         stage.show();
     }
 
-    // Caricamento diretto tramite ID per il Paziente loggato
+
     private void loadPrescriptionsForPatientId(int patientId) {
         view.clearError();
         try {

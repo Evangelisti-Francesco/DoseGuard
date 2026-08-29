@@ -37,7 +37,7 @@ public class ConnectionFactory {
             user = properties.getProperty(currentRole.name() + "_USER");
             pass = properties.getProperty(currentRole.name() + "_PASS");
         } else {
-            // Se non c'è ancora un ruolo (fase di login) usa le credenziali minime
+            // Se non c'è ancora un ruolo
             user = properties.getProperty("LOGIN_USER");
             pass = properties.getProperty("LOGIN_PASS");
         }
@@ -71,7 +71,7 @@ public class ConnectionFactory {
         currentRole = null;
     }
 
-    // Getter opzionali per recuperare le chiavi SendGrid dai Controller
+
     public static String getSendGridApiKey() {
         return properties.getProperty("SENDGRID_API_KEY");
     }

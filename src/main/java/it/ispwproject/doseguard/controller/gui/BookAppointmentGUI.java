@@ -48,7 +48,6 @@ public class BookAppointmentGUI {
         try {
             List<SpecializationBean> specs = bookingController.getAvailableSpecializations();
 
-            // AGGIUNGI QUESTO BLOCCO PER FORZARE/AGGIUNGERE NEUROLOGY SE MANCA
             boolean hasNeurology = specs.stream()
                     .anyMatch(s -> s.getName().toLowerCase().contains("neuro"));
             if (!hasNeurology) {

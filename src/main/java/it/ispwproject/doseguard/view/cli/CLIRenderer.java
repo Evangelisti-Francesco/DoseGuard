@@ -3,7 +3,7 @@ package it.ispwproject.doseguard.view.cli;
 import java.util.Scanner;
 
 /**
- * Utility di rendering condivisa per tutte le view CLI di DoseGuard.
+ * Utility di rendering condivisa per tutte le view CLI.
  * Centralizza:
  *  - costanti visive (larghezze, simboli, stili)
  *  - metodi di stampa (intestazioni, separatori, messaggi)
@@ -12,13 +12,11 @@ import java.util.Scanner;
  */
 public final class CLIRenderer {
 
-    // Costanti visive
     public static final int    WIDTH     = 60;
     public static final String LINE      = "─".repeat(WIDTH);
     public static final String LINE_THIN = "╌".repeat(WIDTH);
     public static final String LINE_DECO = "═".repeat(WIDTH);
 
-    // Simboli di stato normalizzati
     public static final String OK      = "✓";
     public static final String ERR     = "✗";
     public static final String BULLET  = "•";
@@ -34,7 +32,6 @@ public final class CLIRenderer {
 
     private CLIRenderer() {}   // Non istanziabile
 
-    // Intestazioni e separatori
     /**
      * Intestazione principale di schermata con bordo doppio e titolo centrato.
      * ════════════════════════════════════════════════════════════

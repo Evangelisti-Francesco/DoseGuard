@@ -3,10 +3,10 @@ package it.ispwproject.doseguard.bean;
 import it.ispwproject.doseguard.enumerator.Role;
 
 /**
- * Bean leggero che rappresenta la sessione autenticata.
- *
- * Contiene solo email e role — dati minimi per l'autorizzazione.
- * Per i dati completi dell'utente usa SessionManager.getLoggedUser().
+  Bean leggero che rappresenta la sessione autenticata.
+
+  Contiene solo email e role — dati minimi per l'autorizzazione.
+  Per i dati completi dell'utente usa SessionManager.getLoggedUser().
  **/
 public class SessionBean {
 

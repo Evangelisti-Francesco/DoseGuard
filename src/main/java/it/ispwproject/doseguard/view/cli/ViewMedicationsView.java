@@ -16,7 +16,6 @@ public class ViewMedicationsView {
             return;
         }
 
-        // ── Da assumere
         CLIRenderer.sezione("Da assumere");
         boolean hasPending = false;
         for (int i = 0; i < medications.size(); i++) {
@@ -29,7 +28,6 @@ public class ViewMedicationsView {
         }
         if (!hasPending) CLIRenderer.messaggio("Nessun farmaco in attesa di assunzione.");
 
-        // ── Assunti
         CLIRenderer.sezione("Assunti");
         boolean hasTaken = false;
         for (MedicationBean m : medications) {

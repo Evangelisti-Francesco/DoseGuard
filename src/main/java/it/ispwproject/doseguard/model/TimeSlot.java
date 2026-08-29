@@ -14,7 +14,6 @@ public class TimeSlot {
     private boolean available;
     private LocalDateTime reservedUntil;
 
-    // COSTRUTTORI
     public TimeSlot() {}
 
     public TimeSlot(int id, LocalDate date, LocalTime startTime) {

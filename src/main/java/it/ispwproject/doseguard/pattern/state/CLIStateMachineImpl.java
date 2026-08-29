@@ -6,7 +6,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
- * Context del pattern GoF State per DoseGuard.
+ * Context del pattern GoF State.
  * Mantiene lo stato corrente e la history degli stati precedenti.
  */
 public class  CLIStateMachineImpl implements CLIStateMachine {

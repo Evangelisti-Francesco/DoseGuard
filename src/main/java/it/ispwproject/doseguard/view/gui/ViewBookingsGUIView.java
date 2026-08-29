@@ -53,19 +53,18 @@ public class ViewBookingsGUIView {
         mainContainer.setPadding(new Insets(30, 45, 30, 45));
         mainContainer.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);");
 
-        // TOP SECTION (Header + Titolo + Tab di navigazione)
         VBox topSection = new VBox(20);
         BorderPane header = buildHeaderInsideCard();
         VBox titleBox = new VBox(5, pageTitle, errorLabel);
 
-        // HBox per i tab di selezione
+
         HBox tabsBox = new HBox(15, confirmedTabBtn, cancelledTabBtn, pastTabBtn);
         tabsBox.setAlignment(Pos.CENTER_LEFT);
 
         topSection.getChildren().addAll(header, titleBox, tabsBox);
         mainContainer.setTop(topSection);
 
-        // CENTER SECTION (Lista degli appuntamenti scorrevole)
+
         bookingsListContainer.setAlignment(Pos.TOP_LEFT);
         bookingsListContainer.setPadding(new Insets(10, 5, 10, 5));
 
@@ -75,13 +74,13 @@ public class ViewBookingsGUIView {
 
         mainContainer.setCenter(scrollPane);
 
-        // BOTTOM SECTION (Tasto Go Back)
+
         HBox footer = new HBox(goBackBtn);
         footer.setPadding(new Insets(10, 0, 0, 0));
         footer.setAlignment(Pos.CENTER_LEFT);
         mainContainer.setBottom(footer);
 
-        // Centriamo il riquadro bianco nella finestra
+
         StackPane outerCenterContainer = new StackPane(mainContainer);
         outerCenterContainer.setAlignment(Pos.CENTER);
         outerCenterContainer.setPadding(new Insets(20));
@@ -126,7 +125,7 @@ public class ViewBookingsGUIView {
         return header;
     }
 
-    // Metodo di supporto per popolare la lista degli appuntamenti graficamente a card
+    // Metodo di supporto per popolare la lista degli appuntamenti
     public void renderAppointments(List<AppointmentResponseBean> bookings, String emptyMessage) {
         bookingsListContainer.getChildren().clear();
 

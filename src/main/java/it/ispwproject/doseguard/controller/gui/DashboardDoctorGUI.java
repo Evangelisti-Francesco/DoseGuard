@@ -1,6 +1,5 @@
 package it.ispwproject.doseguard.controller.gui;
 
-import it.ispwproject.doseguard.model.User;
 import it.ispwproject.doseguard.pattern.singleton.SessionManager;
 import it.ispwproject.doseguard.view.gui.DashboardDoctorGUIView;
 import javafx.scene.Scene;

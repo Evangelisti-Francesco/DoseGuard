@@ -44,19 +44,19 @@ public class BookAppointmentGUIView {
         mainContainer.setPadding(new Insets(30, 45, 30, 45));
         mainContainer.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);");
 
-        // 1. TOP: Header (Logo, Nome e Profilo) + Titolo ed Errori raggruppati insieme
+        // TOP: Header (Logo, Nome e Profilo) + Titolo ed Errori raggruppati insieme
         VBox topSection = new VBox(20);
         BorderPane header = buildHeaderInsideCard();
         VBox titleBox = new VBox(5, pageTitle, errorLabel);
         topSection.getChildren().addAll(header, titleBox);
         mainContainer.setTop(topSection);
 
-        // 2. CENTER: Le card (si posizioneranno al centro esatto dello spazio rimanente)
+        // CENTER: Le card (si posizioneranno al centro esatto dello spazio rimanente)
         StackPane centerWrapper = new StackPane(cardsContainer);
         centerWrapper.setAlignment(Pos.CENTER);
         mainContainer.setCenter(centerWrapper);
 
-        // 3. BOTTOM: Il tasto Go Back sempre in basso fisso
+        // BOTTOM: Il tasto Go Back sempre in basso fisso
         HBox footer = buildFooterInsideCard();
         mainContainer.setBottom(footer);
 
@@ -112,7 +112,7 @@ public class BookAppointmentGUIView {
         return footer;
     }
 
-    // ── STEP 1: CARD SPECIALIZZAZIONI ──────────────────────────────────────────
+    // 1: CARD SPECIALIZZAZIONI ──────────────────────────────────────────
     public void showSpecializations(List<SpecializationBean> specs, Consumer<SpecializationBean> onSelect) {
         pageTitle.setText("Select medical speciality");
         cardsContainer.getChildren().clear();
@@ -150,7 +150,7 @@ public class BookAppointmentGUIView {
         }
     }
 
-    // ── STEP 2: CARD MEDICI ────────────────────────────────────────────────────
+    // 2: CARD MEDICI ────────────────────────────────────────────────────
     public void showDoctors(List<DoctorBean> doctors, Consumer<DoctorBean> onSelect) {
         pageTitle.setText("Select a doctor");
         cardsContainer.getChildren().clear();
@@ -211,7 +211,7 @@ public class BookAppointmentGUIView {
         }
     }
 
-    // ── STEP 3: CARD ORARI ─────────────────────────────────────────────────────
+    // 3: CARD ORARI ─────────────────────────────────────────────────────
     public void showTimeSlots(List<TimeSlotBean> slots, Consumer<TimeSlotBean> onSelect) {
         pageTitle.setText("Select a time slot");
         cardsContainer.getChildren().clear();

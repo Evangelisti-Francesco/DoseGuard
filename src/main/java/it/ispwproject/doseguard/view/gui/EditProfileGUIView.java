@@ -56,7 +56,7 @@ public class EditProfileGUIView {
         topSection.getChildren().addAll(header, titleBox);
         mainContainer.setTop(topSection);
 
-        // CENTER SECTION
+
         VBox formBox = new VBox(20);
         formBox.setAlignment(Pos.TOP_LEFT);
         formBox.setPadding(new Insets(15, 5, 15, 5));
@@ -99,7 +99,7 @@ public class EditProfileGUIView {
         scrollPane.setStyle("-fx-background: white; -fx-background-color: white; -fx-border-color: transparent;");
         mainContainer.setCenter(scrollPane);
 
-        // BOTTOM SECTION
+
         HBox footer = new HBox(goBackBtn);
         footer.setPadding(new Insets(10, 0, 0, 0));
         footer.setAlignment(Pos.CENTER_LEFT);

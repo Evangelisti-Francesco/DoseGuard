@@ -135,17 +135,16 @@ public class RegistrationDAODB implements RegistrationDAO {
                 INSERT_USER,
                 Statement.RETURN_GENERATED_KEYS)) {
 
-            // 1. Estraiamo il codice fiscale SOLO se l'utente è un Paziente
+            // Estraiamo il codice fiscale SOLO se l'utente è un Paziente
             String fiscalCode = null;
             if (user instanceof Patient patient) {
                 fiscalCode = patient.getFiscalCode();
             }
 
-            // 2. Impostiamo i parametri in ordine
             ps.setString(1, user.getName());
             ps.setString(2, user.getSurname());
 
-            // Parametro 3: se è un paziente mettiamo il codice fiscale, altrimenti NULL
+            // Se è un paziente mettiamo il codice fiscale
             if (fiscalCode != null && !fiscalCode.isEmpty()) {
                 ps.setString(3, fiscalCode);
             } else {

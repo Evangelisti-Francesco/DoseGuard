@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface PatientDAO {
 
-    //Trova un paziente specifico tramite l'id
     Patient findById(int id) throws DAOException;
     List<Patient> getByDoctor(int doctorId) throws DAOException;
     void addFavouriteDoctor(int patientId, int doctorId) throws DAOException;

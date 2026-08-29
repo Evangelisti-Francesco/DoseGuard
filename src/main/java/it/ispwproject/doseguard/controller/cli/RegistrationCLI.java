@@ -44,7 +44,6 @@ public class RegistrationCLI extends AbstractCLIState {
                 SpecializationBean specBean = new SpecializationBean(0, specName);
                 bean.setSpecializations(List.of(specBean));
             } else if (role == Role.PHARMACIST) {
-                // Aggiungi qui la richiesta del nome della farmacia
                 String pharmacyName = view.chiediCampo("Nome Farmacia");
                 bean.setPharmacyName(pharmacyName);
             }

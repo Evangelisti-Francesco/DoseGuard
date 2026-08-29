@@ -37,7 +37,6 @@ public class ManagePatientsView {
     public void mostraSchedaPaziente(PatientBean patient, List<TimeSlotBean> upcoming, PatientProgressBean progress) {
         CLIRenderer.intestazione("Scheda Paziente: " + patient.getName() + " " + patient.getSurname());
 
-        // Note cliniche e progressi
         CLIRenderer.sezione("Note Cliniche");
         if (progress == null || progress.getNotes() == null || progress.getNotes().isBlank()) {
             CLIRenderer.messaggio("Nessuna nota registrata.");
@@ -48,7 +47,6 @@ public class ManagePatientsView {
             }
         }
 
-        // Prossime visite
         CLIRenderer.sezione("Prossimi Appuntamenti");
         if (upcoming.isEmpty()) {
             CLIRenderer.messaggio("Nessuna visita futura programmata.");

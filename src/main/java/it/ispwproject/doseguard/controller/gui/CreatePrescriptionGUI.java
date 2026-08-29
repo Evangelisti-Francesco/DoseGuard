@@ -51,13 +51,12 @@ public class CreatePrescriptionGUI {
         }
 
         try {
-            // Passa l'ID del paziente selezionato al controller applicativo
+            // Passa l'ID del paziente
             prescriptionController.createPrescription(selectedPatient.getId(), drug.trim(), dosage.trim(), frequency.trim());
 
             view.errorLabel.setStyle("-fx-text-fill: #2e7d32;"); // Verde successo
             view.errorLabel.setText("Prescrizione creata e registrata con successo!");
 
-            // Pulisce il form
             view.patientCombo.setValue(null);
             view.drugField.clear();
             view.dosageField.clear();

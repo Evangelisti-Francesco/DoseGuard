@@ -6,9 +6,7 @@ import javafx.scene.text.Font;
 
 public final class GUIUtils {
 
-    private GUIUtils() {
-        // Costruttore privato per classe utility
-    }
+    private GUIUtils() {    }
 
     public static Scene createScene(Parent root) {
         loadFonts();
